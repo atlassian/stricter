@@ -1,2 +1,5 @@
-node_modules
 .vscode
+.fusebox
+
+node_modules
+dist
