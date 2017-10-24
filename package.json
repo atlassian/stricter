@@ -28,5 +28,8 @@
         "tslint-config-airbnb": "^5.3.0",
         "tslint-config-prettier": "^1.6.0",
         "typescript": "^2.5.3"
+    },
+    "dependencies": {
+        "babylon": "^6.18.0"
     }
 }
