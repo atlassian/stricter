@@ -1,33 +1,32 @@
 {
-  "name": "stricter",
-  "version": "0.0.1",
-  "description": "A project-wide js-linting tool",
-  "main": "index.js",
-  "scripts": {
-    "start": "node fuse.js",
-    "build": "cross-env NODE_ENV=production node fuse.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/stricter/stricter.git"
-  },
-  "keywords": [
-    "lint",
-    "project"
-  ],
-  "author": "Li0liQ",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/stricter/stricter/issues"
-  },
-  "homepage": "https://github.com/stricter/stricter#readme",
-  "devDependencies": {
-    "cross-env": "^5.1.0",
-    "fuse-box": "^2.3.3",
-    "prettier": "^1.7.4",
-    "tslint": "^5.8.0",
-    "tslint-config-airbnb": "^5.3.0",
-    "typescript": "^2.5.3"
-  }
+    "name": "stricter",
+    "version": "0.0.1",
+    "description": "A project-wide js-linting tool",
+    "main": "index.js",
+    "scripts": {
+        "start": "node fuse.js",
+        "build": "cross-env NODE_ENV=production node fuse.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/stricter/stricter.git"
+    },
+    "keywords": ["lint", "project"],
+    "author": "Li0liQ",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/stricter/stricter/issues"
+    },
+    "homepage": "https://github.com/stricter/stricter#readme",
+    "devDependencies": {
+        "@types/node": "^8.0.46",
+        "cross-env": "^5.1.0",
+        "fuse-box": "^2.3.3",
+        "prettier": "^1.7.4",
+        "tslint": "^5.8.0",
+        "tslint-config-airbnb": "^5.3.0",
+        "tslint-config-prettier": "^1.6.0",
+        "typescript": "^2.5.3"
+    }
 }
