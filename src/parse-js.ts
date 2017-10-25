@@ -1,12 +1,13 @@
 import * as parser from 'babylon';
 
-export default i =>
-    parser.parse(i, {
+export default (source: string) =>
+    parser.parse(source, {
         allowImportExportEverywhere: true,
         sourceType: 'script',
         plugins: [
             'jsx',
             'flow',
+            'typescript',
             'doExpressions',
             'objectRestSpread',
             'decorators',

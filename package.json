@@ -12,7 +12,10 @@
         "type": "git",
         "url": "git+https://github.com/stricter/stricter.git"
     },
-    "keywords": ["lint", "project"],
+    "keywords": [
+        "lint",
+        "project"
+    ],
     "author": "Li0liQ",
     "license": "MIT",
     "bugs": {
@@ -30,6 +33,7 @@
         "typescript": "^2.5.3"
     },
     "dependencies": {
-        "babylon": "^6.18.0"
+        "babylon": "^6.18.0",
+        "cosmiconfig": "^3.1.0"
     }
 }
