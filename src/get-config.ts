@@ -3,33 +3,39 @@ import * as path from 'path';
 
 const moduleName = 'stricter';
 
+export interface CosmiConfig {
+    filepath: string;
+    config: {
+        [prop: string]: any;
+    };
+}
+
 export interface Config {
     root: string;
 }
 
-export const readConfig = () => {
+const readConfig = (): CosmiConfig => {
     const explorer = cosmiconfig(moduleName, { sync: true });
     const foundConfigData = explorer.load(process.cwd());
 
     return foundConfigData;
 };
 
-export const processConfig = (foundConfig: any): Config => {
+const validateConfig = (foundConfig: any): void => {
     if (!foundConfig) {
-        console.log('No config found');
-        process.exit(1);
+        throw new Error('No config found');
     }
 
     if (!foundConfig.config) {
-        console.log('No config contents ащгтв');
-        process.exit(1);
+        throw new Error('No config contents found');
     }
 
     if (!foundConfig.config.root) {
-        console.log('No root specified');
-        process.exit(1);
+        throw new Error('No root specified');
     }
+};
 
+const processConfig = (foundConfig: CosmiConfig): Config => {
     const result = {
         ...foundConfig.config,
         root: path.resolve(
@@ -39,4 +45,12 @@ export const processConfig = (foundConfig: any): Config => {
     };
 
     return result;
+};
+
+export default () => {
+    const foundConfig = readConfig();
+    validateConfig(foundConfig);
+    const processedConfig = processConfig(foundConfig);
+
+    return processedConfig;
 };
