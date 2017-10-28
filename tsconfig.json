@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "allowJs": false,
+        "isolatedModules": false,
+        "jsx": "react",
+        "declaration": true,
+        "noEmitOnError": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitThis": true,
+        "noImplicitAny": true,
+        "noUnusedLocals": true,
+        "removeComments": true,
+        "strictNullChecks": true,
+        "noLib": false,
+        "preserveConstEnums": true,
+        "pretty": true,
+        "suppressImplicitAnyIndexErrors": false,
+        "alwaysStrict": true,
+        "forceConsistentCasingInFileNames": true
+    },
+    "include": ["src/**/*", "types/**/*"],
+    "compileOnSave": false,
+    "buildOnSave": false,
+    "atom": {
+        "rewriteTsconfig": false
+    }
+}
