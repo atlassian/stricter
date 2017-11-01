@@ -1,9 +1,9 @@
 import { getConfig } from './config';
-import { getRules } from './rule';
+import { getRuleDefinitions } from './rule';
 import { processFiles } from './processor';
 
 export default () => {
     const config = getConfig();
-    const rules = getRules(config);
+    const rules = getRuleDefinitions(config);
     return processFiles(config, rules);
 };

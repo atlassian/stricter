@@ -40,13 +40,21 @@ const defaultPlugins = [
     'nullishCoalescingOperator',
 ];
 
-const isTypescript = (i: string): boolean => /\.tsx?$/.test(i);
+const isEcmascript = (fileName: string): boolean => /\.jsx?$/.test(fileName);
+const isTypescript = (fileName: string): boolean => /\.tsx?$/.test(fileName);
 
 export const parse = (filePath: string, source: string): any => {
-    const plugins = [
-        isTypescript(filePath) ? 'typescript' : 'flow',
-        ...defaultPlugins,
-    ];
+    let staticTypePlugin;
+
+    if (isEcmascript(filePath)) {
+        staticTypePlugin = 'flow';
+    } else if (isTypescript(filePath)) {
+        staticTypePlugin = 'typescript';
+    } else {
+        return null;
+    }
+
+    const plugins = [staticTypePlugin, ...defaultPlugins];
 
     const result = parser.parse(source, {
         plugins,

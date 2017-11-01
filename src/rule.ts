@@ -8,7 +8,7 @@ export interface RuleDefinition {
 
 const defaultRules: RuleDefinition[] = [];
 
-export const getRules = (config: Config) => {
+export const getRuleDefinitions = (config: Config) => {
     if (typeof config.rulesDir !== 'undefined') {
         const customRules: RuleDefinition[] = listFiles(
             config.rulesDir,
