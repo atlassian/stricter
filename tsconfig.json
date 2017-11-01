@@ -6,6 +6,7 @@
         "allowJs": false,
         "isolatedModules": false,
         "jsx": "react",
+        "lib": ["esnext"],
         "declaration": true,
         "noEmitOnError": true,
         "noFallthroughCasesInSwitch": true,
