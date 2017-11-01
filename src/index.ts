@@ -1,7 +1,9 @@
-import getConfig from './get-config';
-import { listFiles, processFiles } from './utils';
+import { getConfig } from './config';
+import { getRules } from './rule';
+import { processFiles } from './processor';
 
 export default () => {
     const config = getConfig();
-    return processFiles(listFiles(config.root));
+    const rules = getRules(config);
+    return processFiles(config, rules);
 };

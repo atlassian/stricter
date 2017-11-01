@@ -10,8 +10,23 @@ export interface CosmiConfig {
     };
 }
 
+export enum Level {
+    WARNING = 'warning',
+    ERROR = 'error',
+}
+
+export interface RuleUsage {
+    include?: string;
+    exclude?: string;
+    level?: Level;
+}
+
 export interface Config {
     root: string;
+    rulesDir?: string;
+    rules?: {
+        [ruleName: string]: RuleUsage | RuleUsage[];
+    };
 }
 
 const readConfig = (): CosmiConfig => {
@@ -36,18 +51,21 @@ const validateConfig = (foundConfig: any): void => {
 };
 
 const processConfig = (foundConfig: CosmiConfig): Config => {
-    const result = {
+    const resolveDir = (dir: string) =>
+        path.resolve(path.dirname(foundConfig.filepath), dir);
+    const result: Config = {
         ...foundConfig.config,
-        root: path.resolve(
-            path.dirname(foundConfig.filepath),
-            foundConfig.config.root,
-        ),
+        root: resolveDir(foundConfig.config.root),
     };
+
+    if (typeof result.rulesDir !== 'undefined') {
+        result.rulesDir = resolveDir(result.rulesDir);
+    }
 
     return result;
 };
 
-export default () => {
+export const getConfig = () => {
     const foundConfig = readConfig();
     validateConfig(foundConfig);
     const processedConfig = processConfig(foundConfig);
