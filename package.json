@@ -12,10 +12,7 @@
         "type": "git",
         "url": "git+https://github.com/stricter/stricter.git"
     },
-    "keywords": [
-        "lint",
-        "project"
-    ],
+    "keywords": ["lint", "project"],
     "author": "Li0liQ",
     "license": "MIT",
     "bugs": {
@@ -26,7 +23,8 @@
         "@types/node": "^8.0.46",
         "cross-env": "^5.1.0",
         "fuse-box": "^2.3.3",
-        "fuse-box-typechecker": "git://github.com/fuse-box/fuse-box-typechecker",
+        "fuse-box-typechecker":
+            "git://github.com/fuse-box/fuse-box-typechecker",
         "prettier": "^1.7.4",
         "tslint": "^5.8.0",
         "tslint-config-airbnb": "^5.3.0",
@@ -34,7 +32,7 @@
         "typescript": "^2.5.3"
     },
     "dependencies": {
-        "babylon": "^6.18.0",
+        "babylon": "^v7.0.0-beta.30",
         "cosmiconfig": "^3.1.0"
     }
 }
