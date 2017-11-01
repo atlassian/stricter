@@ -24,7 +24,7 @@ export interface RuleUsage {
 export interface Config {
     root: string;
     rulesDir?: string;
-    rules?: {
+    rules: {
         [ruleName: string]: RuleUsage | RuleUsage[];
     };
 }
@@ -51,15 +51,20 @@ const validateConfig = (foundConfig: any): void => {
 };
 
 const processConfig = (foundConfig: CosmiConfig): Config => {
-    const resolveDir = (dir: string) =>
-        path.resolve(path.dirname(foundConfig.filepath), dir);
+    const { config, filepath } = foundConfig;
+    const resolveDir = (dir: string) => path.resolve(path.dirname(filepath), dir);
+
     const result: Config = {
-        ...foundConfig.config,
-        root: resolveDir(foundConfig.config.root),
+        root: resolveDir(config.root),
+        rules: {},
     };
 
-    if (typeof result.rulesDir !== 'undefined') {
-        result.rulesDir = resolveDir(result.rulesDir);
+    if (config.rulesDir) {
+        result.rulesDir = resolveDir(config.rulesDir);
+    }
+
+    if (config.rules) {
+        result.rules = config.rules;
     }
 
     return result;

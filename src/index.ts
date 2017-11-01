@@ -1,9 +1,11 @@
 import { getConfig } from './config';
-import { getRuleDefinitions } from './rule';
-import { processFiles } from './processor';
+import { getRuleDefinitions, validateRuleDefinitions } from './rule';
+import { readFiles } from './processor';
 
 export default () => {
     const config = getConfig();
     const rules = getRuleDefinitions(config);
-    return processFiles(config, rules);
+    validateRuleDefinitions(config, rules);
+
+    return readFiles(config, rules);
 };

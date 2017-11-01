@@ -1,31 +1,68 @@
 import { listFiles, readFile, parse } from './utils';
-import { Config } from './config';
-import { RuleDefinition } from './rule';
+import { Config, RuleUsage } from './config';
+import { RuleDefinitions, RuleRequirement } from './rule';
 
-export const processFiles = (config: Config, rules: RuleDefinition[]) => {
-    if (typeof config.rules === 'undefined') {
+const matchesRuleUsage = (filePath: string, ruleUsage: RuleUsage): boolean => {
+    const matchesInclude = !ruleUsage.include || new RegExp(ruleUsage.include).test(filePath);
+    const matchesExclude = ruleUsage.exclude && new RegExp(ruleUsage.exclude).test(filePath);
+
+    return matchesInclude && !matchesExclude;
+};
+
+const readFileData = (filePath: string, requirement: RuleRequirement) => {
+    if (requirement === RuleRequirement.NONE) {
+        return {
+            [filePath]: {},
+        };
+    }
+
+    const contents = readFile(filePath);
+
+    if (requirement === RuleRequirement.CONTENTS) {
+        return {
+            [filePath]: {
+                contents,
+            },
+        };
+    }
+
+    const ast = parse(filePath, contents);
+
+    return {
+        [filePath]: {
+            contents,
+            ast,
+        },
+    };
+};
+
+export const readFiles = (config: Config, rules: RuleDefinitions) => {
+    if (!config.rules) {
         return;
     }
 
     const fileList = listFiles(config.root);
 
     const result = fileList.reduce((acc, filePath) => {
-        const contents = readFile(filePath);
+        const matchingRules = Object.keys(config.rules).filter((name: string) => {
+            const ruleUsage = config.rules[name];
 
-        let ast;
+            return (
+                (Array.isArray(ruleUsage) && ruleUsage.some(i => matchesRuleUsage(filePath, i))) ||
+                (!Array.isArray(ruleUsage) && matchesRuleUsage(filePath, ruleUsage))
+            );
+        });
 
-        try {
-            ast = parse(filePath, contents);
-        } catch (e) {
-            console.log(`Unable to parse ${filePath}`);
-        }
+        const requirement: RuleRequirement =
+            matchingRules.indexOf(RuleRequirement.AST) !== -1
+                ? RuleRequirement.AST
+                : matchingRules.indexOf(RuleRequirement.CONTENTS) !== -1
+                  ? RuleRequirement.CONTENTS
+                  : RuleRequirement.NONE;
 
         return {
             ...acc,
-            [filePath]: {
-                contents,
-                ast,
-            },
+            ...readFileData(filePath, requirement),
         };
     }, {});
 
