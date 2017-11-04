@@ -32,7 +32,7 @@ export const logRuleApplicationResult = (result: RuleToRuleApplicationResult): v
         }
 
         applicationResult.errors.forEach(error => {
-            console.warn(chalk.yellow('error: ') + ruleName + ' ' + error);
+            console.warn(chalk.red('error: ') + ruleName + ' ' + error);
         });
     });
 };

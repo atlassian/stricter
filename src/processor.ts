@@ -3,6 +3,7 @@ import {
     FileToData,
     FileToRule,
     FileToRuleToRuleApplicationResult,
+    Level,
     RuleRequirement,
     RuleToRuleApplicationResult,
     RuleApplications,
@@ -98,6 +99,25 @@ export const readFilesData = (filesToRules: FileToRule): FileToData => {
     return result;
 };
 
+const createRuleApplicationResult = (messageType: string, ruleMessages: string[]) => {
+    let result;
+
+    switch (messageType) {
+        case Level.ERROR:
+            result = {
+                errors: ruleMessages,
+            };
+            break;
+        case Level.WARNING:
+        default:
+            result = {
+                warnings: ruleMessages,
+            };
+    }
+
+    return result;
+};
+
 export const applyFileRules = (filesData: FileToData, filesToRules: FileToRule): FileToRuleToRuleApplicationResult => {
     const result = Object.entries(filesData).reduce(
         (acc, [filePath, fileData]) => {
@@ -105,19 +125,17 @@ export const applyFileRules = (filesData: FileToData, filesToRules: FileToRule):
 
             const rulesApplicationResults = Object.entries(ruleApplications).reduce(
                 (acc, [ruleName, rule]) => {
-                    const ruleMessages = rule.definition.onFile(fileData);
                     const ruleUsage = rule.usage;
                     const messageType = !Array.isArray(ruleUsage)
                         ? ruleUsage.level
                         : ruleUsage.filter(i => matchesRuleUsage(filePath, i))[0].level;
 
-                    if (!messageType) {
-                        return acc;
+                    if (!messageType || Object.values(Level).indexOf(messageType) === -1) {
+                        return {};
                     }
 
-                    const ruleApplicationResult = {
-                        [messageType]: ruleMessages,
-                    };
+                    const ruleMessages = rule.definition.onFile(fileData);
+                    const ruleApplicationResult = createRuleApplicationResult(messageType, ruleMessages);
 
                     const result = {
                         ...acc,
@@ -151,15 +169,12 @@ export const applyProjectRules = (
                 const ruleUsage = ruleApplication.usage;
                 const messageType = !Array.isArray(ruleUsage) ? ruleUsage.level : ruleUsage[0].level;
 
-                if (!messageType) {
-                    return acc;
+                if (!messageType || Object.values(Level).indexOf(messageType) === -1) {
+                    return {};
                 }
 
                 const ruleMessages = ruleApplication.definition.onProject(filesData);
-
-                const ruleApplicationResult = {
-                    [messageType]: ruleMessages,
-                };
+                const ruleApplicationResult = createRuleApplicationResult(messageType, ruleMessages);
 
                 return {
                     ...acc,
