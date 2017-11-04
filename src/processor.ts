@@ -3,7 +3,6 @@ import {
     FileToData,
     FileToRule,
     FileToRuleToRuleApplicationResult,
-    RuleDefinitions,
     RuleRequirement,
     RuleToRuleApplicationResult,
     RuleApplications,
@@ -47,7 +46,7 @@ const readFileData = (filePath: string, requirement: RuleRequirement): FileToDat
 export const mapFilesToRules = (fileList: string[], ruleApplications: RuleApplications): FileToRule => {
     const result = fileList.reduce(
         (acc, filePath) => {
-            const matchingRuleDefinitions = Object.entries(ruleApplications)
+            const matchingRuleApplications = Object.entries(ruleApplications)
                 .filter(([name, application]) => {
                     const ruleUsage = application.usage;
                     const ruleDefinition = application.definition;
@@ -61,14 +60,14 @@ export const mapFilesToRules = (fileList: string[], ruleApplications: RuleApplic
                 .reduce(
                     (acc, [name, application]) => ({
                         ...acc,
-                        [name]: application.definition,
+                        [name]: application,
                     }),
-                    {} as RuleDefinitions,
+                    {} as RuleApplications,
                 );
 
             return {
                 ...acc,
-                [filePath]: matchingRuleDefinitions,
+                [filePath]: matchingRuleApplications,
             };
         },
         {} as FileToRule,
@@ -80,7 +79,7 @@ export const mapFilesToRules = (fileList: string[], ruleApplications: RuleApplic
 export const readFilesData = (filesToRules: FileToRule): FileToData => {
     const result = Object.entries(filesToRules).reduce(
         (acc, [filePath, ruleDefinitions]) => {
-            const requirements = Object.values(ruleDefinitions).map(i => i.requirement);
+            const requirements = Object.values(ruleDefinitions).map(i => i.definition.requirement);
             const requirement: RuleRequirement =
                 requirements.indexOf(RuleRequirement.AST) !== -1
                     ? RuleRequirement.AST
@@ -102,11 +101,24 @@ export const readFilesData = (filesToRules: FileToRule): FileToData => {
 export const applyFileRules = (filesData: FileToData, filesToRules: FileToRule): FileToRuleToRuleApplicationResult => {
     const result = Object.entries(filesData).reduce(
         (acc, [filePath, fileData]) => {
-            const ruleDefinitions = filesToRules[filePath];
+            const ruleApplications = filesToRules[filePath];
 
-            const rulesApplicationResults = Object.entries(ruleDefinitions).reduce(
+            const rulesApplicationResults = Object.entries(ruleApplications).reduce(
                 (acc, [ruleName, rule]) => {
-                    const ruleApplicationResult = rule.onFile(fileData);
+                    const ruleMessages = rule.definition.onFile(fileData);
+                    const ruleUsage = rule.usage;
+                    const messageType = !Array.isArray(ruleUsage)
+                        ? ruleUsage.level
+                        : ruleUsage.filter(i => matchesRuleUsage(filePath, i))[0].level;
+
+                    if (!messageType) {
+                        return acc;
+                    }
+
+                    const ruleApplicationResult = {
+                        [messageType]: ruleMessages,
+                    };
+
                     const result = {
                         ...acc,
                         [ruleName]: ruleApplicationResult,
@@ -136,9 +148,22 @@ export const applyProjectRules = (
         .filter(([ruleName, ruleApplication]) => ruleApplication.definition.onProject)
         .reduce(
             (acc, [ruleName, ruleApplication]) => {
+                const ruleUsage = ruleApplication.usage;
+                const messageType = !Array.isArray(ruleUsage) ? ruleUsage.level : ruleUsage[0].level;
+
+                if (!messageType) {
+                    return acc;
+                }
+
+                const ruleMessages = ruleApplication.definition.onProject(filesData);
+
+                const ruleApplicationResult = {
+                    [messageType]: ruleMessages,
+                };
+
                 return {
                     ...acc,
-                    [ruleName]: ruleApplication.definition.onProject(filesData),
+                    [ruleName]: ruleApplicationResult,
                 };
             },
             {} as RuleToRuleApplicationResult,

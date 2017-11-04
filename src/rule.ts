@@ -14,9 +14,14 @@ export const getRuleDefinitions = (config: Config): RuleDefinitions => {
         (acc, filePath: string) => {
             const ruleName = path.basename(filePath, path.extname(filePath));
 
+            const rule = require(filePath);
+            if ((rule.onFile && rule.onProject) || !(rule.onFile || rule.onProject)) {
+                throw new Error(`Rule ${ruleName} has both onFile and onProject. Should be only one of them.`);
+            }
+
             return {
                 ...acc,
-                [ruleName]: require(filePath) as RuleDefinition,
+                [ruleName]: rule as RuleDefinition,
             };
         },
         {} as RuleDefinitions,

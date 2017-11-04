@@ -40,7 +40,8 @@ export interface FileToData {
 }
 
 export interface RuleApplicationResult {
-    messages: string[];
+    errors?: string[];
+    warnings?: string[];
 }
 
 export interface RuleToRuleApplicationResult {
@@ -53,8 +54,8 @@ export interface FileToRuleToRuleApplicationResult {
 
 export interface RuleDefinition {
     requirement: RuleRequirement;
-    onFile: (fileData: FileData) => RuleApplicationResult;
-    onProject: (projectData: FileToData) => RuleApplicationResult;
+    onFile: (fileData: FileData) => string[];
+    onProject: (projectData: FileToData) => string[];
 }
 
 export interface RuleDefinitions {
@@ -71,5 +72,5 @@ export interface RuleApplications {
 }
 
 export interface FileToRule {
-    [fileName: string]: RuleDefinitions;
+    [fileName: string]: RuleApplications;
 }
