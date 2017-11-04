@@ -1,11 +1,14 @@
 import { getConfig } from './config';
 import { getRuleDefinitions, validateRuleDefinitions } from './rule';
-import { readFiles } from './processor';
+import { applyRules, mapFilesToRules, readFilesData } from './processor';
+import { consoleLogger } from './logger';
 
-export default () => {
+export default (): void => {
     const config = getConfig();
-    const rules = getRuleDefinitions(config);
-    validateRuleDefinitions(config, rules);
-
-    return readFiles(config, rules);
+    const ruleDefinitions = getRuleDefinitions(config);
+    validateRuleDefinitions(config, ruleDefinitions);
+    const filesToRules = mapFilesToRules(config, ruleDefinitions);
+    const filesData = readFilesData(filesToRules);
+    const result = applyRules(filesData, filesToRules);
+    consoleLogger(result);
 };

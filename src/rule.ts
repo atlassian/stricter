@@ -1,6 +1,7 @@
 import * as path from 'path';
 import { Config } from './config';
 import { listFiles } from './utils';
+import { FileData } from './processor';
 
 export interface RuleApplicationResult {
     messages: string[];
@@ -14,8 +15,12 @@ export enum RuleRequirement {
 
 export interface RuleDefinition {
     requirement: RuleRequirement;
-    onFile: () => RuleApplicationResult;
+    onFile: (fileData: FileData) => RuleApplicationResult;
     onProject: () => RuleApplicationResult;
+}
+
+export interface RuleApplicationResults {
+    [filePath: string]: RuleApplicationResult;
 }
 
 export interface RuleDefinitions {
