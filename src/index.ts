@@ -1,14 +1,21 @@
 import { getConfig } from './config';
-import { getRuleDefinitions, validateRuleDefinitions } from './rule';
-import { applyRules, mapFilesToRules, readFilesData } from './processor';
+import { getRuleDefinitions, getRuleApplications } from './rule';
+import { applyFileRules, applyProjectRules, mapFilesToRules, readFilesData } from './processor';
 import { consoleLogger } from './logger';
+import { listFiles } from './utils';
 
 export default (): void => {
     const config = getConfig();
+
+    const fileList = listFiles(config.root);
+
     const ruleDefinitions = getRuleDefinitions(config);
-    validateRuleDefinitions(config, ruleDefinitions);
-    const filesToRules = mapFilesToRules(config, ruleDefinitions);
+    const ruleApplications = getRuleApplications(config, ruleDefinitions);
+
+    const filesToRules = mapFilesToRules(fileList, ruleApplications);
     const filesData = readFilesData(filesToRules);
-    const result = applyRules(filesData, filesToRules);
-    consoleLogger(result);
+    const fileResult = applyFileRules(filesData, filesToRules);
+    const projectResult = applyProjectRules(filesData, ruleApplications);
+
+    consoleLogger(fileResult, projectResult);
 };

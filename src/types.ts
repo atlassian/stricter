@@ -30,6 +30,15 @@ export enum RuleRequirement {
     AST = 'ast',
 }
 
+export interface FileData {
+    ast?: any;
+    contents?: string;
+}
+
+export interface FileToData {
+    [fileName: string]: FileData;
+}
+
 export interface RuleApplicationResult {
     messages: string[];
 }
@@ -45,22 +54,22 @@ export interface FileToRuleToRuleApplicationResult {
 export interface RuleDefinition {
     requirement: RuleRequirement;
     onFile: (fileData: FileData) => RuleApplicationResult;
-    onProject: () => RuleApplicationResult;
+    onProject: (projectData: FileToData) => RuleApplicationResult;
 }
 
 export interface RuleDefinitions {
     [ruleName: string]: RuleDefinition;
 }
 
+export interface RuleApplication {
+    definition: RuleDefinition;
+    usage: RuleUsage | RuleUsage[];
+}
+
+export interface RuleApplications {
+    [ruleName: string]: RuleApplication;
+}
+
 export interface FileToRule {
     [fileName: string]: RuleDefinitions;
-}
-
-export interface FileData {
-    ast?: any;
-    contents?: string;
-}
-
-export interface FileToData {
-    [fileName: string]: FileData;
 }

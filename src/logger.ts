@@ -1,4 +1,6 @@
-import { FileToRuleToRuleApplicationResult } from './types';
+import { FileToRuleToRuleApplicationResult, RuleToRuleApplicationResult } from './types';
 
-export const consoleLogger = (result: FileToRuleToRuleApplicationResult): void => {};
-export const jsonLogger = (result: FileToRuleToRuleApplicationResult): void => {};
+export const consoleLogger = (
+    fileResult: FileToRuleToRuleApplicationResult,
+    projectResult: RuleToRuleApplicationResult,
+): void => {};
