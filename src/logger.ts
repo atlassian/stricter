@@ -5,11 +5,13 @@ export const consoleLogger = (
     fileResult: FileToRuleToRuleApplicationResult,
     projectResult: RuleToRuleApplicationResult,
 ): void => {
+    console.log(chalk.bgBlackBright('Files'));
     Object.entries(fileResult).forEach(([fileName, ruleResult]) => {
         console.log(fileName);
         logRuleApplicationResult(ruleResult);
     });
 
+    console.log(chalk.bgBlackBright('Project'));
     logRuleApplicationResult(projectResult);
 };
 
@@ -22,7 +24,7 @@ export const logRuleApplicationResult = (result: RuleToRuleApplicationResult): v
         }
 
         applicationResult.warnings.forEach(warning => {
-            console.warn(chalk.yellow('warning: ') + ruleName + ' ' + warning);
+            console.warn(chalk.yellow('warning: ') + chalk.gray(ruleName) + ' ' + warning);
         });
     });
 
@@ -32,7 +34,7 @@ export const logRuleApplicationResult = (result: RuleToRuleApplicationResult): v
         }
 
         applicationResult.errors.forEach(error => {
-            console.warn(chalk.red('error: ') + ruleName + ' ' + error);
+            console.warn(chalk.red('error: ') + chalk.gray(ruleName) + ' ' + error);
         });
     });
 };
