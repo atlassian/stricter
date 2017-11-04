@@ -1,19 +1,13 @@
 import { listFiles, readFile, parse } from './utils';
-import { Config, RuleUsage } from './config';
-import { RuleApplicationResults, RuleDefinitions, RuleRequirement } from './rule';
-
-export interface FileData {
-    ast?: any;
-    contents?: string;
-}
-
-export interface FileToRule {
-    [fileName: string]: RuleDefinitions;
-}
-
-export interface FileToData {
-    [fileName: string]: FileData;
-}
+import {
+    Config,
+    FileToData,
+    FileToRule,
+    RuleApplicationResults,
+    RuleDefinitions,
+    RuleRequirement,
+    RuleUsage,
+} from './types';
 
 const matchesRuleUsage = (filePath: string, ruleUsage: RuleUsage): boolean => {
     const matchesInclude = !ruleUsage.include || new RegExp(ruleUsage.include).test(filePath);

@@ -1,33 +1,8 @@
 import * as cosmiconfig from 'cosmiconfig';
 import * as path from 'path';
+import { Config, CosmiConfig } from './types';
 
 const moduleName = 'stricter';
-
-export interface CosmiConfig {
-    filepath: string;
-    config: {
-        [prop: string]: any;
-    };
-}
-
-export enum Level {
-    WARNING = 'warning',
-    ERROR = 'error',
-}
-
-export interface RuleUsage {
-    include?: string;
-    exclude?: string;
-    level?: Level;
-}
-
-export interface Config {
-    root: string;
-    rulesDir?: string;
-    rules: {
-        [ruleName: string]: RuleUsage | RuleUsage[];
-    };
-}
 
 const readConfig = (): CosmiConfig => {
     const explorer = cosmiconfig(moduleName, { sync: true });

@@ -1,31 +1,6 @@
 import * as path from 'path';
-import { Config } from './config';
 import { listFiles } from './utils';
-import { FileData } from './processor';
-
-export interface RuleApplicationResult {
-    messages: string[];
-}
-
-export enum RuleRequirement {
-    NONE = 'none',
-    CONTENTS = 'contents',
-    AST = 'ast',
-}
-
-export interface RuleDefinition {
-    requirement: RuleRequirement;
-    onFile: (fileData: FileData) => RuleApplicationResult;
-    onProject: () => RuleApplicationResult;
-}
-
-export interface RuleApplicationResults {
-    [filePath: string]: RuleApplicationResult;
-}
-
-export interface RuleDefinitions {
-    [ruleName: string]: RuleDefinition;
-}
+import { Config, RuleDefinitions } from './types';
 
 const defaultRules: RuleDefinitions = {};
 
