@@ -3,9 +3,10 @@ import {
     Config,
     FileToData,
     FileToRule,
-    RuleApplicationResults,
+    FileToRuleToRuleApplicationResult,
     RuleDefinitions,
     RuleRequirement,
+    RuleToRuleApplicationResult,
     RuleUsage,
 } from './types';
 
@@ -51,63 +52,83 @@ export const mapFilesToRules = (config: Config, ruleDefinitions: RuleDefinitions
     const fileList = listFiles(config.root);
     const ruleNames = Object.keys(config.rules);
 
-    const result = fileList.reduce((acc, filePath) => {
-        const matchingRuleDefinitions = ruleNames
-            .filter((name: string) => {
-                const ruleUsage = config.rules[name];
+    const result = fileList.reduce(
+        (acc, filePath) => {
+            const matchingRuleDefinitions = ruleNames
+                .filter((name: string) => {
+                    const ruleUsage = config.rules[name];
 
-                return (
-                    (Array.isArray(ruleUsage) && ruleUsage.some(i => matchesRuleUsage(filePath, i))) ||
-                    (!Array.isArray(ruleUsage) && matchesRuleUsage(filePath, ruleUsage))
+                    return (
+                        (Array.isArray(ruleUsage) && ruleUsage.some(i => matchesRuleUsage(filePath, i))) ||
+                        (!Array.isArray(ruleUsage) && matchesRuleUsage(filePath, ruleUsage))
+                    );
+                })
+                .reduce(
+                    (acc, i) => ({
+                        ...acc,
+                        [i]: ruleDefinitions[i],
+                    }),
+                    {} as RuleDefinitions,
                 );
-            })
-            .map(i => ruleDefinitions[i]);
 
-        return {
-            ...acc,
-            [filePath]: matchingRuleDefinitions,
-        };
-    }, {});
+            return {
+                ...acc,
+                [filePath]: matchingRuleDefinitions,
+            };
+        },
+        {} as FileToRule,
+    );
 
     return result;
 };
 
 export const readFilesData = (filesToRules: FileToRule): FileToData => {
-    const result = Object.entries(filesToRules).reduce((acc, [filePath, ruleDefinitions]) => {
-        const requirements = Object.values(ruleDefinitions).map(i => i.requirement);
-        const requirement: RuleRequirement =
-            requirements.indexOf(RuleRequirement.AST) !== -1
-                ? RuleRequirement.AST
-                : requirements.indexOf(RuleRequirement.CONTENTS) !== -1
-                  ? RuleRequirement.CONTENTS
-                  : RuleRequirement.NONE;
+    const result = Object.entries(filesToRules).reduce(
+        (acc, [filePath, ruleDefinitions]) => {
+            const requirements = Object.values(ruleDefinitions).map(i => i.requirement);
+            const requirement: RuleRequirement =
+                requirements.indexOf(RuleRequirement.AST) !== -1
+                    ? RuleRequirement.AST
+                    : requirements.indexOf(RuleRequirement.CONTENTS) !== -1
+                      ? RuleRequirement.CONTENTS
+                      : RuleRequirement.NONE;
 
-        return {
-            ...acc,
-            ...readFileData(filePath, requirement),
-        };
-    }, {});
+            return {
+                ...acc,
+                ...readFileData(filePath, requirement),
+            };
+        },
+        {} as FileToData,
+    );
 
     return result;
 };
 
-export const applyRules = (filesData: FileToData, filesToRules: FileToRule): RuleApplicationResults => {
-    const result = Object.entries(filesData).reduce((acc, [filePath, fileData]) => {
-        const ruleDefinitions = filesToRules[filePath];
+export const applyRules = (filesData: FileToData, filesToRules: FileToRule): FileToRuleToRuleApplicationResult => {
+    const result = Object.entries(filesData).reduce(
+        (acc, [filePath, fileData]) => {
+            const ruleDefinitions = filesToRules[filePath];
 
-        const rulesApplicationResults = Object.entries(ruleDefinitions).reduce((acc, [ruleName, rule]) => {
-            const ruleApplicationResult = rule.onFile(fileData);
+            const rulesApplicationResults = Object.entries(ruleDefinitions).reduce(
+                (acc, [ruleName, rule]) => {
+                    const ruleApplicationResult = rule.onFile(fileData);
+                    const result = {
+                        ...acc,
+                        [ruleName]: ruleApplicationResult,
+                    };
+
+                    return result;
+                },
+                {} as RuleToRuleApplicationResult,
+            );
+
             return {
                 ...acc,
-                [ruleName]: ruleApplicationResult,
+                [filePath]: rulesApplicationResults,
             };
-        }, {});
-
-        return {
-            ...acc,
-            [filePath]: rulesApplicationResults,
-        };
-    }, {});
+        },
+        {} as FileToRuleToRuleApplicationResult,
+    );
 
     return result;
 };

@@ -45,7 +45,7 @@ const processConfig = (foundConfig: CosmiConfig): Config => {
     return result;
 };
 
-export const getConfig = () => {
+export const getConfig = (): Config => {
     const foundConfig = readConfig();
     validateConfig(foundConfig);
     const processedConfig = processConfig(foundConfig);

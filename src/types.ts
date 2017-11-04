@@ -34,8 +34,12 @@ export interface RuleApplicationResult {
     messages: string[];
 }
 
-export interface RuleApplicationResults {
-    [filePath: string]: RuleApplicationResult;
+export interface RuleToRuleApplicationResult {
+    [rule: string]: RuleApplicationResult;
+}
+
+export interface FileToRuleToRuleApplicationResult {
+    [filePath: string]: RuleToRuleApplicationResult;
 }
 
 export interface RuleDefinition {

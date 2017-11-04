@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { listFiles } from './utils';
-import { Config, RuleDefinitions } from './types';
+import { Config, RuleDefinition, RuleDefinitions } from './types';
 
 const defaultRules: RuleDefinitions = {};
 
@@ -10,14 +10,17 @@ export const getRuleDefinitions = (config: Config): RuleDefinitions => {
     }
 
     const ruleFiles = listFiles(config.rulesDir);
-    const customRules: RuleDefinitions = ruleFiles.reduce((acc: RuleDefinitions, filePath: string) => {
-        const ruleName = path.basename(filePath, path.extname(filePath));
+    const customRules = ruleFiles.reduce(
+        (acc, filePath: string) => {
+            const ruleName = path.basename(filePath, path.extname(filePath));
 
-        return {
-            ...acc,
-            [ruleName]: require(filePath),
-        };
-    }, {});
+            return {
+                ...acc,
+                [ruleName]: require(filePath) as RuleDefinition,
+            };
+        },
+        {} as RuleDefinitions,
+    );
 
     return { ...defaultRules, ...customRules };
 };
