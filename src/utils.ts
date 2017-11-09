@@ -6,7 +6,9 @@ export const readFile = (i: string): string => fs.readFileSync(i, 'utf8');
 
 export const listFiles = (directory: string): string[] => {
     const files = fs.statSync(directory).isDirectory()
-        ? fs.readdirSync(directory).reduce((acc, f) => [...acc, ...listFiles(path.join(directory, f))], [])
+        ? fs
+              .readdirSync(directory)
+              .reduce((acc, f) => [...acc, ...listFiles(path.join(directory, f))], [])
         : [directory];
 
     return files;
