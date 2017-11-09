@@ -10,4 +10,5 @@ before_install:
 before_script: greenkeeper-lockfile-update
 script:
   - yarn build
+  - yarn test
 after_script: greenkeeper-lockfile-upload

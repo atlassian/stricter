@@ -6,29 +6,36 @@
     "scripts": {
         "start": "node fuse.js",
         "build": "cross-env NODE_ENV=production node fuse.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "jest"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/stricter/stricter.git"
     },
-    "keywords": [
-        "lint",
-        "project"
-    ],
+    "keywords": ["lint", "project"],
     "author": "Li0liQ",
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/stricter/stricter/issues"
     },
     "homepage": "https://github.com/stricter/stricter#readme",
+    "jest": {
+        "transform": {
+            "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+        },
+        "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+        "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json"]
+    },
     "devDependencies": {
         "@types/chalk": "^2.2.0",
+        "@types/jest": "^21.1.5",
         "@types/node": "^8.0.46",
         "cross-env": "^5.1.0",
         "fuse-box": "^2.3.3",
         "fuse-box-typechecker": "git://github.com/fuse-box/fuse-box-typechecker",
+        "jest": "^21.2.1",
         "prettier": "^1.7.4",
+        "ts-jest": "^21.2.1",
         "tslint": "^5.8.0",
         "tslint-config-airbnb": "^5.3.0",
         "tslint-config-prettier": "^1.6.0",
