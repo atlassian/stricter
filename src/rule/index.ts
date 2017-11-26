@@ -1,6 +1,6 @@
 import * as path from 'path';
-import { listFiles } from './utils';
-import { Config, RuleApplications, RuleDefinition, RuleDefinitions } from './types';
+import { listFiles } from './../utils';
+import { Config, RuleApplications, RuleDefinition, RuleDefinitions } from './../types';
 
 const defaultRules: RuleDefinitions = {};
 

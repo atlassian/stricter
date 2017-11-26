@@ -1,4 +1,4 @@
-import { readFile, parse } from './utils';
+import { readFile, parse } from './../utils';
 import {
     FileToData,
     FileToRule,
@@ -8,7 +8,7 @@ import {
     RuleToRuleApplicationResult,
     RuleApplications,
     RuleUsage,
-} from './types';
+} from './../types';
 
 const matchesRuleUsage = (filePath: string, ruleUsage: RuleUsage): boolean => {
     const matchesInclude = !ruleUsage.include || new RegExp(ruleUsage.include).test(filePath);

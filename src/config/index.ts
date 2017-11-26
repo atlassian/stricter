@@ -1,6 +1,6 @@
 import * as cosmiconfig from 'cosmiconfig';
 import * as path from 'path';
-import { Config, CosmiConfig } from './types';
+import { Config, CosmiConfig } from './../types';
 
 const moduleName = 'stricter';
 

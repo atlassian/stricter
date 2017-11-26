@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { FileToRuleToRuleApplicationResult, RuleToRuleApplicationResult } from './types';
+import { FileToRuleToRuleApplicationResult, RuleToRuleApplicationResult } from './../types';
 
 export const consoleLogger = (
     fileResult: FileToRuleToRuleApplicationResult,
