@@ -2,5 +2,4 @@
 .fusebox
 
 node_modules
-dist/*
-!dist/cli.js
+dist

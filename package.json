@@ -1,15 +1,16 @@
 {
     "name": "stricter",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "A project-wide js-linting tool",
     "files": [
         "LICENSE",
         "README.md",
-        "dist"
+        "dist",
+        "bin"
     ],
     "main": "./dist/index.js",
     "bin": {
-        "stricter": "./dist/cli.js"
+        "stricter": "./bin/cli.js"
     },
     "scripts": {
         "start": "node fuse.js",
@@ -64,5 +65,8 @@
         "babylon": "^v7.0.0-beta.34",
         "chalk": "^2.3.0",
         "cosmiconfig": "^3.1.0"
+    },
+    "engines": {
+        "node" : ">=8.0.0"
     }
 }
