@@ -1,17 +1,21 @@
 import chalk from 'chalk';
 import { FileToRuleToRuleApplicationResult, RuleToRuleApplicationResult } from './../types';
-import logRuleApplicationResult from './log-result';
+import logToConsole from './console';
+import { compactFileLogs, compactProjectLogs } from './flatten';
 
 export const consoleLogger = (
     fileResult: FileToRuleToRuleApplicationResult,
     projectResult: RuleToRuleApplicationResult,
 ): void => {
-    console.log(chalk.bgBlackBright('Files'));
-    Object.entries(fileResult).forEach(([fileName, ruleResult]) => {
-        console.log(fileName);
-        logRuleApplicationResult(ruleResult);
-    });
+    const fileLogs = compactFileLogs(fileResult);
+    if (fileLogs.length) {
+        console.log(chalk.bgBlackBright('Files'));
+        logToConsole(fileLogs);
+    }
 
-    console.log(chalk.bgBlackBright('Project'));
-    logRuleApplicationResult(projectResult);
+    const projectLogs = compactProjectLogs(projectResult);
+    if (projectLogs.length) {
+        console.log(chalk.bgBlackBright('Project'));
+        logToConsole(projectLogs);
+    }
 };

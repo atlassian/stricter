@@ -74,3 +74,10 @@ export interface RuleApplications {
 export interface FileToRule {
     [fileName: string]: RuleApplications;
 }
+
+export interface LogEntry {
+    filePath?: string;
+    rule: string;
+    errors?: string[];
+    warnings?: string[];
+}
