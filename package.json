@@ -1,6 +1,6 @@
 {
     "name": "stricter",
-    "version": "0.0.3",
+    "version": "0.0.1",
     "description": "A project-wide js-linting tool",
     "files": [
         "LICENSE",
@@ -67,6 +67,6 @@
         "cosmiconfig": "^3.1.0"
     },
     "engines": {
-        "node" : ">=8.0.0"
+        "node": ">=8.0.0"
     }
 }

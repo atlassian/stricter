@@ -23,7 +23,7 @@ const fuse = FuseBox.init({
 });
 
 const bundle = fuse
-    .bundle('stricter')
+    .bundle('index')
     .instructions(`>[index.ts]`)
     .sourceMaps(true)
     .target('server');
