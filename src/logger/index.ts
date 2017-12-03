@@ -6,8 +6,9 @@ import { compactFileLogs, compactProjectLogs } from './flatten';
 export const consoleLogger = (
     fileResult: FileToRuleToRuleApplicationResult,
     projectResult: RuleToRuleApplicationResult,
-): void => {
+): number => {
     const fileLogs = compactFileLogs(fileResult);
+
     if (fileLogs.length) {
         console.log(chalk.bgBlackBright('Files'));
         logToConsole(fileLogs);
@@ -18,4 +19,6 @@ export const consoleLogger = (
         console.log(chalk.bgBlackBright('Project'));
         logToConsole(projectLogs);
     }
+
+    return fileLogs.length + projectLogs.length;
 };

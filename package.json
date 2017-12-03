@@ -2,12 +2,15 @@
     "name": "stricter",
     "version": "0.0.2",
     "description": "A project-wide js-linting tool",
-    "main": "dist/stricter.js",
     "files": [
         "LICENSE",
         "README.md",
         "dist"
     ],
+    "main": "./dist/index.js",
+    "bin": {
+        "stricter": "./dist/cli.js"
+    },
     "scripts": {
         "start": "node fuse.js",
         "build": "cross-env NODE_ENV=production node fuse.js",

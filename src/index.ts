@@ -4,7 +4,7 @@ import { applyFileRules, applyProjectRules, mapFilesToRules, readFilesData } fro
 import { consoleLogger } from './logger';
 import { listFiles } from './utils';
 
-export default (): void => {
+export default (): number => {
     const config = getConfig();
 
     const fileList = listFiles(config.root);
@@ -17,5 +17,5 @@ export default (): void => {
     const fileResult = applyFileRules(filesData, filesToRules);
     const projectResult = applyProjectRules(filesData, ruleApplications);
 
-    consoleLogger(fileResult, projectResult);
+    return consoleLogger(fileResult, projectResult);
 };
