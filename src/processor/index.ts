@@ -34,7 +34,7 @@ const readFileData = (filePath: string, requirement: RuleRequirement): FileToDat
         };
     }
 
-    const ast = parse(filePath, contents);
+    const ast = parse(contents);
 
     return {
         [filePath]: {

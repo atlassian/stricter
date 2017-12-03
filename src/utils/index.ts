@@ -15,6 +15,7 @@ export const listFiles = (directory: string): string[] => {
 };
 
 const defaultPlugins = [
+    'flow',
     'jsx',
     'doExpressions',
     'objectRestSpread',
@@ -37,21 +38,8 @@ const defaultPlugins = [
     'nullishCoalescingOperator',
 ];
 
-const isEcmascript = (fileName: string): boolean => /\.jsx?$/.test(fileName);
-const isTypescript = (fileName: string): boolean => /\.tsx?$/.test(fileName);
-
-export const parse = (filePath: string, source: string): any => {
-    let staticTypePlugin;
-
-    if (isEcmascript(filePath)) {
-        staticTypePlugin = 'flow';
-    } else if (isTypescript(filePath)) {
-        staticTypePlugin = 'typescript';
-    } else {
-        return null;
-    }
-
-    const plugins = [staticTypePlugin, ...defaultPlugins];
+export const parse = (source: string): any => {
+    const plugins = defaultPlugins;
 
     const result = parser.parse(source, {
         plugins,
