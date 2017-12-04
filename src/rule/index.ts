@@ -2,7 +2,7 @@ import * as path from 'path';
 import { listFiles } from './../utils';
 import { Config, RuleApplications, RuleDefinition, RuleDefinitions } from './../types';
 
-const defaultRules: RuleDefinitions = {};
+export const defaultRules: RuleDefinitions = {};
 
 export const getRuleDefinitions = (config: Config): RuleDefinitions => {
     if (!config.rulesDir) {
