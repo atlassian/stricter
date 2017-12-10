@@ -33,6 +33,10 @@ export interface FileToData {
     [fileName: string]: FileData;
 }
 
+export interface FileToDependency {
+    [fileName: string]: string[];
+}
+
 export interface RuleApplicationResult {
     errors?: string[];
     warnings?: string[];
@@ -43,7 +47,7 @@ export interface RuleToRuleApplicationResult {
 }
 
 export interface RuleDefinition {
-    onProject: (projectData: FileToData) => string[];
+    onProject: (projectData: FileToData, dependencies: FileToDependency) => string[];
 }
 
 export interface RuleDefinitions {

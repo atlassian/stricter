@@ -1,5 +1,11 @@
 import { readFile, parse } from './../utils';
-import { FileToData, Level, RuleToRuleApplicationResult, RuleApplications } from './../types';
+import {
+    FileToData,
+    FileToDependency,
+    Level,
+    RuleToRuleApplicationResult,
+    RuleApplications,
+} from './../types';
 
 const readFileData = (filePath: string): FileToData => {
     const contents = readFile(filePath);
@@ -49,6 +55,7 @@ const createRuleApplicationResult = (messageType: string, ruleMessages: string[]
 
 export const applyProjectRules = (
     filesData: FileToData,
+    dependencies: FileToDependency,
     ruleApplications: RuleApplications,
 ): RuleToRuleApplicationResult => {
     const result = Object.entries(ruleApplications)
@@ -64,7 +71,7 @@ export const applyProjectRules = (
                     return {};
                 }
 
-                const ruleMessages = ruleApplication.definition.onProject(filesData);
+                const ruleMessages = ruleApplication.definition.onProject(filesData, dependencies);
                 const ruleApplicationResult = createRuleApplicationResult(
                     messageType,
                     ruleMessages,
@@ -80,3 +87,5 @@ export const applyProjectRules = (
 
     return result;
 };
+
+export { default as readDependencies } from './read-dependencies';

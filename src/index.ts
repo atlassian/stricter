@@ -1,6 +1,6 @@
 import { getConfig } from './config';
 import { getRuleDefinitions, getRuleApplications, filterFilesToProcess } from './rule';
-import { applyProjectRules, readFilesData } from './processor';
+import { applyProjectRules, readDependencies, readFilesData } from './processor';
 import { consoleLogger } from './logger';
 import { listFiles } from './utils';
 
@@ -14,7 +14,8 @@ export default (): number => {
     const filesToProcess = filterFilesToProcess(fileList, ruleApplications);
 
     const filesData = readFilesData(filesToProcess);
-    const projectResult = applyProjectRules(filesData, ruleApplications);
+    const dependencies = readDependencies(filesData, config);
+    const projectResult = applyProjectRules(filesData, dependencies, ruleApplications);
 
     return consoleLogger(projectResult);
 };
