@@ -26,6 +26,21 @@ The configuration file will be resolved starting from the current working direct
         "all-files-project": {
             "level": "warning"
         },
+        "stricter/unused-files": [{
+            "level": "warning",
+            "include" : ".*\\\\foo\\\\.*",
+            "config": {
+                "entry": [
+                    ".*\\\\foo\\\\.*story\\.js",
+                    ".*\\\\foo\\\\\\.eslintrc\\.js",
+                    ".*\\\\foo\\\\.*spec\\.js",
+                    ".*\\\\foo\\\\.*test\\.js",
+                    ".*\\\\foo\\\\.*\\.md",
+                    ".*\\\\foo\\\\bar\\\\index\\.js",
+                    ".*\\\\foo\\\\baz\\\\index\\.js",
+                ]
+            }
+        }],
     }
 }
 

@@ -1,4 +1,6 @@
 import { readFile, parse } from './../utils';
+import { matchesRuleUsage } from './../rule';
+
 import {
     FileToData,
     FileToDependency,
@@ -16,22 +18,24 @@ const readFileData = (filePath: string): FileToData => {
     const ast = filePath.endsWith('.js') ? parse(contents) : null;
 
     return {
-        [filePath]: {
+        [filePath]: Object.freeze({
             contents,
             ast,
-        },
+        }),
     };
 };
 
 export const readFilesData = (files: string[]): FileToData => {
-    const result = files.reduce(
-        (acc, filePath) => {
-            return {
-                ...acc,
-                ...readFileData(filePath),
-            };
-        },
-        {} as FileToData,
+    const result = Object.freeze(
+        files.reduce(
+            (acc, filePath) => {
+                return {
+                    ...acc,
+                    ...readFileData(filePath),
+                };
+            },
+            {} as FileToData,
+        ),
     );
 
     return result;
@@ -71,7 +75,19 @@ const processRule = (
         return {};
     }
 
-    const ruleMessages = definition.onProject(ruleUsage.config, filesData, dependencies);
+    const reducedFilesData = Object.freeze(
+        Object.keys(filesData)
+            .filter(i => matchesRuleUsage(i, ruleUsage))
+            .reduce(
+                (acc, fileName) => ({
+                    ...acc,
+                    [fileName]: filesData[fileName],
+                }),
+                {} as FileToData,
+            ),
+    );
+
+    const ruleMessages = definition.onProject(ruleUsage.config, reducedFilesData, dependencies);
     const ruleApplicationResult = createRuleApplicationResult(messageType, ruleMessages);
 
     return ruleApplicationResult;

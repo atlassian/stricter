@@ -1,8 +1,11 @@
 import * as path from 'path';
 import { listFiles } from './../utils';
 import { Config, RuleApplications, RuleDefinition, RuleDefinitions, RuleUsage } from './../types';
+import { unusedFilesRule } from './default-rules';
 
-export const defaultRules: RuleDefinitions = {};
+export const defaultRules: RuleDefinitions = {
+    'stricter/unused-files': unusedFilesRule,
+};
 
 export const getRuleDefinitions = (config: Config): RuleDefinitions => {
     if (!config.rulesDir) {
@@ -75,7 +78,7 @@ const getRuleUsages = (ruleApplications: RuleApplications): RuleUsage[] => {
     );
 };
 
-const matchesRuleUsage = (filePath: string, ruleUsage: RuleUsage): boolean => {
+export const matchesRuleUsage = (filePath: string, ruleUsage: RuleUsage): boolean => {
     const matchesInclude = !ruleUsage.include || new RegExp(ruleUsage.include).test(filePath);
     const matchesExclude = ruleUsage.exclude && new RegExp(ruleUsage.exclude).test(filePath);
 
