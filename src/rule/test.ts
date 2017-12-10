@@ -16,7 +16,7 @@ describe('getRuleDefinitions', () => {
     });
 
     it('should throw if no onFile and onProject are provided', () => {
-        const filePath = 'filePath1';
+        const filePath = 'filePath1.js';
 
         const { listFiles } = require('./../utils');
         listFiles.mockReturnValue([filePath]);
@@ -36,7 +36,7 @@ describe('getRuleDefinitions', () => {
     });
 
     it('should throw if both onFile and onProject are provided', () => {
-        const filePath = 'filePath2';
+        const filePath = 'filePath2.js';
 
         const { listFiles } = require('./../utils');
         listFiles.mockReturnValue([filePath]);
@@ -63,7 +63,7 @@ describe('getRuleDefinitions', () => {
     });
 
     it('should add rule if onFile is provided', () => {
-        const filePath = 'filePath3';
+        const filePath = 'filePath3.js';
 
         const { listFiles } = require('./../utils');
         listFiles.mockReturnValue([filePath]);
@@ -89,7 +89,7 @@ describe('getRuleDefinitions', () => {
     });
 
     it('should add rule if onProject is provided', () => {
-        const filePath = 'filePath4';
+        const filePath = 'filePath4.js';
 
         const { listFiles } = require('./../utils');
         listFiles.mockReturnValue([filePath]);
@@ -115,8 +115,8 @@ describe('getRuleDefinitions', () => {
     });
 
     it('should add multiple rules', () => {
-        const filePath5 = 'filePath5';
-        const filePath6 = 'filePath6';
+        const filePath5 = 'filePath5.js';
+        const filePath6 = 'filePath6.js';
 
         const { listFiles } = require('./../utils');
         listFiles.mockReturnValue([filePath5, filePath6]);
@@ -145,6 +145,31 @@ describe('getRuleDefinitions', () => {
 
         const result = getRuleDefinitions(config);
         expect(result).toEqual({ ...defaultRules, [ruleName1]: rule1, [ruleName2]: rule2 });
+    });
+
+    it('should ignore .ts-files', () => {
+        const filePath = 'filePath7.ts';
+
+        const { listFiles } = require('./../utils');
+        listFiles.mockReturnValue([filePath]);
+
+        const rule = {
+            onProject: () => {},
+        };
+
+        jest.doMock(filePath, () => rule, { virtual: true });
+
+        const { basename } = require('path');
+        basename.mockReturnValue('ruleName');
+
+        const config = {
+            rulesDir: 'test',
+            root: 'root',
+            rules: {},
+        };
+
+        const result = getRuleDefinitions(config);
+        expect(result).toEqual({ ...defaultRules });
     });
 });
 

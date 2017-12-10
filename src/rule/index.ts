@@ -9,7 +9,7 @@ export const getRuleDefinitions = (config: Config): RuleDefinitions => {
         return defaultRules;
     }
 
-    const ruleFiles = listFiles(config.rulesDir);
+    const ruleFiles = listFiles(config.rulesDir).filter(i => i.endsWith('.js'));
     const customRules = ruleFiles.reduce(
         (acc, filePath: string) => {
             const ruleName = path.basename(filePath, path.extname(filePath));
