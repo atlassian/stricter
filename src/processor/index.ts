@@ -3,8 +3,11 @@ import {
     FileToData,
     FileToDependency,
     Level,
-    RuleToRuleApplicationResult,
+    RuleDefinition,
+    RuleUsage,
     RuleApplications,
+    RuleApplicationResult,
+    RuleToRuleApplicationResult,
 } from './../types';
 
 const readFileData = (filePath: string): FileToData => {
@@ -34,7 +37,10 @@ export const readFilesData = (files: string[]): FileToData => {
     return result;
 };
 
-const createRuleApplicationResult = (messageType: string, ruleMessages: string[]) => {
+const createRuleApplicationResult = (
+    messageType: string,
+    ruleMessages: string[],
+): RuleApplicationResult => {
     let result;
 
     switch (messageType) {
@@ -53,37 +59,59 @@ const createRuleApplicationResult = (messageType: string, ruleMessages: string[]
     return result;
 };
 
+const processRule = (
+    definition: RuleDefinition,
+    ruleUsage: RuleUsage,
+    filesData: FileToData,
+    dependencies: FileToDependency,
+) => {
+    const messageType = ruleUsage.level;
+
+    if (!messageType || Object.values(Level).indexOf(messageType) === -1) {
+        return {};
+    }
+
+    const ruleMessages = definition.onProject(ruleUsage.config, filesData, dependencies);
+    const ruleApplicationResult = createRuleApplicationResult(messageType, ruleMessages);
+
+    return ruleApplicationResult;
+};
+
 export const applyProjectRules = (
     filesData: FileToData,
     dependencies: FileToDependency,
     ruleApplications: RuleApplications,
 ): RuleToRuleApplicationResult => {
-    const result = Object.entries(ruleApplications)
-        .filter(([ruleName, ruleApplication]) => ruleApplication.definition.onProject)
-        .reduce(
-            (acc, [ruleName, ruleApplication]) => {
-                const ruleUsage = ruleApplication.usage;
-                const messageType = !Array.isArray(ruleUsage)
-                    ? ruleUsage.level
-                    : ruleUsage[0].level;
+    const result = Object.entries(ruleApplications).reduce(
+        (acc, [ruleName, ruleApplication]) => {
+            const usage = ruleApplication.usage;
+            const definition = ruleApplication.definition;
+            let ruleApplicationResult;
 
-                if (!messageType || Object.values(Level).indexOf(messageType) === -1) {
-                    return {};
-                }
+            if (Array.isArray(usage)) {
+                ruleApplicationResult = usage
+                    .map(usage => processRule(definition, usage, filesData, dependencies))
+                    .reduce(
+                        (acc, i) => ({
+                            errors: [...(acc.errors || []), ...(i.errors || [])],
+                            warnings: [...(acc.warnings || []), ...(i.warnings || [])],
+                        }),
+                        {
+                            errors: [],
+                            warnings: [],
+                        } as RuleApplicationResult,
+                    );
+            } else {
+                ruleApplicationResult = processRule(definition, usage, filesData, dependencies);
+            }
 
-                const ruleMessages = ruleApplication.definition.onProject(filesData, dependencies);
-                const ruleApplicationResult = createRuleApplicationResult(
-                    messageType,
-                    ruleMessages,
-                );
-
-                return {
-                    ...acc,
-                    [ruleName]: ruleApplicationResult,
-                };
-            },
-            {} as RuleToRuleApplicationResult,
-        );
+            return {
+                ...acc,
+                [ruleName]: ruleApplicationResult,
+            };
+        },
+        {} as RuleToRuleApplicationResult,
+    );
 
     return result;
 };

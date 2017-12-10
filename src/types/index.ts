@@ -10,10 +10,15 @@ export enum Level {
     ERROR = 'error',
 }
 
+export interface RuleUsageConfig {
+    [prop: string]: any;
+}
+
 export interface RuleUsage {
     include?: string;
     exclude?: string;
     level?: Level;
+    config?: RuleUsageConfig;
 }
 
 export interface Config {
@@ -47,7 +52,11 @@ export interface RuleToRuleApplicationResult {
 }
 
 export interface RuleDefinition {
-    onProject: (projectData: FileToData, dependencies: FileToDependency) => string[];
+    onProject: (
+        config: RuleUsageConfig | undefined,
+        projectData: FileToData,
+        dependencies: FileToDependency,
+    ) => string[];
 }
 
 export interface RuleDefinitions {

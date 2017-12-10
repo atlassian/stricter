@@ -4,6 +4,7 @@ const rule: RuleDefinition = require('./all-files-project');
 describe('consoleLogger', () => {
     it('runs warn for every warning', () => {
         const result = rule.onProject(
+            null,
             {
                 foo: {},
                 bar: {},
