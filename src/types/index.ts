@@ -24,12 +24,6 @@ export interface Config {
     };
 }
 
-export enum RuleRequirement {
-    NONE = 'none',
-    CONTENTS = 'contents',
-    AST = 'ast',
-}
-
 export interface FileData {
     ast?: any;
     contents?: string;
@@ -48,13 +42,7 @@ export interface RuleToRuleApplicationResult {
     [rule: string]: RuleApplicationResult;
 }
 
-export interface FileToRuleToRuleApplicationResult {
-    [filePath: string]: RuleToRuleApplicationResult;
-}
-
 export interface RuleDefinition {
-    requirement: RuleRequirement;
-    onFile: (fileData: FileData) => string[];
     onProject: (projectData: FileToData) => string[];
 }
 

@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { listFiles } from './../utils';
-import { Config, RuleApplications, RuleDefinition, RuleDefinitions } from './../types';
+import { Config, RuleApplications, RuleDefinition, RuleDefinitions, RuleUsage } from './../types';
 
 export const defaultRules: RuleDefinitions = {};
 
@@ -58,6 +58,36 @@ export const getRuleApplications = (
         },
         {} as RuleApplications,
     );
+
+    return result;
+};
+
+const getRuleUsages = (ruleApplications: RuleApplications): RuleUsage[] => {
+    return Object.values(ruleApplications).reduce(
+        (acc, i) => {
+            if (Array.isArray(i.usage)) {
+                return [...acc, ...i.usage];
+            }
+
+            return [...acc, i.usage];
+        },
+        [] as RuleUsage[],
+    );
+};
+
+const matchesRuleUsage = (filePath: string, ruleUsage: RuleUsage): boolean => {
+    const matchesInclude = !ruleUsage.include || new RegExp(ruleUsage.include).test(filePath);
+    const matchesExclude = ruleUsage.exclude && new RegExp(ruleUsage.exclude).test(filePath);
+
+    return matchesInclude && !matchesExclude;
+};
+
+export const filterFilesToProcess = (
+    files: string[],
+    ruleApplications: RuleApplications,
+): string[] => {
+    const ruleUsages = getRuleUsages(ruleApplications);
+    const result = files.filter(i => ruleUsages.some(j => matchesRuleUsage(i, j)));
 
     return result;
 };

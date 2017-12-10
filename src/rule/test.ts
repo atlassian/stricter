@@ -1,5 +1,4 @@
 import { getRuleDefinitions, getRuleApplications, defaultRules } from '.';
-import { RuleRequirement } from './../types';
 
 jest.mock('path');
 jest.mock('./../utils');
@@ -183,13 +182,11 @@ describe('getRuleApplications', () => {
         const rule1 = {
             onFile: () => [],
             onProject: () => [],
-            requirement: RuleRequirement.CONTENTS,
         };
 
         const rule2 = {
             onFile: () => [],
             onProject: () => [],
-            requirement: RuleRequirement.CONTENTS,
         };
 
         const ruleDefinitions = {
