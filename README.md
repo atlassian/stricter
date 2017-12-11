@@ -11,7 +11,7 @@ Stricter uses `stricter.config.js` to read configuration.
 The configuration file will be resolved starting from the current working directory location, and searching up the file tree until a config file is (or isn't) found.
 
 ## Sample configuration
-```
+```javascript
 module.exports = {
     "root": "src",
     "rulesDir": "rules",
@@ -21,7 +21,7 @@ module.exports = {
         },
         "stricter/unused-files": [{
             "level": "warning",
-            "include" : [/foo\.*/, "bar\.*/],
+            "include" : [/foo\.*/, /bar\.*/],
             "exclude" : (i) => i.includes('testFolder'),
             "config": {
                 "entry": [
@@ -30,8 +30,8 @@ module.exports = {
                     /foo\.*spec\.js/,
                     /foo\.*test\.js/,
                     /foo\.*\.md/,
-                    /foo\bar\index\.js/,
-                    /foo\baz\index\.js/,
+                    /foo\/bar\/index\.js/,
+                    /foo\/baz\/index\.js/,
                 ]
             }
         }],
@@ -53,7 +53,7 @@ module.exports = {
 
 # Custom rules
 A rule is a javascript module that exports an object that implements the following interface
-```
+```typescript
 interface RuleDefinition {
     onProject: (
         config: { [prop: string]: any; } | undefined,
@@ -78,7 +78,7 @@ interface RuleDefinition {
 # Debugging
 It helps to use `src/cli.ts` as an entry point for debugging.
 A sample launch.json for VS Code might look like
-```
+```json
 {
     "version": "0.2.0",
     "configurations": [
