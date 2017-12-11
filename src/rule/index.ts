@@ -7,24 +7,29 @@ export const defaultRules: RuleDefinitions = {
     'stricter/unused-files': unusedFilesRule,
 };
 
+export const RULE_SUFFIX = '.rule';
+
+const stripOutSuffix = (str: string): string => {
+    return str.substring(0, str.length - RULE_SUFFIX.length);
+};
+
 export const getRuleDefinitions = (config: Config): RuleDefinitions => {
     if (!config.rulesDir) {
         return defaultRules;
     }
 
-    const ruleFiles = listFiles(config.rulesDir).filter(i => i.endsWith('.js'));
+    const ruleFiles = listFiles(config.rulesDir).filter(i => i.endsWith(`${RULE_SUFFIX}.js`));
     const customRules = ruleFiles.reduce(
         (acc, filePath: string) => {
             const ruleName = path.basename(filePath, path.extname(filePath));
             const rule = require(filePath);
-
             if (!rule.onProject) {
                 throw new Error(`Rule ${ruleName} should have onProject.`);
             }
 
             return {
                 ...acc,
-                [ruleName]: rule as RuleDefinition,
+                [stripOutSuffix(ruleName)]: rule as RuleDefinition,
             };
         },
         {} as RuleDefinitions,
