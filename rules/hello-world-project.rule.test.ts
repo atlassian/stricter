@@ -1,8 +1,8 @@
 import { RuleDefinition } from '../src/types';
-const rule: RuleDefinition = require('./hello-world-project');
+const rule: RuleDefinition = require('./hello-world-project.rule');
 
-describe('consoleLogger', () => {
-    it('runs warn for every warning', () => {
+describe('hello-world-project rule', () => {
+    it('returns a preedefined string', () => {
         const result = rule.onProject(
             null,
             {

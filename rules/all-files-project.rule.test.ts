@@ -1,8 +1,8 @@
 import { RuleDefinition } from '../src/types';
-const rule: RuleDefinition = require('./all-files-project');
+const rule: RuleDefinition = require('./all-files-project.rule');
 
-describe('consoleLogger', () => {
-    it('runs warn for every warning', () => {
+describe('all-files-project rule', () => {
+    it('returns passed files', () => {
         const result = rule.onProject(
             null,
             {

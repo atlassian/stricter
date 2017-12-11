@@ -40,7 +40,9 @@ module.exports = {
 
 ```
 `root` - root folder for the project.
+
 `rulesDir` - folder, containing custom rules. Rule files need to follow naming convention `<rulename>.rule.js`. They will be available for configuration as `<rulename>`.
+
 `rules` - an object, containing configuration for rules:
   - `level` - `error | warning | off`, log level
   - `include` - `string | string[]`, regular expressions to match files
