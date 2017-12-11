@@ -15,7 +15,7 @@ describe('getRuleDefinitions', () => {
         expect(result).toEqual(defaultRules);
     });
 
-    it('should throw if no onFile and onProject are provided', () => {
+    it('should throw if no onProject is provided', () => {
         const filePath = 'filePath1.js';
 
         const { listFiles } = require('./../utils');
@@ -33,59 +33,6 @@ describe('getRuleDefinitions', () => {
         };
 
         expect(() => getRuleDefinitions(config)).toThrow();
-    });
-
-    it('should throw if both onFile and onProject are provided', () => {
-        const filePath = 'filePath2.js';
-
-        const { listFiles } = require('./../utils');
-        listFiles.mockReturnValue([filePath]);
-
-        jest.doMock(
-            filePath,
-            () => ({
-                onFile: () => {},
-                onProject: () => {},
-            }),
-            { virtual: true },
-        );
-
-        const { basename } = require('path');
-        basename.mockReturnValue('ruleName');
-
-        const config = {
-            rulesDir: 'test',
-            root: 'root',
-            rules: {},
-        };
-
-        expect(() => getRuleDefinitions(config)).toThrow();
-    });
-
-    it('should add rule if onFile is provided', () => {
-        const filePath = 'filePath3.js';
-
-        const { listFiles } = require('./../utils');
-        listFiles.mockReturnValue([filePath]);
-
-        const rule = {
-            onFile: () => {},
-        };
-
-        jest.doMock(filePath, () => rule, { virtual: true });
-
-        const { basename } = require('path');
-        const ruleName = 'ruleName';
-        basename.mockReturnValue(ruleName);
-
-        const config = {
-            rulesDir: 'test',
-            root: 'root',
-            rules: {},
-        };
-
-        const result = getRuleDefinitions(config);
-        expect(result).toEqual({ ...defaultRules, [ruleName]: rule });
     });
 
     it('should add rule if onProject is provided', () => {
@@ -205,12 +152,10 @@ describe('getRuleApplications', () => {
         };
 
         const rule1 = {
-            onFile: () => [],
             onProject: () => [],
         };
 
         const rule2 = {
-            onFile: () => [],
             onProject: () => [],
         };
 
