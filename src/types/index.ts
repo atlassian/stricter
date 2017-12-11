@@ -8,6 +8,7 @@ export interface CosmiConfig {
 export enum Level {
     WARNING = 'warning',
     ERROR = 'error',
+    OFF = 'off',
 }
 
 export interface RuleUsageConfig {

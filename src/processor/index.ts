@@ -53,6 +53,11 @@ const createRuleApplicationResult = (
                 errors: ruleMessages,
             };
             break;
+        case Level.OFF:
+            result = {
+                errors: [],
+            };
+            break;
         case Level.WARNING:
         default:
             result = {
@@ -69,10 +74,10 @@ const processRule = (
     filesData: FileToData,
     dependencies: FileToDependency,
 ) => {
-    const messageType = ruleUsage.level;
+    let messageType = ruleUsage.level;
 
     if (!messageType || Object.values(Level).indexOf(messageType) === -1) {
-        return {};
+        messageType = Level.WARNING;
     }
 
     const reducedFilesData = Object.freeze(
