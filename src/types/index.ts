@@ -15,8 +15,8 @@ export interface RuleUsageConfig {
 }
 
 export interface RuleUsage {
-    include?: string;
-    exclude?: string;
+    include?: string | string[];
+    exclude?: string | string[];
     level?: Level;
     config?: RuleUsageConfig;
 }
