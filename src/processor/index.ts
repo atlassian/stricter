@@ -13,13 +13,13 @@ import {
 } from './../types';
 
 const readFileData = (filePath: string): FileToData => {
-    const contents = readFile(filePath);
+    const source = readFile(filePath);
     // We parse .js-files only at the moment
-    const ast = filePath.endsWith('.js') ? parse(contents) : null;
+    const ast = filePath.endsWith('.js') ? parse(source) : null;
 
     return {
         [filePath]: Object.freeze({
-            contents,
+            source,
             ast,
         }),
     };
