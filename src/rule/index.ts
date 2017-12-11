@@ -92,19 +92,25 @@ const checkForRegex = (setting: string | string[], filePath: string) => {
     return false;
 };
 
-export const matchesRuleUsage = (filePath: string, ruleUsage: RuleUsage): boolean => {
-    const matchesInclude = !ruleUsage.include || checkForRegex(ruleUsage.include, filePath);
-    const matchesExclude = ruleUsage.exclude && checkForRegex(ruleUsage.exclude, filePath);
+export const matchesRuleUsage = (
+    directory: string,
+    filePath: string,
+    ruleUsage: RuleUsage,
+): boolean => {
+    const relativePath = filePath.replace(directory + path.sep, '');
+    const matchesInclude = !ruleUsage.include || checkForRegex(ruleUsage.include, relativePath);
+    const matchesExclude = ruleUsage.exclude && checkForRegex(ruleUsage.exclude, relativePath);
 
     return matchesInclude && !matchesExclude;
 };
 
 export const filterFilesToProcess = (
+    directory: string,
     files: string[],
     ruleApplications: RuleApplications,
 ): string[] => {
     const ruleUsages = getRuleUsages(ruleApplications);
-    const result = files.filter(i => ruleUsages.some(j => matchesRuleUsage(i, j)));
+    const result = files.filter(i => ruleUsages.some(j => matchesRuleUsage(directory, i, j)));
 
     return result;
 };

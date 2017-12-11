@@ -21,17 +21,17 @@ module.exports = {
         },
         "stricter/unused-files": [{
             "level": "warning",
-            "include" : [".*\\\\foo\\\\.*", ".*\\\\bar\\\\.*"],
-            "exclude" : [".*\\\\baz\\\\.*"],
+            "include" : ["foo\\\\.*", "bar\\\\.*"],
+            "exclude" : ["baz\\\\.*"],
             "config": {
                 "entry": [
-                    ".*\\\\foo\\\\.*story\\.js",
-                    ".*\\\\foo\\\\\\.eslintrc\\.js",
-                    ".*\\\\foo\\\\.*spec\\.js",
-                    ".*\\\\foo\\\\.*test\\.js",
-                    ".*\\\\foo\\\\.*\\.md",
-                    ".*\\\\foo\\\\bar\\\\index\\.js",
-                    ".*\\\\foo\\\\baz\\\\index\\.js",
+                    "foo\\\\.*story\\.js",
+                    "foo\\\\\\.eslintrc\\.js",
+                    "foo\\\\.*spec\\.js",
+                    "foo\\\\.*test\\.js",
+                    "foo\\\\.*\\.md",
+                    "foo\\\\bar\\\\index\\.js",
+                    "foo\\\\baz\\\\index\\.js",
                 ]
             }
         }],
@@ -45,8 +45,8 @@ module.exports = {
 
 `rules` - an object, containing configuration for rules:
   - `level` - `error | warning | off`, log level
-  - `include` - `string | string[]`, regular expressions to match files
-  - `exclude` - `string | string[]`, regular expressions to exclude from matched files
+  - `include` - `string | string[]`, regular expressions to match files, uses relative path from root
+  - `exclude` - `string | string[]`, regular expressions to exclude from matched files, uses relative path from root
   - `config` - `any`, config to be passed into rule
   
 

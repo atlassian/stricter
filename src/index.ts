@@ -11,11 +11,11 @@ export default (): number => {
 
     const ruleDefinitions = getRuleDefinitions(config);
     const ruleApplications = getRuleApplications(config, ruleDefinitions);
-    const filesToProcess = filterFilesToProcess(fileList, ruleApplications);
+    const filesToProcess = filterFilesToProcess(config.root, fileList, ruleApplications);
 
     const filesData = readFilesData(filesToProcess);
     const dependencies = readDependencies(filesData, config);
-    const projectResult = applyProjectRules(filesData, dependencies, ruleApplications);
+    const projectResult = applyProjectRules(config.root, filesData, dependencies, ruleApplications);
 
     return consoleLogger(projectResult);
 };

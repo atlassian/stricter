@@ -69,20 +69,15 @@ const createRuleApplicationResult = (
 };
 
 const processRule = (
+    directory: string,
     definition: RuleDefinition,
     ruleUsage: RuleUsage,
     filesData: FileToData,
     dependencies: FileToDependency,
 ) => {
-    let messageType = ruleUsage.level;
-
-    if (!messageType || Object.values(Level).indexOf(messageType) === -1) {
-        messageType = Level.WARNING;
-    }
-
     const reducedFilesData = Object.freeze(
         Object.keys(filesData)
-            .filter(i => matchesRuleUsage(i, ruleUsage))
+            .filter(i => matchesRuleUsage(directory, i, ruleUsage))
             .reduce(
                 (acc, fileName) => ({
                     ...acc,
@@ -93,38 +88,43 @@ const processRule = (
     );
 
     const ruleMessages = definition.onProject(ruleUsage.config, reducedFilesData, dependencies);
+    let messageType = ruleUsage.level;
+
+    if (!messageType || Object.values(Level).indexOf(messageType) === -1) {
+        messageType = Level.WARNING;
+    }
+
     const ruleApplicationResult = createRuleApplicationResult(messageType, ruleMessages);
 
     return ruleApplicationResult;
 };
 
 export const applyProjectRules = (
+    directory: string,
     filesData: FileToData,
     dependencies: FileToDependency,
     ruleApplications: RuleApplications,
 ): RuleToRuleApplicationResult => {
     const result = Object.entries(ruleApplications).reduce(
         (acc, [ruleName, ruleApplication]) => {
-            const usage = ruleApplication.usage;
+            const usage = Array.isArray(ruleApplication.usage)
+                ? ruleApplication.usage
+                : [ruleApplication.usage];
             const definition = ruleApplication.definition;
             let ruleApplicationResult;
 
-            if (Array.isArray(usage)) {
-                ruleApplicationResult = usage
-                    .map(usage => processRule(definition, usage, filesData, dependencies))
-                    .reduce(
-                        (acc, i) => ({
-                            errors: [...(acc.errors || []), ...(i.errors || [])],
-                            warnings: [...(acc.warnings || []), ...(i.warnings || [])],
-                        }),
-                        {
-                            errors: [],
-                            warnings: [],
-                        } as RuleApplicationResult,
-                    );
-            } else {
-                ruleApplicationResult = processRule(definition, usage, filesData, dependencies);
-            }
+            ruleApplicationResult = usage
+                .map(usage => processRule(directory, definition, usage, filesData, dependencies))
+                .reduce(
+                    (acc, i) => ({
+                        errors: [...(acc.errors || []), ...(i.errors || [])],
+                        warnings: [...(acc.warnings || []), ...(i.warnings || [])],
+                    }),
+                    {
+                        errors: [],
+                        warnings: [],
+                    } as RuleApplicationResult,
+                );
 
             return {
                 ...acc,
