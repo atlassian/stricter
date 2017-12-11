@@ -16,8 +16,8 @@ export interface RuleUsageConfig {
 }
 
 export interface RuleUsage {
-    include?: string | string[];
-    exclude?: string | string[];
+    include?: RegExp | RegExp[] | Function;
+    exclude?: RegExp | RegExp[] | Function;
     level?: Level;
     config?: RuleUsageConfig;
 }

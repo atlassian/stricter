@@ -10,9 +10,10 @@ export const unusedFilesRule: RuleDefinition = {
             return [];
         }
 
-        const entryPointRe: RegExp[] = config.entry.map((i: string) => new RegExp(i));
         const fileList = Object.keys(projectData);
-        const stack = fileList.filter(i => entryPointRe.some(j => j.test(i)));
+        const stack = fileList.filter(i =>
+            config.entry.some((j: RegExp[] | Function) => checkForMatch(j, i)),
+        );
         const seen: { [prop: string]: boolean } = {};
 
         while (stack.length) {
@@ -27,4 +28,14 @@ export const unusedFilesRule: RuleDefinition = {
 
         return unusedFiles;
     },
+};
+
+const checkForMatch = (setting: RegExp[] | Function, filePath: string) => {
+    if (typeof setting === 'function') {
+        return setting(filePath);
+    }
+
+    const regexSetting = Array.isArray(setting) ? setting : [setting];
+
+    return regexSetting.some(i => i.test(filePath));
 };

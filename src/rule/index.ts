@@ -80,16 +80,14 @@ const getRuleUsages = (ruleApplications: RuleApplications): RuleUsage[] => {
     );
 };
 
-const checkForRegex = (setting: string | string[], filePath: string) => {
-    if (typeof setting === 'string') {
-        return new RegExp(setting).test(filePath);
+const checkForMatch = (setting: RegExp | RegExp[] | Function, filePath: string) => {
+    if (typeof setting === 'function') {
+        return setting(filePath);
     }
 
-    if (Array.isArray(setting)) {
-        return setting.some(i => new RegExp(i).test(filePath));
-    }
+    const regexSetting = Array.isArray(setting) ? setting : [setting];
 
-    return false;
+    return regexSetting.some(i => i.test(filePath));
 };
 
 export const matchesRuleUsage = (
@@ -98,8 +96,8 @@ export const matchesRuleUsage = (
     ruleUsage: RuleUsage,
 ): boolean => {
     const relativePath = filePath.replace(directory + path.sep, '');
-    const matchesInclude = !ruleUsage.include || checkForRegex(ruleUsage.include, relativePath);
-    const matchesExclude = ruleUsage.exclude && checkForRegex(ruleUsage.exclude, relativePath);
+    const matchesInclude = !ruleUsage.include || checkForMatch(ruleUsage.include, relativePath);
+    const matchesExclude = ruleUsage.exclude && checkForMatch(ruleUsage.exclude, relativePath);
 
     return matchesInclude && !matchesExclude;
 };
