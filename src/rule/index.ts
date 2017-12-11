@@ -80,9 +80,21 @@ const getRuleUsages = (ruleApplications: RuleApplications): RuleUsage[] => {
     );
 };
 
+const checkForRegex = (setting: string | string[], filePath: string) => {
+    if (typeof setting === 'string') {
+        return new RegExp(setting).test(filePath);
+    }
+
+    if (Array.isArray(setting)) {
+        return setting.some(i => new RegExp(i).test(filePath));
+    }
+
+    return false;
+};
+
 export const matchesRuleUsage = (filePath: string, ruleUsage: RuleUsage): boolean => {
-    const matchesInclude = !ruleUsage.include || new RegExp(ruleUsage.include).test(filePath);
-    const matchesExclude = ruleUsage.exclude && new RegExp(ruleUsage.exclude).test(filePath);
+    const matchesInclude = !ruleUsage.include || checkForRegex(ruleUsage.include, filePath);
+    const matchesExclude = ruleUsage.exclude && checkForRegex(ruleUsage.exclude, filePath);
 
     return matchesInclude && !matchesExclude;
 };
