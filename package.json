@@ -55,7 +55,7 @@
         "jest": "^21.2.1",
         "prettier": "^1.9.1",
         "ts-jest": "^21.2.4",
-        "ts-node": "^3.3.0",
+        "ts-node": "^4.0.0",
         "tslint": "^5.8.0",
         "tslint-config-airbnb": "^5.4.2",
         "tslint-config-prettier": "^1.6.0",
