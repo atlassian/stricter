@@ -31,7 +31,7 @@ export interface Config {
 }
 
 export interface FileData {
-    ast?: any;
+    ast?: () => any;
     source?: string;
 }
 

@@ -10,7 +10,7 @@ A project-wide js-linting tool
 Stricter uses `stricter.config.js` to read configuration.
 The configuration file will be resolved starting from the current working directory location, and searching up the file tree until a config file is (or isn't) found.
 
-# Basic Configuration
+## Sample configuration
 ```
 module.exports = {
     "root": "src",
@@ -39,6 +39,8 @@ module.exports = {
 }
 
 ```
+
+## Description
 `root` - root folder for the project.
 
 `rulesDir` - folder, containing custom rules. Rule files need to follow naming convention `<rulename>.rule.js`. They will be available for configuration as `<rulename>`.
@@ -48,8 +50,30 @@ module.exports = {
   - `include` - `RegExp | RegExp[] | Function`, regular expressions to match files, uses relative path from root or function accepting relative path and returning boolean
   - `exclude` - `RegExp | RegExp[] | Function`, regular expressions to exclude from matched files, uses relative path from root or function accepting relative path and returning boolean
   - `config` - `any`, config to be passed into rule
-  
 
+# Custom rules
+A rule is a javascript module that exports an object that implements the following interface
+```
+interface RuleDefinition {
+    onProject: (
+        config: { [prop: string]: any; } | undefined,
+        projectData: {
+            [fileName: string]: {
+                ast?: () => any;
+                source?: string;
+            };
+        },
+        dependencies: {
+            [fileName: string]: string[];
+        },
+    ) => string[];
+}
+```
+`onProject` will be called once with `projectData` and `dependencies` calculated for current project.
+
+`config` is an optional object that may be specifified in configuration.
+
+`onProject` should return an array of strings, describing violations, or an empty array if there is none.
 
 # Debugging
 It helps to use `src/cli.ts` as an entry point for debugging.

@@ -7,7 +7,11 @@ export default (filesData: FileToData, config: Config): FileToDependency => {
     const root = config.root;
     const result = Object.entries(filesData).reduce(
         (acc, [filePath, data]) => {
-            const imports = getImports(data.ast);
+            if (!data.ast) {
+                return acc;
+            }
+
+            const imports = getImports(data.ast());
             const dependencies = imports
                 .map(i => extractPathFromImportString(i, filePath, [root]))
                 .filter(i => i) as string[];
