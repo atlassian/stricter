@@ -1,4 +1,4 @@
-import { getRuleDefinitions, getRuleApplications, defaultRules } from '.';
+import { getRuleDefinitions, getRuleApplications, defaultRules, RULE_SUFFIX } from '.';
 
 jest.mock('path');
 jest.mock('./../utils');
@@ -16,7 +16,7 @@ describe('getRuleDefinitions', () => {
     });
 
     it('should throw if no onProject is provided', () => {
-        const filePath = 'filePath1.js';
+        const filePath = `filePath1${RULE_SUFFIX}.js`;
 
         const { listFiles } = require('./../utils');
         listFiles.mockReturnValue([filePath]);
@@ -36,7 +36,7 @@ describe('getRuleDefinitions', () => {
     });
 
     it('should add rule if onProject is provided', () => {
-        const filePath = 'filePath4.js';
+        const filePath = `filePath4${RULE_SUFFIX}.js`;
 
         const { listFiles } = require('./../utils');
         listFiles.mockReturnValue([filePath]);
@@ -49,7 +49,7 @@ describe('getRuleDefinitions', () => {
 
         const { basename } = require('path');
         const ruleName = 'ruleName';
-        basename.mockReturnValue(ruleName);
+        basename.mockReturnValue(`${ruleName}${RULE_SUFFIX}`);
 
         const config = {
             rulesDir: 'test',
@@ -62,8 +62,8 @@ describe('getRuleDefinitions', () => {
     });
 
     it('should add multiple rules', () => {
-        const filePath5 = 'filePath5.js';
-        const filePath6 = 'filePath6.js';
+        const filePath5 = `filePath5${RULE_SUFFIX}.js`;
+        const filePath6 = `filePath6${RULE_SUFFIX}.js`;
 
         const { listFiles } = require('./../utils');
         listFiles.mockReturnValue([filePath5, filePath6]);
@@ -82,7 +82,9 @@ describe('getRuleDefinitions', () => {
         const { basename } = require('path');
         const ruleName1 = 'ruleName1';
         const ruleName2 = 'ruleName2';
-        basename.mockReturnValueOnce(ruleName1).mockReturnValueOnce(ruleName2);
+        basename
+            .mockReturnValueOnce(`${ruleName1}${RULE_SUFFIX}`)
+            .mockReturnValueOnce(`${ruleName2}${RULE_SUFFIX}`);
 
         const config = {
             rulesDir: 'test',
@@ -94,17 +96,19 @@ describe('getRuleDefinitions', () => {
         expect(result).toEqual({ ...defaultRules, [ruleName1]: rule1, [ruleName2]: rule2 });
     });
 
-    it('should ignore .ts-files', () => {
-        const filePath = 'filePath7.ts';
+    it(`should ignore all files except for those that end with "${RULE_SUFFIX}.js"`, () => {
+        const filePath7 = 'filePath7.ts';
+        const filePath8 = 'filePath8.js';
 
         const { listFiles } = require('./../utils');
-        listFiles.mockReturnValue([filePath]);
+        listFiles.mockReturnValue([filePath7, filePath8]);
 
         const rule = {
             onProject: () => {},
         };
 
-        jest.doMock(filePath, () => rule, { virtual: true });
+        jest.doMock(filePath7, () => rule, { virtual: true });
+        jest.doMock(filePath8, () => rule, { virtual: true });
 
         const { basename } = require('path');
         basename.mockReturnValue('ruleName');
