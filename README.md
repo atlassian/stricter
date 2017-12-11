@@ -7,28 +7,22 @@
 A project-wide js-linting tool
 
 # Configuration
-Stricter uses [cosmiconfig](https://github.com/davidtheclark/cosmiconfig) for configuration. You can provide configuration via
-- .stricterrc file, written in YAML or JSON, with optional extensions: .yaml/.yml/.json/.js.
-- stricter.config.js file that exports an object.
-- "stricter" key in your package.json file.
-
+Stricter uses `stricter.config.js` to read configuration.
 The configuration file will be resolved starting from the current working directory location, and searching up the file tree until a config file is (or isn't) found.
 
 # Basic Configuration
 ```
-{
+module.exports = {
     "root": "src",
     "rulesDir": "rules",
     "rules": {
         "hello-world-project": {
             "level": "error"
         },
-        "all-files-project": {
-            "level": "warning"
-        },
         "stricter/unused-files": [{
             "level": "warning",
-            "include" : ".*\\\\foo\\\\.*",
+            "include" : [".*\\\\foo\\\\.*", ".*\\\\bar\\\\.*"],
+            "exclude" : [".*\\\\baz\\\\.*"],
             "config": {
                 "entry": [
                     ".*\\\\foo\\\\.*story\\.js",
@@ -45,6 +39,14 @@ The configuration file will be resolved starting from the current working direct
 }
 
 ```
+`root` - root folder for the project.
+`rulesDir` - folder, containing custom rules. Rule files need to follow naming convention `<rulename>.rule.js`. They will be available for configuration as `<rulename>`.
+`rules` - an object, containing configuration for rules:
+  - `level` - `error | warning | off`, log level
+  - `include` - `string | string[]`, regular expressions to match files
+  - `exclude` - `string | string[]`, regular expressions to exclude from matched files
+  - `config` - `any`, config to be passed into rule
+  
 
 
 # Debugging
