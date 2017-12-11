@@ -5,10 +5,16 @@ import { compactProjectLogs } from './flatten';
 
 export const consoleLogger = (projectResult: RuleToRuleApplicationResult): number => {
     const projectLogs = compactProjectLogs(projectResult);
+
     if (projectLogs.length) {
         console.log(chalk.bgBlackBright('Project'));
         logToConsole(projectLogs);
     }
 
-    return projectLogs.length;
+    const errorCount = Object.values(projectLogs).reduce(
+        (acc, i) => acc + ((i.errors && i.errors.length) || 0),
+        0,
+    );
+
+    return errorCount;
 };
