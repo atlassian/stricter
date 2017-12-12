@@ -12,9 +12,9 @@ export default (filesData: FileToData, config: Config): FileToDependency => {
             }
 
             const imports = getImports(data.ast());
-            const dependencies = imports
-                .map(i => extractPathFromImportString(i, filePath, [root], config.extensions))
-                .filter(i => i) as string[];
+            const dependencies = imports.map(i =>
+                extractPathFromImportString(i, filePath, [root], config.extensions),
+            );
 
             return {
                 ...acc,
@@ -82,12 +82,12 @@ const extractPathFromImportString = (
     filePath: string,
     resolveRoots: string[],
     extensions?: string[],
-): string | undefined => {
+): string => {
     const potentialImportPaths = importString.startsWith('.')
         ? [path.resolve(filePath, '..', importString)]
         : resolveRoots.map(i => path.resolve(i, importString));
 
-    const result = resolveImport(potentialImportPaths, extensions);
+    const result = resolveImport(potentialImportPaths, extensions) || importString;
 
     return result;
 };
