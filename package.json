@@ -1,6 +1,6 @@
 {
     "name": "stricter",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "description": "A project-wide js-linting tool",
     "files": [
         "LICENSE",
@@ -48,12 +48,12 @@
     "devDependencies": {
         "@types/chalk": "^2.2.0",
         "@types/jest": "^21.1.8",
-        "@types/node": "^8.0.57",
+        "@types/node": "^8.0.58",
         "cross-env": "^5.1.1",
         "fuse-box": "^2.4.0",
         "fuse-box-typechecker": "^2.6.3",
         "jest": "^21.2.1",
-        "prettier": "^1.9.1",
+        "prettier": "^1.9.2",
         "ts-jest": "^21.2.4",
         "ts-node": "^4.0.0",
         "tslint": "^5.8.0",
