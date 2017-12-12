@@ -62,7 +62,6 @@ const resolveImport = (
     extensions?: string[],
 ): string | undefined => {
     const extensionsToAdd = ['js', ...(extensions || [])];
-    console.log(extensionsToAdd);
     const result = potentialImportPaths
         .reduce(
             (acc, importPath) => [

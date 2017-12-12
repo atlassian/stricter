@@ -26,13 +26,15 @@ module.exports = {
             exclude : (i) => i.includes('testFolder'),
             config: {
                 entry: [
-                    /foo\.*story\.js/,
                     /foo\.eslintrc\.js/,
-                    /foo\.*spec\.js/,
-                    /foo\.*test\.js/,
                     /foo\.*\.md/,
                     /foo\/bar\/index\.js/,
                     /foo\/baz\/index\.js/,
+                ],
+                relatedEntry: [
+                    /foo\.*spec\.js/,
+                    /foo\.*test\.js/,
+                    /foo\.*story\.js/,
                 ]
             }
         }],
