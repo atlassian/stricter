@@ -5,6 +5,7 @@ import { consoleLogger } from './logger';
 import { listFiles } from './utils';
 
 export default (): number => {
+    console.log('Stricter: Checking...');
     const config = getConfig();
 
     const fileList = listFiles(config.root);
@@ -17,5 +18,11 @@ export default (): number => {
     const dependencies = readDependencies(filesData, config);
     const projectResult = applyProjectRules(config.root, filesData, dependencies, ruleApplications);
 
-    return consoleLogger(projectResult);
+    const result = consoleLogger(projectResult);
+
+    if (result === 0) {
+        console.log('Stricter: No errors');
+    }
+
+    return result;
 };
