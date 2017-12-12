@@ -6,6 +6,17 @@
 
 A project-wide js-linting tool
 
+# Installation
+
+```
+yarn add stricter --dev
+```
+
+# Usage
+```
+yarn stricter
+```
+
 # Configuration
 Stricter uses `stricter.config.js` to read configuration.
 The configuration file will be resolved starting from the current working directory location, and searching up the file tree until a config file is (or isn't) found.
