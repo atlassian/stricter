@@ -13,7 +13,7 @@ export default (filesData: FileToData, config: Config): FileToDependency => {
 
             const imports = getImports(data.ast());
             const dependencies = imports
-                .map(i => extractPathFromImportString(i, filePath, [root]))
+                .map(i => extractPathFromImportString(i, filePath, [root], config.extensions))
                 .filter(i => i) as string[];
 
             return {
@@ -57,13 +57,18 @@ const getImports = (ast: any) => {
     return [...staticImports, ...dynamicImports];
 };
 
-const resolveImport = (potentialImportPaths: string[]): string | undefined => {
+const resolveImport = (
+    potentialImportPaths: string[],
+    extensions?: string[],
+): string | undefined => {
+    const extensionsToAdd = ['js', ...(extensions || [])];
+    console.log(extensionsToAdd);
     const result = potentialImportPaths
         .reduce(
             (acc, importPath) => [
                 ...acc,
                 path.join(importPath, 'index.js'),
-                importPath + '.js',
+                ...extensionsToAdd.map(i => `${importPath}.${i}`),
                 importPath,
             ],
             [] as string[],
@@ -77,12 +82,13 @@ const extractPathFromImportString = (
     importString: string,
     filePath: string,
     resolveRoots: string[],
+    extensions?: string[],
 ): string | undefined => {
     const potentialImportPaths = importString.startsWith('.')
         ? [path.resolve(filePath, '..', importString)]
         : resolveRoots.map(i => path.resolve(i, importString));
 
-    const result = resolveImport(potentialImportPaths);
+    const result = resolveImport(potentialImportPaths, extensions);
 
     return result;
 };

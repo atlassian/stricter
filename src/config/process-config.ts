@@ -21,5 +21,9 @@ export default (foundConfig: CosmiConfig): Config => {
         result.rules = config.rules;
     }
 
+    if (config.extensions) {
+        result.extensions = config.extensions;
+    }
+
     return result;
 };

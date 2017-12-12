@@ -25,6 +25,7 @@ export interface RuleUsage {
 export interface Config {
     root: string;
     rulesDir?: string;
+    extensions?: string[];
     rules: {
         [ruleName: string]: RuleUsage | RuleUsage[];
     };

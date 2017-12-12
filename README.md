@@ -13,18 +13,19 @@ The configuration file will be resolved starting from the current working direct
 ## Sample configuration
 ```javascript
 module.exports = {
-    "root": "src",
-    "rulesDir": "rules",
-    "rules": {
-        "hello-world-project": {
-            "level": "error"
+    root: 'src',
+    rulesDir: 'rules',
+    extensions: ['json'],
+    rules: {
+        'hello-world-project': {
+            level: 'error'
         },
-        "stricter/unused-files": [{
-            "level": "warning",
-            "include" : [/foo\.*/, /bar\.*/],
-            "exclude" : (i) => i.includes('testFolder'),
-            "config": {
-                "entry": [
+        'stricter/unused-files': [{
+            level: 'warning',
+            include : [/foo\.*/, /bar\.*/],
+            exclude : (i) => i.includes('testFolder'),
+            config: {
+                entry: [
                     /foo\.*story\.js/,
                     /foo\.eslintrc\.js/,
                     /foo\.*spec\.js/,
@@ -44,6 +45,8 @@ module.exports = {
 `root` - root folder for the project.
 
 `rulesDir` - folder, containing custom rules. Rule files need to follow naming convention `<rulename>.rule.js`. They will be available for configuration as `<rulename>`.
+
+`extensions` - an optional array of implicit extensions. `js` is always added by default. 
 
 `rules` - an object, containing configuration for rules:
   - `level` - `error | warning | off`, log level
