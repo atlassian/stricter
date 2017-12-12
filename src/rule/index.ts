@@ -23,6 +23,7 @@ export const getRuleDefinitions = (config: Config): RuleDefinitions => {
         (acc, filePath: string) => {
             const ruleName = path.basename(filePath, path.extname(filePath));
             const rule = require(filePath);
+
             if (!rule.onProject) {
                 throw new Error(`Rule ${ruleName} should have onProject.`);
             }

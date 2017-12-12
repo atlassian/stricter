@@ -3,14 +3,14 @@ const rule: RuleDefinition = require('./hello-world-project.rule');
 
 describe('hello-world-project rule', () => {
     it('returns a preedefined string', () => {
-        const result = rule.onProject(
-            null,
-            {
+        const result = rule.onProject({
+            files: {
                 foo: {},
                 bar: {},
             },
-            null,
-        );
+            dependencies: null,
+            rootPath: null,
+        });
 
         expect(result).toEqual(['Hello stricter world']);
     });

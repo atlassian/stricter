@@ -3,14 +3,14 @@ const rule: RuleDefinition = require('./all-files-project.rule');
 
 describe('all-files-project rule', () => {
     it('returns passed files', () => {
-        const result = rule.onProject(
-            null,
-            {
+        const result = rule.onProject({
+            files: {
                 foo: {},
                 bar: {},
             },
-            null,
-        );
+            dependencies: null,
+            rootPath: null,
+        });
 
         expect(result).toEqual(['foo', 'bar']);
     });

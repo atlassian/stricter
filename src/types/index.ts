@@ -52,12 +52,14 @@ export interface RuleToRuleApplicationResult {
     [rule: string]: RuleApplicationResult;
 }
 
+export interface OnProjectArgument {
+    config?: RuleUsageConfig;
+    dependencies: FileToDependency;
+    files: FileToData;
+    rootPath: string;
+}
 export interface RuleDefinition {
-    onProject: (
-        config: RuleUsageConfig | undefined,
-        projectData: FileToData,
-        dependencies: FileToDependency,
-    ) => string[];
+    onProject: (args: OnProjectArgument) => string[];
 }
 
 export interface RuleDefinitions {

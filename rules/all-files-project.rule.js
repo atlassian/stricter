@@ -1,3 +1,6 @@
 module.exports = {
-    onProject: (config, filesData) => Object.keys(filesData),
+    onProject: ({ files }) => Object.keys(files),
 };
+
+
+

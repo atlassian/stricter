@@ -55,21 +55,24 @@ module.exports = {
 A rule is a javascript module that exports an object that implements the following interface
 ```typescript
 interface RuleDefinition {
-    onProject: (
-        config: { [prop: string]: any; } | undefined,
-        projectData: {
+    onProject: ({
+        config?: { [prop: string]: any; };
+        dependencies: {
+            [fileName: string]: string[];
+        };
+        files: {
             [fileName: string]: {
                 ast?: () => any;
                 source?: string;
             };
-        },
-        dependencies: {
-            [fileName: string]: string[];
-        },
-    ) => string[];
+        };
+        rootPath: string;
+    }) => string[];
 }
 ```
-`onProject` will be called once with `projectData` and `dependencies` calculated for current project.
+`onProject` will be called once with `files` and `dependencies` calculated for current project.
+
+`rootPath` is an absolute path to project root.
 
 `config` is an optional object that may be specifified in configuration.
 

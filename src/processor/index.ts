@@ -87,7 +87,12 @@ const processRule = (
             ),
     );
 
-    const ruleMessages = definition.onProject(ruleUsage.config, reducedFilesData, dependencies);
+    const ruleMessages = definition.onProject({
+        dependencies,
+        config: ruleUsage.config,
+        files: reducedFilesData,
+        rootPath: directory,
+    });
     let messageType = ruleUsage.level;
 
     if (!messageType || Object.values(Level).indexOf(messageType) === -1) {

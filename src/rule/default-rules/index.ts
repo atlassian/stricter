@@ -1,16 +1,12 @@
-import { FileToData, FileToDependency, RuleDefinition, RuleUsageConfig } from './../../types';
+import { OnProjectArgument, RuleDefinition } from './../../types';
 
 export const unusedFilesRule: RuleDefinition = {
-    onProject: (
-        config: RuleUsageConfig,
-        projectData: FileToData,
-        dependencies: FileToDependency,
-    ) => {
-        if (!config.entry || !Array.isArray(config.entry)) {
+    onProject: ({ config, dependencies, files }: OnProjectArgument) => {
+        if (!config || !config.entry || !Array.isArray(config.entry)) {
             return [];
         }
 
-        const fileList = Object.keys(projectData);
+        const fileList = Object.keys(files);
         const stack = fileList.filter(i =>
             config.entry.some((j: RegExp[] | Function) => checkForMatch(j, i)),
         );
