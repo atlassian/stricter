@@ -3,8 +3,9 @@ import { CosmiConfig } from './../types';
 
 const moduleName = 'stricter';
 
-export default (): CosmiConfig => {
+export default (configPath?: string): CosmiConfig => {
     const explorer = cosmiconfig(moduleName, {
+        configPath,
         sync: true,
         packageProp: false,
         rc: false,

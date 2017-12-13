@@ -11,6 +11,11 @@ export enum Level {
     OFF = 'off',
 }
 
+export enum Reporter {
+    CONSOLE = 'console',
+    MOCHA = 'mocha',
+}
+
 export interface RuleUsageConfig {
     [prop: string]: any;
 }
@@ -81,8 +86,13 @@ export interface FileToRule {
 }
 
 export interface LogEntry {
-    filePath?: string;
     rule: string;
     errors?: string[];
     warnings?: string[];
+}
+
+export interface StricterArguments {
+    silent?: boolean;
+    configPath?: string;
+    reporter?: Reporter;
 }

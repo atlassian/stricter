@@ -1,7 +1,8 @@
 const FuseBox = require('fuse-box').FuseBox;
-const { TypeScriptHelpers } = require('fuse-box');
+const { ReplacePlugin , TypeScriptHelpers } = require('fuse-box');
 const TypeHelper = require('fuse-box-typechecker').TypeHelper;
 const isProduction = process.env.NODE_ENV === 'production';
+const version = require('./package.json').version;
 
 const typeHelper = TypeHelper({
     tsConfig: './tsconfig.json',
@@ -16,7 +17,12 @@ const fuse = FuseBox.init({
         name: 'stricter',
         entry: 'src/index.js',
     },
-    plugins: [TypeScriptHelpers()],
+    plugins: [
+        ReplacePlugin({
+            'process.env.STRICTER_VERSION': JSON.stringify(version),
+        }),
+        TypeScriptHelpers(),
+    ],
     homeDir: 'src',
     output: 'dist/$name.js',
     target: 'server',

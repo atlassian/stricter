@@ -47,6 +47,7 @@
     },
     "devDependencies": {
         "@types/chalk": "^2.2.0",
+        "@types/commander": "^2.12.2",
         "@types/jest": "^21.1.8",
         "@types/node": "^8.0.58",
         "cross-env": "^5.1.1",
@@ -66,7 +67,9 @@
         "@babel/traverse": "7.0.0-beta.34",
         "babylon": "^7.0.0-beta.34",
         "chalk": "^2.3.0",
-        "cosmiconfig": "^3.1.0"
+        "commander": "^2.12.2",
+        "cosmiconfig": "^3.1.0",
+        "is-ci": "^1.0.10"
     },
     "engines": {
         "node": ">=8.0.0"

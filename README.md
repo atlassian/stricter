@@ -16,6 +16,7 @@ yarn add stricter --dev
 ```
 yarn stricter
 ```
+You can run `yarn stricter --help` for help.
 
 # Configuration
 Stricter uses `stricter.config.js` to read configuration.
@@ -95,7 +96,7 @@ interface RuleDefinition {
 `onProject` should return an array of strings, describing violations, or an empty array if there is none.
 
 # Debugging
-It helps to use `src/cli.ts` as an entry point for debugging.
+It helps to use `src/debug.ts` as an entry point for debugging.
 A sample launch.json for VS Code might look like
 ```json
 {
