@@ -1,10 +1,13 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { Config, FileToData, FileToDependency } from './../types';
+import { FileToData, FileToDependency } from './../types';
 import traverse from '@babel/traverse';
 
-export default (filesData: FileToData, config: Config): FileToDependency => {
-    const root = config.root;
+export default (
+    filesData: FileToData,
+    root: string,
+    extensions: string[] | undefined,
+): FileToDependency => {
     const result = Object.entries(filesData).reduce(
         (acc, [filePath, data]) => {
             if (!data.ast) {
@@ -13,7 +16,7 @@ export default (filesData: FileToData, config: Config): FileToDependency => {
 
             const imports = getImports(data.ast());
             const dependencies = imports.map(i =>
-                extractPathFromImportString(i, filePath, [root], config.extensions),
+                extractPathFromImportString(i, filePath, [root], extensions),
             );
 
             return {

@@ -23,7 +23,7 @@ export default ({
     const filesToProcess = filterFilesToProcess(config.root, fileList, ruleApplications);
 
     const filesData = readFilesData(filesToProcess);
-    const dependencies = readDependencies(filesData, config);
+    const dependencies = readDependencies(filesData, config.root, config.extensions);
     const projectResult = applyProjectRules(config.root, filesData, dependencies, ruleApplications);
 
     const logs = compactProjectLogs(projectResult);
