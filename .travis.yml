@@ -13,3 +13,9 @@ script:
   - yarn build
   - yarn test
 after_script: greenkeeper-lockfile-upload
+deploy:
+  provider: npm
+  email: li0liq@gmail.com
+  api_key: $NPM_TOKEN
+  on:
+    tags: true
