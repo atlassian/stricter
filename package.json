@@ -64,7 +64,7 @@
         "typescript": "^2.6.2"
     },
     "dependencies": {
-        "@babel/traverse": "7.0.0-beta.35",
+        "@babel/traverse": "7.0.0-beta.36",
         "babylon": "^7.0.0-beta.35",
         "chalk": "^2.3.0",
         "commander": "^2.12.2",
