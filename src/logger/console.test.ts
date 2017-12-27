@@ -1,14 +1,11 @@
 import logConsole from './console';
 
 describe('consoleLogger', () => {
-    let errorMock: any;
-    let logMock: any;
-    let warnMock: any;
+    const logMock = jest.fn();
+    console.log = logMock;
 
     beforeEach(() => {
-        console.error = errorMock = jest.fn();
-        console.log = logMock = jest.fn();
-        console.warn = warnMock = jest.fn();
+        logMock.mockReset();
     });
 
     it('runs warn for every warning', () => {
@@ -18,7 +15,7 @@ describe('consoleLogger', () => {
         };
         logConsole([warn, warn]);
 
-        expect(warnMock.mock.calls.length).toBe(4);
+        expect(logMock.mock.calls.length).toBe(4 + 1);
     });
 
     it('runs error for every error', () => {
@@ -28,16 +25,6 @@ describe('consoleLogger', () => {
         };
         logConsole([error, error]);
 
-        expect(errorMock.mock.calls.length).toBe(4);
-    });
-
-    it("doesn't log same file name twice", () => {
-        const error = {
-            rule: 'rule',
-            errors: ['error1', 'error2'],
-        };
-        logConsole([error, error]);
-
-        expect(logMock.mock.calls.length).toBe(1);
+        expect(logMock.mock.calls.length).toBe(4 + 1);
     });
 });
