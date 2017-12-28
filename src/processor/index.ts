@@ -141,5 +141,3 @@ export const applyProjectRules = (
 
     return result;
 };
-
-export { default as readDependencies } from './read-dependencies';
