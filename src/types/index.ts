@@ -96,3 +96,8 @@ export interface StricterArguments {
     configPath?: string;
     reporter?: Reporter;
 }
+
+export interface ParsedImportsResult {
+    staticImports: string[];
+    dynamicImports: string[];
+}

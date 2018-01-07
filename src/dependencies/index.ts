@@ -14,7 +14,7 @@ export default (
             }
 
             const imports = getImports(data.ast());
-            const dependencies = imports.map(i =>
+            const dependencies = [...imports.staticImports, ...imports.dynamicImports].map(i =>
                 extractPathFromImportString(i, filePath, root, extensions),
             );
 
