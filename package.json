@@ -1,14 +1,14 @@
 {
     "name": "stricter",
-    "version": "0.0.10",
+    "version": "0.0.12",
     "description": "A project-wide js-linting tool",
     "files": [
         "LICENSE",
         "README.md",
-        "dist",
+        "lib",
         "bin"
     ],
-    "main": "./dist/index.js",
+    "main": "./lib/index.js",
     "bin": {
         "stricter": "./bin/cli.js"
     },

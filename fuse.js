@@ -24,7 +24,7 @@ const fuse = FuseBox.init({
         TypeScriptHelpers(),
     ],
     homeDir: 'src',
-    output: 'dist/$name.js',
+    output: 'lib/$name.js',
     target: 'server',
 });
 
