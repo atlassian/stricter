@@ -1,47 +1,54 @@
 // tslint:disable function-name
-import traverse, { NodePath } from '@babel/traverse';
+import { simple, NodeTypes } from 'babylon-walk';
+import {
+    ImportDeclaration,
+    ExportNamedDeclaration,
+    ExportAllDeclaration,
+    CallExpression,
+    Identifier,
+    Node,
+    StringLiteral,
+} from 'babel-types';
 import { ParsedImportsResult } from '../types';
 
-export default (ast: any): ParsedImportsResult => {
+export default (ast: NodeTypes): ParsedImportsResult => {
     const state: ParsedImportsResult = {
         dynamicImports: [],
         staticImports: [],
     };
 
-    traverse(
+    simple(
         ast,
         {
-            Identifier(path: NodePath) {
-                /* to get access to path */
+            ImportDeclaration(node: ImportDeclaration, state: ParsedImportsResult) {
+                state.staticImports.push(node.source.value);
             },
+            ExportNamedDeclaration(node: ExportNamedDeclaration, state: ParsedImportsResult) {
+                if (node.source) {
+                    state.staticImports.push(node.source.value);
+                }
+            },
+            ExportAllDeclaration(node: ExportAllDeclaration, state: ParsedImportsResult) {
+                if (node.source) {
+                    state.staticImports.push(node.source.value);
+                }
+            },
+            CallExpression(node: CallExpression, state: ParsedImportsResult) {
+                const callee: Node | Identifier = node.callee;
 
-            ImportDeclaration(path: NodePath, state: ParsedImportsResult) {
-                state.staticImports.push(path.node.source.value);
-            },
-            ExportNamedDeclaration(path: NodePath, state: ParsedImportsResult) {
-                if (path.node.source) {
-                    state.staticImports.push(path.node.source.value);
-                }
-            },
-            ExportAllDeclaration(path: NodePath, state: ParsedImportsResult) {
-                if (path.node.source) {
-                    state.staticImports.push(path.node.source.value);
-                }
-            },
-            CallExpression(path: NodePath, state: ParsedImportsResult) {
                 if (
-                    path.node.callee &&
-                    (path.node.callee.type === 'Import' ||
-                        (path.node.callee.type === 'Identifier' &&
-                            path.node.callee.name === 'require')) &&
-                    path.node.arguments &&
-                    path.node.arguments.length > 0
+                    callee &&
+                    (callee.type === 'Import' ||
+                        (callee.type === 'Identifier' &&
+                            (callee as Identifier).name === 'require')) &&
+                    node.arguments &&
+                    node.arguments.length > 0 &&
+                    node.arguments[0].type === 'StringLiteral'
                 ) {
-                    state.dynamicImports.push(path.node.arguments[0].value);
+                    state.dynamicImports.push((node.arguments[0] as StringLiteral).value);
                 }
             },
         },
-        null,
         state,
     );
 

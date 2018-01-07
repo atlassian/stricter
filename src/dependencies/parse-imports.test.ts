@@ -67,4 +67,16 @@ describe('resolveImport', () => {
         expect(result.staticImports).toEqual([]);
         expect(result.dynamicImports).toEqual([]);
     });
+
+    it('should ignore dynamic imports', () => {
+        const result = parseImport(
+            parse(`
+            const test1 = require(foo);
+            const test2 = import(foo);
+        `),
+        );
+
+        expect(result.staticImports).toEqual([]);
+        expect(result.dynamicImports).toEqual([]);
+    });
 });

@@ -46,6 +46,8 @@
         ]
     },
     "devDependencies": {
+        "@types/babel-types": "^7.0.0",
+        "@types/babylon-walk": "^3.10.0",
         "@types/chalk": "^2.2.0",
         "@types/commander": "^2.12.2",
         "@types/jest": "^22.0.1",
@@ -64,8 +66,8 @@
         "typescript": "^2.6.2"
     },
     "dependencies": {
-        "@babel/traverse": "7.0.0-beta.36",
         "babylon": "^7.0.0-beta.36",
+        "babylon-walk": "^1.0.2",
         "chalk": "^2.3.0",
         "commander": "^2.12.2",
         "cosmiconfig": "^3.1.0",
