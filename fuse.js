@@ -1,5 +1,5 @@
 const FuseBox = require('fuse-box').FuseBox;
-const { ReplacePlugin , TypeScriptHelpers } = require('fuse-box');
+const { ReplacePlugin } = require('fuse-box');
 const TypeHelper = require('fuse-box-typechecker').TypeHelper;
 const isProduction = process.env.NODE_ENV === 'production';
 const version = require('./package.json').version;
@@ -21,7 +21,6 @@ const fuse = FuseBox.init({
         ReplacePlugin({
             'process.env.STRICTER_VERSION': JSON.stringify(version),
         }),
-        TypeScriptHelpers(),
     ],
     homeDir: 'src',
     output: 'lib/$name.js',
