@@ -10,7 +10,7 @@ describe('resolveImport', () => {
         existsSync.mockImplementation((path: string) => path === expectedResult);
     };
 
-    beforeAll(() => {
+    beforeEach(() => {
         jest.restoreAllMocks();
         const { lstatSync } = require('fs');
 
@@ -18,6 +18,7 @@ describe('resolveImport', () => {
             isDirectory: () => false,
         }));
     });
+
     it('attempts as is', () => {
         const importPath = 'test1.js';
 
@@ -49,7 +50,7 @@ describe('resolveImport', () => {
         expect(result).toBe(expectedResult);
     });
 
-    it.only('attempts index.js', () => {
+    it('attempts index.js', () => {
         const importPath = 'test4';
         const expectedResult = 'test4\\index.js';
 
@@ -66,7 +67,7 @@ describe('resolveImport', () => {
         expect(result).toBe(expectedResult);
     });
 
-    it.only('returns null in case of directory', () => {
+    it('returns null in case of directory', () => {
         const importPath = 'test5';
         mockExistsExpectedResult(importPath);
         const { lstatSync } = require('fs');
@@ -83,8 +84,11 @@ describe('resolveImport', () => {
     it('attempts all paths', () => {
         const importPath1 = 'test6';
         const importPath2 = 'test7';
+        const expectedResult = 'test7.js';
+
+        mockExistsExpectedResult(expectedResult);
         const result = resolveImport([importPath1, importPath2]);
 
-        expect(result).toBe('test7.js');
+        expect(result).toBe(expectedResult);
     });
 });
