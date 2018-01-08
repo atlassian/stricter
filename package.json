@@ -37,7 +37,7 @@
         "transform": {
             "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
         },
-        "testRegex": "(\\.|/)test\\.tsx?$",
+        "testRegex": "(\\.|/)test\\.ts$",
         "moduleFileExtensions": [
             "ts",
             "tsx",
@@ -45,8 +45,10 @@
             "jsx",
             "json"
         ],
+        "testEnvironment": "node",
         "collectCoverage": true,
-        "collectCoverageFrom" : ["src/**/*.ts"]
+        "collectCoverageFrom" : ["src/**/*.ts", "!src/types/**", "!src/*.ts", "!src/**/test.ts"],
+        "mapCoverage": true
     },
     "devDependencies": {
         "@types/babel-types": "^7.0.0",
