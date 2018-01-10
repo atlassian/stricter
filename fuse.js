@@ -1,5 +1,4 @@
-const FuseBox = require('fuse-box').FuseBox;
-const { ReplacePlugin } = require('fuse-box');
+const { FuseBox, ReplacePlugin, QuantumPlugin } = require('fuse-box');
 const TypeHelper = require('fuse-box-typechecker').TypeHelper;
 const isProduction = process.env.NODE_ENV === 'production';
 const version = require('./package.json').version;
@@ -21,24 +20,27 @@ const fuse = FuseBox.init({
         ReplacePlugin({
             'process.env.STRICTER_VERSION': JSON.stringify(version),
         }),
+        QuantumPlugin({
+            target: 'npm',
+            bakeApiIntoBundle: 'index',
+            containedAPI: true,
+            treeshake: true,
+        })
     ],
     homeDir: 'src',
     output: 'lib/$name.js',
-    target: 'server',
 });
 
 const bundle = fuse
     .bundle('index')
-    .instructions(`>[index.ts]`)
-    .sourceMaps(true)
-    .target('server');
+    .instructions(`>[index.ts]`);
 
 if (!isProduction) {
     bundle.watch().cache(false);
 }
 
 bundle.completed(proc => {
-    console.log(`\x1b[36m%s\x1b[0m`, `client bundled`);
+    console.log(`\x1b[36m%s\x1b[0m`, `application bundled`);
     typeHelper.runSync();
 });
 
