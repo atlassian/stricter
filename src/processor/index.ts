@@ -1,5 +1,6 @@
 import { readFile, parse } from './../utils';
 import { matchesRuleUsage } from './../rule';
+import { default as readDependencies } from './../dependencies';
 
 import {
     FileToData,
@@ -25,8 +26,12 @@ const readFileData = (filePath: string): FileToData => {
     };
 };
 
-export const readFilesData = (files: string[]): FileToData => {
-    const result = Object.freeze(
+export const readFilesData = (
+    files: string[],
+    root: string[],
+    extensions: string[] | undefined,
+): { filesData: FileToData; dependencies: FileToDependency } => {
+    const filesData = Object.freeze(
         files.reduce(
             (acc, filePath) => {
                 return {
@@ -38,7 +43,12 @@ export const readFilesData = (files: string[]): FileToData => {
         ),
     );
 
-    return result;
+    const dependencies = readDependencies(filesData, root, extensions);
+
+    return {
+        filesData,
+        dependencies,
+    };
 };
 
 const createRuleApplicationResult = (
