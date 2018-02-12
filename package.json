@@ -38,6 +38,7 @@
         "@types/babylon-walk": "^3.10.0",
         "@types/chalk": "^2.2.0",
         "@types/commander": "^2.12.2",
+        "@types/debug": "^0.0.30",
         "@types/jest": "^22.1.2",
         "@types/node": "^9.4.5",
         "coveralls": "^3.0.0",
@@ -60,6 +61,7 @@
         "chalk": "^2.3.0",
         "commander": "^2.14.1",
         "cosmiconfig": "^4.0.0",
+        "debug": "^3.1.0",
         "is-ci": "^1.1.0"
     },
     "engines": {

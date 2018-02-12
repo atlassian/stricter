@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { listFiles } from './../utils';
-import { Config, RuleApplications, RuleDefinition, RuleDefinitions, RuleUsage } from './../types';
+import { Config, RuleApplications, RuleDefinitions, RuleUsage } from './../types';
 import { unusedFilesRule } from './default-rules';
 
 export const defaultRules: RuleDefinitions = {
@@ -27,11 +27,9 @@ export const getRuleDefinitions = (config: Config): RuleDefinitions => {
             if (!rule.onProject) {
                 throw new Error(`Rule ${ruleName} should have onProject.`);
             }
+            acc[stripOutSuffix(ruleName)] = rule;
 
-            return {
-                ...acc,
-                [stripOutSuffix(ruleName)]: rule as RuleDefinition,
-            };
+            return acc;
         },
         {} as RuleDefinitions,
     );
@@ -54,13 +52,12 @@ export const getRuleApplications = (
 
     const result = usages.reduce(
         (acc, ruleName) => {
-            return {
-                ...acc,
-                [ruleName]: {
-                    definition: ruleDefinitions[ruleName],
-                    usage: config.rules[ruleName],
-                },
+            acc[ruleName] = {
+                definition: ruleDefinitions[ruleName],
+                usage: config.rules[ruleName],
             };
+
+            return acc;
         },
         {} as RuleApplications,
     );

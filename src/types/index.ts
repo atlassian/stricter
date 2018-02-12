@@ -39,6 +39,7 @@ export interface Config {
 export interface FileData {
     ast?: () => any;
     source?: string;
+    dependencies?: string[];
 }
 
 export interface FileToData {

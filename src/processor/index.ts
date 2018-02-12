@@ -1,8 +1,9 @@
 import { readFile, parse } from './../utils';
 import { matchesRuleUsage } from './../rule';
-import { default as readDependencies } from './../dependencies';
+import { readDependencies } from './../dependencies';
 
 import {
+    FileData,
     FileToData,
     FileToDependency,
     Level,
@@ -13,42 +14,40 @@ import {
     RuleToRuleApplicationResult,
 } from './../types';
 
-const readFileData = (filePath: string): FileToData => {
+const readFileData = (
+    filePath: string,
+    root: string[],
+    extensions: string[] | undefined,
+): FileData => {
     const source = readFile(filePath);
     // We parse .js-files only at the moment
     const ast = filePath.endsWith('.js') ? () => parse(source) : undefined;
+    const dependencies = ast ? readDependencies(ast(), filePath, root, extensions) : undefined;
 
-    return {
-        [filePath]: Object.freeze({
-            source,
-            ast,
-        }),
-    };
+    return Object.freeze({
+        source,
+        ast,
+        dependencies,
+    });
 };
 
 export const readFilesData = (
     files: string[],
     root: string[],
     extensions: string[] | undefined,
-): { filesData: FileToData; dependencies: FileToDependency } => {
+): FileToData => {
     const filesData = Object.freeze(
         files.reduce(
             (acc, filePath) => {
-                return {
-                    ...acc,
-                    ...readFileData(filePath),
-                };
+                acc[filePath] = readFileData(filePath, root, extensions);
+
+                return acc;
             },
             {} as FileToData,
         ),
     );
 
-    const dependencies = readDependencies(filesData, root, extensions);
-
-    return {
-        filesData,
-        dependencies,
-    };
+    return filesData;
 };
 
 const createRuleApplicationResult = (
@@ -85,17 +84,15 @@ const processRule = (
     filesData: FileToData,
     dependencies: FileToDependency,
 ) => {
-    const reducedFilesData = Object.freeze(
-        Object.keys(filesData)
-            .filter(i => matchesRuleUsage(directory, i, ruleUsage))
-            .reduce(
-                (acc, fileName) => ({
-                    ...acc,
-                    [fileName]: filesData[fileName],
-                }),
-                {} as FileToData,
-            ),
-    );
+    const reducedFilesData = Object.keys(filesData)
+        .filter(i => matchesRuleUsage(directory, i, ruleUsage))
+        .reduce(
+            (acc, fileName) => {
+                acc[fileName] = filesData[fileName];
+                return acc;
+            },
+            {} as FileToData,
+        );
 
     const ruleMessages = definition.onProject({
         dependencies,
@@ -117,9 +114,18 @@ const processRule = (
 export const applyProjectRules = (
     directory: string,
     filesData: FileToData,
-    dependencies: FileToDependency,
     ruleApplications: RuleApplications,
 ): RuleToRuleApplicationResult => {
+    const dependencies = Object.entries(filesData)
+        .filter(([fileName, fileData]: [string, FileData]) => !!fileData.dependencies)
+        .reduce(
+            (acc, [fileName, fileData]: [string, FileData]) => {
+                acc[fileName] = fileData.dependencies as string[];
+                return acc;
+            },
+            {} as FileToDependency,
+        );
+
     const result = Object.entries(ruleApplications).reduce(
         (acc, [ruleName, ruleApplication]) => {
             const usage = Array.isArray(ruleApplication.usage)
@@ -141,10 +147,9 @@ export const applyProjectRules = (
                     } as RuleApplicationResult,
                 );
 
-            return {
-                ...acc,
-                [ruleName]: ruleApplicationResult,
-            };
+            acc[ruleName] = ruleApplicationResult;
+
+            return acc;
         },
         {} as RuleToRuleApplicationResult,
     );

@@ -32,6 +32,10 @@
   dependencies:
     commander "*"
 
+"@types/debug@^0.0.30":
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/@types/debug/-/debug-0.0.30.tgz#dc1e40f7af3b9c815013a7860e6252f6352a84df"
+
 "@types/jest@^22.1.2":
   version "22.1.2"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-22.1.2.tgz#813a79ec98221633845627636dbc606f31220dbc"
