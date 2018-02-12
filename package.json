@@ -47,7 +47,7 @@
         "fuse-box-typechecker": "^2.7.1",
         "jest": "^22.2.2",
         "prettier": "^1.10.2",
-        "ts-jest": "^22.0.3",
+        "ts-jest": "^22.0.4",
         "ts-node": "^4.1.0",
         "tslint": "^5.9.1",
         "tslint-config-airbnb": "^5.6.0",
@@ -58,7 +58,7 @@
     "dependencies": {
         "babylon": "^7.0.0-beta.39",
         "babylon-walk": "^1.0.2",
-        "chalk": "^2.3.0",
+        "chalk": "^2.3.1",
         "commander": "^2.14.1",
         "cosmiconfig": "^4.0.0",
         "debug": "^3.1.0",
