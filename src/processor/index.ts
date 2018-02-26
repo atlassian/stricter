@@ -97,6 +97,8 @@ const processRule = (
     const ruleMessages = definition.onProject({
         dependencies,
         config: ruleUsage.config,
+        include: ruleUsage.include,
+        exclude: ruleUsage.exclude,
         files: reducedFilesData,
         rootPath: directory,
     });
