@@ -84,6 +84,9 @@ interface RuleDefinition {
             };
         };
         rootPath: string;
+        id?: string;
+        include?: RegExp | RegExp[] | Function;
+        exclude?: RegExp | RegExp[] | Function;
     }) => string[];
 }
 ```
@@ -94,6 +97,10 @@ interface RuleDefinition {
 `config` is an optional object that may be specifified in configuration.
 
 `onProject` should return an array of strings, describing violations, or an empty array if there is none.
+
+`include` value of `include` from the rule
+
+`exclude` value of `exclude` from the rule
 
 # Debugging
 It helps to use `src/debug.ts` as an entry point for debugging.

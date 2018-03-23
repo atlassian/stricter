@@ -20,9 +20,11 @@ export interface RuleUsageConfig {
     [prop: string]: any;
 }
 
+export type FileFilter = RegExp | RegExp[] | Function;
+
 export interface RuleUsage {
-    include?: RegExp | RegExp[] | Function;
-    exclude?: RegExp | RegExp[] | Function;
+    include?: FileFilter;
+    exclude?: FileFilter;
     level?: Level;
     config?: RuleUsageConfig;
 }
@@ -60,11 +62,14 @@ export interface RuleToRuleApplicationResult {
 }
 
 export interface OnProjectArgument {
-    config?: RuleUsageConfig;
     dependencies: FileToDependency;
     files: FileToData;
     rootPath: string;
+    include?: FileFilter;
+    exclude?: FileFilter;
+    config?: RuleUsageConfig;
 }
+
 export interface RuleDefinition {
     onProject: (args: OnProjectArgument) => string[];
 }
