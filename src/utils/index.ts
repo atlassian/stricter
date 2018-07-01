@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import * as parser from 'babylon';
+import * as parser from '@babel/parser';
 
 export const readFile = (i: string): string => fs.readFileSync(i, 'utf8');
 
@@ -19,7 +19,7 @@ const defaultPlugins = [
     'jsx',
     'doExpressions',
     'objectRestSpread',
-    'decorators',
+    ['decorators', { decoratorsBeforeExport: true }],
     'classProperties',
     'classPrivateProperties',
     'classPrivateMethods',

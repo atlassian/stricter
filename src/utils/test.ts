@@ -2,7 +2,7 @@ import { readFile, listFiles, parse } from '.';
 
 jest.mock('fs');
 jest.mock('path');
-jest.mock('babylon');
+jest.mock('@babel/parser');
 
 describe('readFile', () => {
     it('reads file in utf8', () => {
@@ -103,8 +103,8 @@ describe('listFiles', () => {
 });
 
 describe('parse', () => {
-    it('passes source into babylon', () => {
-        const { parse: parseMock } = require('babylon');
+    it('passes source into @babel/parser', () => {
+        const { parse: parseMock } = require('@babel/parser');
         parseMock.mockImplementation((i: string) => i);
 
         const src = 'test';

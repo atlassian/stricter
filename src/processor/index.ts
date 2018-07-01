@@ -22,7 +22,17 @@ const readFileData = (
     const source = readFile(filePath);
     // We parse .js-files only at the moment
     const ast = filePath.endsWith('.js') ? () => parse(source) : undefined;
-    const dependencies = ast ? readDependencies(ast(), filePath, root, extensions) : undefined;
+    let dependencies: string[] | undefined;
+
+    if (ast) {
+        try {
+            const parsedAst = ast();
+            dependencies = readDependencies(parsedAst, filePath, root, extensions);
+        } catch (e) {
+            console.error(`Unable to parse ${filePath}`);
+            throw e;
+        }
+    }
 
     return Object.freeze({
         source,
