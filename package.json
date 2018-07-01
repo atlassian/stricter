@@ -1,6 +1,6 @@
 {
     "name": "stricter",
-    "version": "0.0.15",
+    "version": "0.0.16",
     "description": "A project-wide js-linting tool",
     "files": [
         "LICENSE",

@@ -2,6 +2,8 @@
 
 ## Master
 
+## 0.0.16 - Symlinks: Inception
+
 - Remove `lib` from repository
 - Add possibility to have global `exclude` for files
 - Initial symlink support (works only for links referencing up the hierarchy and unique references to external locations)
