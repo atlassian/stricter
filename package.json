@@ -5,6 +5,7 @@
     "files": [
         "LICENSE",
         "README.md",
+        "CHANGELOG.md",
         "lib",
         "bin"
     ],
