@@ -110,7 +110,7 @@ describe('listFiles', () => {
         expect(result).toEqual(fileList.map(i => 'test_folder_' + i));
     });
 
-    it.only('does not list same symlink files twice', () => {
+    it('does not list same symlink files twice', () => {
         const { lstatSync, readdirSync, realpathSync, statSync } = require('fs');
         const { join } = require('path');
         const fileList = ['a', 'b'];
@@ -138,6 +138,29 @@ describe('listFiles', () => {
 
         const result = listFiles('test');
         expect(result).toEqual(['test_a_other-file']);
+    });
+
+    it('respects exclude', () => {
+        const { lstatSync, readdirSync } = require('fs');
+        const { join } = require('path');
+        const fileList = ['a', 'b'];
+        const isDirectoryMock = jest
+            .fn()
+            .mockReturnValueOnce(true)
+            .mockReturnValue(false);
+        const isSymbolicLinkMock = jest.fn().mockReturnValue(false);
+
+        lstatSync.mockImplementation(() => ({
+            isDirectory: isDirectoryMock,
+            isSymbolicLink: isSymbolicLinkMock,
+        }));
+
+        join.mockImplementation((a: string, b: string) => `${a}_${b}`);
+
+        readdirSync.mockImplementation(() => fileList);
+
+        const result = listFiles('test', [/a/]);
+        expect(result).toEqual(['test_b']);
     });
 });
 

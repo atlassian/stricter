@@ -25,5 +25,9 @@ export default (foundConfig: CosmiConfig): Config => {
         result.extensions = config.extensions;
     }
 
+    if (config.exclude) {
+        result.exclude = config.exclude;
+    }
+
     return result;
 };

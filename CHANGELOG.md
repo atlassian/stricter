@@ -2,6 +2,7 @@
 
 ## Master
 
+- Add possibility to have global exclude for files
 - Initial symlink support (works only for links referencing up the hierarchy and unique references to external locations)
 - Log file name if parser throws
 - Fixed a decorator issue caused by recent babel/parser bump

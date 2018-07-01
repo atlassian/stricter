@@ -67,4 +67,28 @@ describe('processConfig', () => {
 
         expect(result.rules).toBe(rules);
     });
+
+    it('populates extensions', () => {
+        const extensions: string[] = [];
+        const result = processConfig({
+            config: {
+                extensions,
+            },
+            filepath: '',
+        });
+
+        expect(result.extensions).toBe(extensions);
+    });
+
+    it('populates exclude', () => {
+        const exclude = new RegExp('');
+        const result = processConfig({
+            config: {
+                exclude,
+            },
+            filepath: '',
+        });
+
+        expect(result.exclude).toBe(exclude);
+    });
 });

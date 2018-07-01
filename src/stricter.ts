@@ -24,7 +24,7 @@ export default ({
 
         const config = measure('Read config', () => getConfig(configPath));
 
-        const fileList = measure('Get file list', () => listFiles(config.root));
+        const fileList = measure('Get file list', () => listFiles(config.root, config.exclude));
 
         const ruleDefinitions = measure('Get rule definitions', () => getRuleDefinitions(config));
 

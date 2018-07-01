@@ -33,6 +33,7 @@ export interface Config {
     root: string;
     rulesDir?: string;
     extensions?: string[];
+    exclude?: FileFilter;
     rules: {
         [ruleName: string]: RuleUsage | RuleUsage[];
     };
@@ -107,3 +108,5 @@ export interface ParsedImportsResult {
     staticImports: string[];
     dynamicImports: string[];
 }
+
+export type PathMatcher = (path: string) => boolean;

@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { listFiles } from './../utils';
+import { listFiles, getMatcher } from './../utils';
 import { Config, RuleApplications, RuleDefinitions, RuleUsage } from './../types';
 import { unusedFilesRule } from './default-rules';
 
@@ -78,24 +78,14 @@ const getRuleUsages = (ruleApplications: RuleApplications): RuleUsage[] => {
     );
 };
 
-const checkForMatch = (setting: RegExp | RegExp[] | Function, filePath: string) => {
-    if (typeof setting === 'function') {
-        return setting(filePath);
-    }
-
-    const regexSetting = Array.isArray(setting) ? setting : [setting];
-
-    return regexSetting.some(i => i.test(filePath));
-};
-
 export const matchesRuleUsage = (
     directory: string,
     filePath: string,
     ruleUsage: RuleUsage,
 ): boolean => {
     const relativePath = filePath.replace(directory + path.sep, '');
-    const matchesInclude = !ruleUsage.include || checkForMatch(ruleUsage.include, relativePath);
-    const matchesExclude = ruleUsage.exclude && checkForMatch(ruleUsage.exclude, relativePath);
+    const matchesInclude = !ruleUsage.include || getMatcher(ruleUsage.include)(relativePath);
+    const matchesExclude = ruleUsage.exclude && getMatcher(ruleUsage.exclude)(relativePath);
 
     return matchesInclude && !matchesExclude;
 };
