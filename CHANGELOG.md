@@ -2,6 +2,8 @@
 
 ## Master
 
+- Add node 10 to travis
+
 ## 0.0.16 - Symlinks: Inception
 
 - Remove `lib` from repository
