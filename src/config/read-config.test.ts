@@ -11,6 +11,9 @@ jest.mock('cosmiconfig', () =>
                 return mockConfigData;
             }
         }),
+        searchSync: jest.fn(val => {
+            return mockConfigData;
+        }),
     }),
 );
 

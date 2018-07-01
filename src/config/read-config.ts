@@ -5,13 +5,10 @@ const moduleName = 'stricter';
 
 export default (configPath?: string): CosmiConfig => {
     const explorer = cosmiconfig(moduleName, {
-        configPath,
-        sync: true,
-        packageProp: false,
-        rc: false,
-        format: 'js',
+        searchPlaces: [`${moduleName}.config.js`],
     });
-    const foundConfigData = explorer.load(process.cwd());
+
+    const foundConfigData = configPath ? explorer.loadSync(configPath) : explorer.searchSync();
 
     return foundConfigData;
 };

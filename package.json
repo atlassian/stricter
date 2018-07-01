@@ -60,7 +60,7 @@
         "babylon-walk": "^1.0.2",
         "chalk": "^2.4.1",
         "commander": "^2.16.0",
-        "cosmiconfig": "^4.0.0",
+        "cosmiconfig": "^5.0.5",
         "debug": "^3.1.0",
         "is-ci": "^1.1.0"
     },
