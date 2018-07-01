@@ -17,14 +17,16 @@ describe('readFile', () => {
 
 describe('listFiles', () => {
     it('returns empty array if empty folder', () => {
-        const { statSync, readdirSync } = require('fs');
+        const { lstatSync, readdirSync } = require('fs');
         const isDirectoryMock = jest
             .fn()
             .mockReturnValueOnce(true)
             .mockReturnValue(false);
+        const isSymbolicLinkMock = jest.fn().mockReturnValue(false);
 
-        statSync.mockImplementation(() => ({
+        lstatSync.mockImplementation(() => ({
             isDirectory: isDirectoryMock,
+            isSymbolicLink: isSymbolicLinkMock,
         }));
 
         readdirSync.mockImplementation(() => []);
@@ -34,15 +36,17 @@ describe('listFiles', () => {
     });
 
     it('returns empty array if empty subfolders', () => {
-        const { statSync, readdirSync } = require('fs');
+        const { lstatSync, readdirSync } = require('fs');
         const isDirectoryMock = jest
             .fn()
             .mockReturnValueOnce(true)
             .mockReturnValueOnce(true)
             .mockReturnValue(false);
+        const isSymbolicLinkMock = jest.fn().mockReturnValue(false);
 
-        statSync.mockImplementation(() => ({
+        lstatSync.mockImplementation(() => ({
             isDirectory: isDirectoryMock,
+            isSymbolicLink: isSymbolicLinkMock,
         }));
 
         readdirSync.mockImplementation(() => []);
@@ -52,16 +56,18 @@ describe('listFiles', () => {
     });
 
     it('lists files in folder', () => {
-        const { statSync, readdirSync } = require('fs');
+        const { lstatSync, readdirSync } = require('fs');
         const { join } = require('path');
         const fileList = ['a', 'b'];
         const isDirectoryMock = jest
             .fn()
             .mockReturnValueOnce(true)
             .mockReturnValue(false);
+        const isSymbolicLinkMock = jest.fn().mockReturnValue(false);
 
-        statSync.mockImplementation(() => ({
+        lstatSync.mockImplementation(() => ({
             isDirectory: isDirectoryMock,
+            isSymbolicLink: isSymbolicLinkMock,
         }));
 
         join.mockImplementation((a: string, b: string) => `${a}_${b}`);
@@ -73,7 +79,7 @@ describe('listFiles', () => {
     });
 
     it('lists files in folder with subfolders', () => {
-        const { statSync, readdirSync } = require('fs');
+        const { lstatSync, readdirSync } = require('fs');
         const { join } = require('path');
         const folderList = ['folder'];
         const fileList = ['a', 'b'];
@@ -83,8 +89,11 @@ describe('listFiles', () => {
             .mockReturnValueOnce(true)
             .mockReturnValue(false);
 
-        statSync.mockImplementation(() => ({
+        const isSymbolicLinkMock = jest.fn().mockReturnValue(false);
+
+        lstatSync.mockImplementation(() => ({
             isDirectory: isDirectoryMock,
+            isSymbolicLink: isSymbolicLinkMock,
         }));
 
         join.mockImplementation((a: string, b: string) => `${a}_${b}`);
@@ -99,6 +108,36 @@ describe('listFiles', () => {
 
         const result = listFiles('test');
         expect(result).toEqual(fileList.map(i => 'test_folder_' + i));
+    });
+
+    it.only('does not list same symlink files twice', () => {
+        const { lstatSync, readdirSync, realpathSync, statSync } = require('fs');
+        const { join } = require('path');
+        const fileList = ['a', 'b'];
+
+        lstatSync.mockImplementation((dir: string) => ({
+            isDirectory: jest.fn(() => {
+                return ['test_a', 'test_b', 'test'].includes(dir);
+            }),
+            isSymbolicLink: jest.fn(() => {
+                return ['test_a', 'test_b'].includes(dir);
+            }),
+        }));
+
+        statSync.mockImplementation((dir: string) => ({
+            isDirectory: jest.fn().mockReturnValue(true),
+        }));
+
+        realpathSync.mockImplementation(() => 'real-path');
+
+        join.mockImplementation((a: string, b: string) => `${a}_${b}`);
+
+        readdirSync.mockImplementation(
+            (dir: string) => (dir === 'test' ? fileList : ['other-file']),
+        );
+
+        const result = listFiles('test');
+        expect(result).toEqual(['test_a_other-file']);
     });
 });
 

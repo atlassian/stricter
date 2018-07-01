@@ -4,12 +4,36 @@ import * as parser from '@babel/parser';
 
 export const readFile = (i: string): string => fs.readFileSync(i, 'utf8');
 
-export const listFiles = (directory: string): string[] => {
-    const files = fs.statSync(directory).isDirectory()
-        ? fs
-              .readdirSync(directory)
-              .reduce((acc, f) => [...acc, ...listFiles(path.join(directory, f))], [])
-        : [directory];
+export const listFiles = (directory: string, visited: { [prop: string]: true } = {}): string[] => {
+    if (visited[directory]) {
+        return [];
+    }
+
+    let stats = fs.lstatSync(directory);
+    let realPath = directory;
+
+    if (stats.isSymbolicLink()) {
+        realPath = fs.realpathSync(directory);
+        stats = fs.statSync(realPath);
+    }
+
+    // TODO: add support for multiple symlinks pointing to the same location
+    // Currently, if wee have already seen the location, we will not look into it (both for symlinks and normal directories)
+    if (visited[realPath]) {
+        return [];
+    }
+
+    visited[realPath] = true;
+
+    const isFile = !stats.isDirectory();
+
+    if (isFile) {
+        return [directory];
+    }
+
+    const files = fs
+        .readdirSync(directory)
+        .reduce((acc, f) => [...acc, ...listFiles(path.join(directory, f), visited)], []);
 
     return files;
 };
