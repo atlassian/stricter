@@ -70,16 +70,19 @@ export const listFiles = (directory: string, exclude?: FileFilter): string[] => 
     return result;
 };
 
+// based on https://babeljs.io/docs/en/next/babel-parser.html
 const defaultPlugins = [
     'flow',
     'jsx',
+    'flowComments',
     'doExpressions',
     'objectRestSpread',
     ['decorators', { decoratorsBeforeExport: true }],
     'classProperties',
     'classPrivateProperties',
     'classPrivateMethods',
-    'exportExtensions',
+    'exportDefaultFrom',
+    'exportNamespaceFrom',
     'asyncGenerators',
     'functionBind',
     'functionSent',
