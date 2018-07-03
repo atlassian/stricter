@@ -8,6 +8,7 @@
 - **BREAKING** Use `require.resolve` to resolve imports - `stricter` will resolve `node_modules` imports (used to ignore them)
 - **BREAKING** No longer use `root` to resolving absolute paths, use `NODE_PATH` environment variable instead
 - **BREAKING** `extensions` field in config is no longer supported
+- **BREAKING** `readFilesData` no longer supports second argument `srcRoots: string[]`
 - Return exit code 1 whenever there are errors and 0 otherwise
 - Add node 10 to travis
 
@@ -32,7 +33,7 @@
 
 ## 0.0.13 - Performance++
 
-- **Breaking** `readFilesData` requires second argument `srcRoots: string[]`
+- **BREAKING** `readFilesData` requires second argument `srcRoots: string[]`
 - Stop using `Object.assign` ([feels bad](https://jsperf.com/assign-vs-set-value))
 - Add [`debug`](https://www.npmjs.com/package/debug)
 - Collocate dependencies retrieval with file reads
