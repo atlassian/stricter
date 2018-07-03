@@ -37,7 +37,7 @@ export default ({
         );
 
         const filesData = measure('Read files data', () =>
-            readFilesData(filesToProcess, [config.root], config.extensions),
+            readFilesData(filesToProcess, [config.root]),
         );
 
         const projectResult = measure('Apply rules', () =>

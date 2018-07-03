@@ -28,7 +28,6 @@ The configuration file will be resolved starting from the current working direct
 module.exports = {
     root: 'src',
     rulesDir: 'rules',
-    extensions: ['json'],
     exclude: /\.DS_Store/,
     rules: {
         'hello-world-project': {
@@ -61,8 +60,6 @@ module.exports = {
 `root` - root folder for the project.
 
 `rulesDir` - folder, containing custom rules. Rule files need to follow naming convention `<rulename>.rule.js`. They will be available for configuration as `<rulename>`.
-
-`extensions` - an optional array of implicit extensions. `js` is always added by default. 
 
 `exclude` - `RegExp | RegExp[] | Function`, regular expressions to exclude files, uses relative path from root or function accepting relative path and returning boolean
 

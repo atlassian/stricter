@@ -21,10 +21,6 @@ export default (foundConfig: CosmiConfig): Config => {
         result.rules = config.rules;
     }
 
-    if (config.extensions) {
-        result.extensions = config.extensions;
-    }
-
     if (config.exclude) {
         result.exclude = config.exclude;
     }
