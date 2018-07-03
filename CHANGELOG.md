@@ -2,10 +2,12 @@
 
 ## Master
 
+## 0.1.0 - Following the standard
+
 - **BREAKING** Require `node >=8.9.0` to run
 - **BREAKING** Use `require.resolve` to resolve imports - `stricter` will resolve `node_modules` imports (used to ignore them)
 - **BREAKING** No longer use `root` to resolving absolute paths, use `NODE_PATH` environment variable instead
-- **BREAKING** `extensions` in config are no longer supported
+- **BREAKING** `extensions` field in config is no longer supported
 - Return exit code 1 whenever there are errors and 0 otherwise
 - Add node 10 to travis
 

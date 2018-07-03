@@ -1,6 +1,6 @@
 import { dirname, resolve } from 'path';
 
-export default (importString: string, filePath: string, resolveRoots: string[]): string => {
+export default (importString: string, filePath: string): string => {
     try {
         /*
             node_modules is a "safe" default

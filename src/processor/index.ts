@@ -14,7 +14,7 @@ import {
     RuleToRuleApplicationResult,
 } from './../types';
 
-const readFileData = (filePath: string, root: string[]): FileData => {
+const readFileData = (filePath: string): FileData => {
     const source = readFile(filePath);
     // We parse .js-files only at the moment
     const ast = filePath.endsWith('.js') ? () => parse(source) : undefined;
@@ -23,7 +23,7 @@ const readFileData = (filePath: string, root: string[]): FileData => {
     if (ast) {
         try {
             const parsedAst = ast();
-            dependencies = readDependencies(parsedAst, filePath, root);
+            dependencies = readDependencies(parsedAst, filePath);
         } catch (e) {
             console.error(`Unable to parse ${filePath}`);
             throw e;
@@ -37,11 +37,11 @@ const readFileData = (filePath: string, root: string[]): FileData => {
     });
 };
 
-export const readFilesData = (files: string[], root: string[]): FileToData => {
+export const readFilesData = (files: string[]): FileToData => {
     const filesData = Object.freeze(
         files.reduce(
             (acc, filePath) => {
-                acc[filePath] = readFileData(filePath, root);
+                acc[filePath] = readFileData(filePath);
 
                 return acc;
             },

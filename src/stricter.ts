@@ -36,9 +36,7 @@ export default ({
             filterFilesToProcess(config.root, fileList, ruleApplications),
         );
 
-        const filesData = measure('Read files data', () =>
-            readFilesData(filesToProcess, [config.root]),
-        );
+        const filesData = measure('Read files data', () => readFilesData(filesToProcess));
 
         const projectResult = measure('Apply rules', () =>
             applyProjectRules(config.root, filesData, ruleApplications),
