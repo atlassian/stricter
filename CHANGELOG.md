@@ -2,6 +2,7 @@
 
 ## Master
 
+- Return exit code 1 whenever there are errors and 0 otherwise
 - Add node 10 to travis
 
 ## 0.0.16 - Symlinks: Inception
@@ -25,7 +26,7 @@
 
 ## 0.0.13 - Performance++
 
-- Breaking: `readFilesData` requires second argument `srcRoots: string[]`
+- **Breaking** `readFilesData` requires second argument `srcRoots: string[]`
 - Stop using `Object.assign` ([feels bad](https://jsperf.com/assign-vs-set-value))
 - Add [`debug`](https://www.npmjs.com/package/debug)
 - Collocate dependencies retrieval with file reads

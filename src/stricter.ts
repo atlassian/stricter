@@ -64,7 +64,7 @@ export default ({
             }
         }
 
-        return result;
+        return result === 0 ? 0 : 1;
     });
 
     return result;
