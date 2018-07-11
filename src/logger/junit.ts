@@ -55,7 +55,9 @@ export default (logs: LogEntry[]): void => {
             if (log.warnings) {
                 acc.failures += log.warnings.length;
                 log.warnings.forEach(warning =>
-                    acc.rules[log.rule].push(testcaseFailure(Level.WARNING, 'Rule warning', warning)),
+                    acc.rules[log.rule].push(
+                        testcaseFailure(Level.WARNING, 'Rule warning', warning),
+                    ),
                 );
             }
             acc.tests += 1;
