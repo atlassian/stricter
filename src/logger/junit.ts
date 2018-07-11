@@ -13,6 +13,12 @@ interface ReportData {
     rules: { [rule: string]: string[] };
 }
 
+// According to https://en.wikipedia.org/wiki/CDATA#Nesting this is how you escape the CDATA end
+// sequence in CDATA
+const escapeCDATA = (cdata: string): string => {
+    return cdata.replace(/\]\]\>/g, ']]]]><![CDATA[>');
+};
+
 const reportTemplate = (suite: string) => `<?xml version="1.0" encoding="utf-8"?>
     <testsuites package="stricter">
         ${suite}
@@ -36,7 +42,7 @@ const testcaseTemplate = (name: string, failures: string) => `<testcase name="${
 
 const testcaseFailure = (type: Level, message: string, detail: string = '') =>
     `<failure type="${type}" message="${xmlEscape(message)}">${
-        detail !== '' ? `<![CDATA[${detail}]]>` : ''
+        detail !== '' ? `<![CDATA[${escapeCDATA(detail)}]]>` : ''
     }</failure>`;
 
 export default (logs: LogEntry[]): void => {

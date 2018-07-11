@@ -16,7 +16,13 @@ describe('junitLogger', () => {
 
     it('outputs valid complex xml', () => {
         logJunit([
-            { rule: 'rule1', errors: ['error1', `someting 'that' "needs" <escaping>`] },
+            {
+                rule: 'rule1',
+                errors: [
+                    'error1',
+                    `someting 'that' "needs" <escaping> and closes it's CDATA ]]> early`,
+                ],
+            },
             { rule: 'rule2', warnings: ['rule2-warning'] },
             { rule: 'rule3', errors: ['rule3-error'], warnings: ['rule3-warning'] },
         ]);
