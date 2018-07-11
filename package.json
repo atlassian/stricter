@@ -63,7 +63,8 @@
         "commander": "^2.16.0",
         "cosmiconfig": "^5.0.5",
         "debug": "^3.1.0",
-        "is-ci": "^1.1.0"
+        "is-ci": "^1.1.0",
+        "xml-escape": "^1.1.0"
     },
     "engines": {
         "node": ">=8.9.0"

@@ -1,7 +1,13 @@
 import { getConfig } from './config';
 import { getRuleDefinitions, getRuleApplications, filterFilesToProcess } from './rule';
 import { applyProjectRules, readFilesData } from './processor';
-import { consoleLogger, mochaLogger, compactProjectLogs, getErrorCount } from './logger';
+import {
+    consoleLogger,
+    junitLogger,
+    mochaLogger,
+    compactProjectLogs,
+    getErrorCount,
+} from './logger';
 import { listFiles } from './utils';
 import { StricterArguments, Reporter } from './types';
 import debug, { measure } from './debug';
@@ -47,6 +53,8 @@ export default ({
         measure('Write logs', () => {
             if (reporter === Reporter.MOCHA) {
                 mochaLogger(logs);
+            } else if (reporter === Reporter.JUNIT) {
+                junitLogger(logs);
             } else {
                 consoleLogger(logs);
             }
