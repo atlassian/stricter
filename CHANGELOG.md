@@ -2,6 +2,10 @@
 
 ## Master
 
+## 0.1.1 - JUnit reporter
+
+- JUnit reporter (`--reporter junit`) by @marcins (#22)
+
 ## 0.1.0 - Following the standard
 
 - **BREAKING** Require `node >=8.9.0` to run
