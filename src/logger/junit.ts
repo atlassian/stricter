@@ -41,8 +41,11 @@ const testcaseTemplate = (name: string, failures: string) => `<testcase name="${
 </testcase>`;
 
 const testcaseFailure = (type: Level, message: string, detail: string = '') =>
-    `<failure type="${type}" message="${xmlEscape(message)}">${
-        detail !== '' ? `<![CDATA[${escapeCDATA(detail)}]]>` : ''
+    `<failure type="${type}"${message !== '' ? ` message="${xmlEscape(message)}"` : ''}>${
+        detail !== ''
+            ? `<![CDATA[
+${escapeCDATA(detail)}]]>`
+            : ''
     }</failure>`;
 
 export default (logs: LogEntry[]): void => {
@@ -54,16 +57,12 @@ export default (logs: LogEntry[]): void => {
             if (log.errors) {
                 acc.failures += log.errors.length;
                 acc.errors += log.errors.length;
-                log.errors.forEach(error =>
-                    acc.rules[log.rule].push(testcaseFailure(Level.ERROR, 'Rule error', error)),
-                );
+                acc.rules[log.rule].push(testcaseFailure(Level.ERROR, '', log.errors.join('\n')));
             }
             if (log.warnings) {
                 acc.failures += log.warnings.length;
-                log.warnings.forEach(warning =>
-                    acc.rules[log.rule].push(
-                        testcaseFailure(Level.WARNING, 'Rule warning', warning),
-                    ),
+                acc.rules[log.rule].push(
+                    testcaseFailure(Level.WARNING, '', log.warnings.join('\n')),
                 );
             }
             acc.tests += 1;
