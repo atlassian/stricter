@@ -4,6 +4,7 @@ declare module 'is-ci' {
     var isCi: boolean;
     export = isCi;
 }
-
-
-
+declare module 'xml-escape' {
+    function xmlEscape(str: string, ignore?: string): string;
+    export = xmlEscape;
+}

@@ -13,6 +13,7 @@ export enum Level {
 
 export enum Reporter {
     CONSOLE = 'console',
+    JUNIT = 'junit',
     MOCHA = 'mocha',
 }
 

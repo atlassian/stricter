@@ -7,9 +7,9 @@ export default (): number => {
         .version(process.env.STRICTER_VERSION as string)
         .option('-c, --config <path>', 'specify config location')
         .option(
-            '-r, --reporter <console|mocha>',
+            '-r, --reporter <console|mocha|junit>',
             'specify reporter',
-            /^(console|mocha)$/i,
+            /^(console|mocha|junit)$/i,
             'console',
         )
         .parse(process.argv);

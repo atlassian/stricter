@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`junitLogger outputs valid complex xml 1`] = `
+"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
+    <testsuites package=\\"stricter\\">
+        <testsuite name=\\"stricter\\" failures=\\"5\\" errors=\\"3\\" tests=\\"3\\">
+    <testcase name=\\"rule1\\">
+    <failure type=\\"error\\"><![CDATA[
+error1
+someting 'that' \\"needs\\" <escaping> and closes it's CDATA ]]]]><![CDATA[> early]]></failure>
+</testcase>
+<testcase name=\\"rule2\\">
+    <failure type=\\"warning\\"><![CDATA[
+rule2-warning]]></failure>
+</testcase>
+<testcase name=\\"rule3\\">
+    <failure type=\\"error\\"><![CDATA[
+rule3-error]]></failure>
+<failure type=\\"warning\\"><![CDATA[
+rule3-warning]]></failure>
+</testcase>
+</testsuite>
+    </testsuites>"
+`;
+
+exports[`junitLogger outputs valid empty xml 1`] = `
+"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
+    <testsuites package=\\"stricter\\">
+        <testsuite name=\\"stricter\\" failures=\\"0\\" errors=\\"0\\" tests=\\"1\\">
+    <testcase name=\\"no errors\\">
+    
+</testcase>
+</testsuite>
+    </testsuites>"
+`;
