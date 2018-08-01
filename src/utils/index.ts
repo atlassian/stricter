@@ -93,7 +93,7 @@ const defaultPlugins = [
     'bigInt',
     'optionalCatchBinding',
     'throwExpressions',
-    'pipelineOperator',
+    ['pipelineOperator', { proposal: 'minimal' }],
     'nullishCoalescingOperator',
 ];
 
