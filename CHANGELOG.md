@@ -2,6 +2,8 @@
 
 ## Master
 
+- Bump dependencies
+
 ## 0.1.1 - JUnit reporter
 
 - JUnit reporter (`--reporter junit`) by @marcins (#22)
