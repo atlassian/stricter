@@ -10,47 +10,50 @@ import {
 } from './logger';
 import { listFiles } from './utils';
 import { StricterArguments, Reporter } from './types';
-import debug, { measure } from './debug';
 
 export default ({
-    silent = false,
+    options: { silent = false, configPath },
     reporter = Reporter.CONSOLE,
-    configPath,
+    logger,
 }: StricterArguments): number => {
-    const result = measure('Total', () => {
-        debug({
+    const result = logger.measure('Total', () => {
+        logger.debug({
             silent,
             reporter,
             configPath,
         });
 
         if (!silent) {
-            console.log('Stricter: Checking...');
+            logger.log('Stricter: Checking...');
         }
 
-        const config = measure('Read config', () => getConfig(configPath));
+        const config = logger.measure('Read config', () => getConfig(configPath));
 
-        const fileList = measure('Get file list', () => listFiles(config.root, config.exclude));
+        const fileList = logger.measure('Get file list', () =>
+            listFiles(config.root, config.exclude),
+        );
 
-        const ruleDefinitions = measure('Get rule definitions', () => getRuleDefinitions(config));
+        const ruleDefinitions = logger.measure('Get rule definitions', () =>
+            getRuleDefinitions(config),
+        );
 
-        const ruleApplications = measure('Get rule applications', () =>
+        const ruleApplications = logger.measure('Get rule applications', () =>
             getRuleApplications(config, ruleDefinitions),
         );
 
-        const filesToProcess = measure('Get files to process', () =>
+        const filesToProcess = logger.measure('Get files to process', () =>
             filterFilesToProcess(config.root, fileList, ruleApplications),
         );
 
-        const filesData = measure('Read files data', () => readFilesData(filesToProcess));
+        const filesData = logger.measure('Read files data', () => readFilesData(filesToProcess));
 
-        const projectResult = measure('Apply rules', () =>
+        const projectResult = logger.measure('Apply rules', () =>
             applyProjectRules(config.root, filesData, ruleApplications),
         );
 
-        const logs = measure('Massage logs', () => compactProjectLogs(projectResult));
+        const logs = logger.measure('Massage logs', () => compactProjectLogs(projectResult));
 
-        measure('Write logs', () => {
+        logger.measure('Write logs', () => {
             if (reporter === Reporter.MOCHA) {
                 mochaLogger(logs);
             } else if (reporter === Reporter.JUNIT) {
@@ -60,13 +63,13 @@ export default ({
             }
         });
 
-        const result = measure('Count errors', () => getErrorCount(logs));
+        const result = logger.measure('Count errors', () => getErrorCount(logs));
 
         if (!silent) {
             if (result === 0) {
-                console.log('Stricter: No errors');
+                logger.log('Stricter: No errors');
             } else {
-                console.log(`Stricter: ${result} error${result > 1 ? 's' : ''}`);
+                logger.log(`Stricter: ${result} error${result > 1 ? 's' : ''}`);
             }
         }
 
