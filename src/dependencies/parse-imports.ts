@@ -31,7 +31,7 @@ export default (ast: NodeTypes): ParsedImportsResult => {
                 }
             },
             ExportAllDeclaration(node: NodeTypes, state: ParsedImportsResult) {
-                const casted = <string>node;
+                const casted = <ExportAllDeclaration>node;
                 if (casted.source) {
                     state.staticImports.push(casted.source.value);
                 }
