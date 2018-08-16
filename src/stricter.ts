@@ -1,19 +1,13 @@
 import { getConfig } from './config';
 import { getRuleDefinitions, getRuleApplications, filterFilesToProcess } from './rule';
 import { applyProjectRules, readFilesData } from './processor';
-import {
-    consoleLogger,
-    junitLogger,
-    mochaLogger,
-    compactProjectLogs,
-    getErrorCount,
-} from './logger';
+import { compactProjectLogs, getErrorCount } from './reporter';
 import { listFiles } from './utils';
-import { StricterArguments, Reporter } from './types';
+import { StricterArguments } from './types';
 
 export default ({
-    options: { silent = false, configPath },
-    reporter = Reporter.CONSOLE,
+    options: { silent, configPath },
+    reporter,
     logger,
 }: StricterArguments): number => {
     const result = logger.measure('Total', () => {
@@ -54,13 +48,7 @@ export default ({
         const logs = logger.measure('Massage logs', () => compactProjectLogs(projectResult));
 
         logger.measure('Write logs', () => {
-            if (reporter === Reporter.MOCHA) {
-                mochaLogger(logs);
-            } else if (reporter === Reporter.JUNIT) {
-                junitLogger(logs);
-            } else {
-                consoleLogger(logs);
-            }
+            reporter(logs);
         });
 
         const result = logger.measure('Count errors', () => getErrorCount(logs));

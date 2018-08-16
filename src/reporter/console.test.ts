@@ -1,6 +1,6 @@
 import logConsole from './console';
 
-describe('consoleLogger', () => {
+describe('consoleReporter', () => {
     const logMock = jest.fn();
     console.log = logMock;
 

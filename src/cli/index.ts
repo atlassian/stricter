@@ -1,23 +1,24 @@
 import * as program from 'commander';
 import * as isCi from 'is-ci';
 import stricter from '../stricter';
-import { Reporter } from '../types';
+import { ReporterType } from '../types';
 import getDebugLogger from '../get-debug-logger';
+import { consoleReporter, junitReporter, mochaReporter } from './../reporter';
 
 export const locateConfig = (configPath?: string) => {
     return configPath;
 };
 
 export const getReporter = (reporter?: string) => {
-    if (program.reporter === Reporter.MOCHA) {
-        return Reporter.MOCHA;
+    if (program.reporter === ReporterType.MOCHA) {
+        return mochaReporter;
     }
 
-    if (reporter === Reporter.JUNIT) {
-        return Reporter.JUNIT;
+    if (reporter === ReporterType.JUNIT) {
+        return junitReporter;
     }
 
-    return Reporter.CONSOLE;
+    return consoleReporter;
 };
 
 export default (): number => {

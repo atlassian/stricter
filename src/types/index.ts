@@ -11,11 +11,13 @@ export enum Level {
     OFF = 'off',
 }
 
-export enum Reporter {
+export enum ReporterType {
     CONSOLE = 'console',
     JUNIT = 'junit',
     MOCHA = 'mocha',
 }
+
+export type Reporter = (logs: LogEntry[]) => void;
 
 export interface RuleUsageConfig {
     [prop: string]: any;
