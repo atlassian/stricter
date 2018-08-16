@@ -1,25 +1,9 @@
 import * as program from 'commander';
 import * as isCi from 'is-ci';
 import stricter from '../stricter';
-import { ReporterType } from '../types';
 import getDebugLogger from '../get-debug-logger';
-import { consoleReporter, junitReporter, mochaReporter } from './../reporter';
-
-export const locateConfig = (configPath?: string) => {
-    return configPath;
-};
-
-export const getReporter = (reporter?: string) => {
-    if (program.reporter === ReporterType.MOCHA) {
-        return mochaReporter;
-    }
-
-    if (reporter === ReporterType.JUNIT) {
-        return junitReporter;
-    }
-
-    return consoleReporter;
-};
+import getReporter from './get-reporter';
+import getConfigLocation from './get-config-location';
 
 export default (): number => {
     program
@@ -33,7 +17,7 @@ export default (): number => {
         )
         .parse(process.argv);
 
-    const configPath = locateConfig(program.config);
+    const configPath = getConfigLocation(process.cwd(), program.config);
     const reporter = getReporter(program.reporter);
     const logger = getDebugLogger();
 
