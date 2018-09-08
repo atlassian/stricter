@@ -121,7 +121,7 @@ export const applyProjectRules = (
     ruleApplications: RuleApplications,
 ): RuleToRuleApplicationResult => {
     const dependencies = Object.entries(filesData)
-        .filter(([fileName, fileData]: [string, FileData]) => !!fileData.dependencies)
+        .filter(([, fileData]: [string, FileData]) => !!fileData.dependencies)
         .reduce(
             (acc, [fileName, fileData]: [string, FileData]) => {
                 acc[fileName] = fileData.dependencies as string[];

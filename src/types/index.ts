@@ -102,7 +102,6 @@ export interface LogEntry {
 
 export interface StricterArguments {
     options: {
-        silent?: boolean;
         configPath?: string;
     };
     reporter: Reporter;
@@ -119,5 +118,4 @@ export type PathMatcher = (path: string) => boolean;
 export interface Logger {
     debug: (message: any) => void;
     log: (message: any) => void;
-    measure: <T>(mark: string, fn: () => T) => T;
 }

@@ -6,63 +6,52 @@ import { listFiles } from './utils';
 import { StricterArguments } from './types';
 
 export default ({
-    options: { silent, configPath },
+    options: { configPath },
     reporter,
-    logger,
+    logger: { debug, log },
 }: StricterArguments): number => {
-    const result = logger.measure('Total', () => {
-        logger.debug({
-            silent,
-            reporter,
-            configPath,
-        });
-
-        if (!silent) {
-            logger.log('Stricter: Checking...');
-        }
-
-        const config = logger.measure('Read config', () => getConfig(configPath));
-
-        const fileList = logger.measure('Get file list', () =>
-            listFiles(config.root, config.exclude),
-        );
-
-        const ruleDefinitions = logger.measure('Get rule definitions', () =>
-            getRuleDefinitions(config),
-        );
-
-        const ruleApplications = logger.measure('Get rule applications', () =>
-            getRuleApplications(config, ruleDefinitions),
-        );
-
-        const filesToProcess = logger.measure('Get files to process', () =>
-            filterFilesToProcess(config.root, fileList, ruleApplications),
-        );
-
-        const filesData = logger.measure('Read files data', () => readFilesData(filesToProcess));
-
-        const projectResult = logger.measure('Apply rules', () =>
-            applyProjectRules(config.root, filesData, ruleApplications),
-        );
-
-        const logs = logger.measure('Massage logs', () => compactProjectLogs(projectResult));
-
-        logger.measure('Write logs', () => {
-            reporter(logs);
-        });
-
-        const result = logger.measure('Count errors', () => getErrorCount(logs));
-
-        if (!silent) {
-            if (result === 0) {
-                logger.log('Stricter: No errors');
-            } else {
-                logger.log(`Stricter: ${result} error${result > 1 ? 's' : ''}`);
-            }
-        }
-
-        return result === 0 ? 0 : 1;
+    debug({
+        reporter,
+        configPath,
     });
 
-    return result;
+    log('Stricter: Checking...');
+
+    debug('Read config');
+    const config = getConfig(configPath);
+
+    debug('Get file list');
+    const fileList = listFiles(config.root, config.exclude);
+
+    debug('Get rule definitions');
+    const ruleDefinitions = getRuleDefinitions(config);
+
+    debug('Get rule applications');
+    const ruleApplications = getRuleApplications(config, ruleDefinitions);
+
+    debug('Get files to process');
+    const filesToProcess = filterFilesToProcess(config.root, fileList, ruleApplications);
+
+    debug('Read files data');
+    const filesData = readFilesData(filesToProcess);
+
+    debug('Apply rules');
+    const projectResult = applyProjectRules(config.root, filesData, ruleApplications);
+
+    debug('Massage logs');
+    const logs = compactProjectLogs(projectResult);
+
+    debug('Write logs');
+    reporter(logs);
+
+    debug('Count errors');
+    const result = getErrorCount(logs);
+
+    if (result === 0) {
+        log('Stricter: No errors');
+    } else {
+        log(`Stricter: ${result} error${result > 1 ? 's' : ''}`);
+    }
+
+    return result === 0 ? 0 : 1;
 };
