@@ -1,6 +1,6 @@
 import { EOL } from 'os';
 import xmlEscape = require('xml-escape');
-import { LogEntry } from './../types';
+import { RuleToRuleApplicationResult } from './../types';
 
 enum Level {
     WARNING = 'warning',
@@ -49,39 +49,44 @@ ${escapeCDATA(detail)}]]>`
             : ''
     }</failure>`;
 
-export default (logs: LogEntry[]): void => {
-    const data: ReportData = logs.reduce(
-        (acc: ReportData, log) => {
-            if (!acc.rules.hasOwnProperty(log.rule)) {
-                acc.rules[log.rule] = [];
-            }
-            if (log.errors) {
-                acc.failures += log.errors.length;
-                acc.errors += log.errors.length;
-                acc.rules[log.rule].push(testcaseFailure(Level.ERROR, '', log.errors.join(EOL)));
-            }
-            if (log.warnings) {
-                acc.failures += log.warnings.length;
-                acc.rules[log.rule].push(
-                    testcaseFailure(Level.WARNING, '', log.warnings.join(EOL)),
+export default (report: RuleToRuleApplicationResult): void => {
+    const data: ReportData = Object.entries(report).reduce(
+        (acc, [rule, applicationResult]) => {
+            const failureList: string[] = [];
+
+            if (applicationResult.errors) {
+                acc.failures += applicationResult.errors.length;
+                acc.errors += applicationResult.errors.length;
+                failureList.push(
+                    testcaseFailure(Level.ERROR, '', applicationResult.errors.join(EOL)),
                 );
             }
+
+            if (applicationResult.warnings) {
+                acc.failures += applicationResult.warnings.length;
+                failureList.push(
+                    testcaseFailure(Level.WARNING, '', applicationResult.warnings.join(EOL)),
+                );
+            }
+
+            acc.rules[rule] = failureList;
             acc.tests += 1;
+
             return acc;
         },
-        { failures: 0, errors: 0, tests: 0, rules: {} },
+        { failures: 0, errors: 0, tests: 0, rules: {} } as ReportData,
     );
 
     const testcases = Object.keys(data.rules).map(rule =>
         testcaseTemplate(rule, data.rules[rule].join(EOL)),
     );
 
-    // the JUnit format isn't really designed for a system that doesn't log success, so if we don't
-    // have any warnings or failures we still need a dummy testcase so that there's something to parse
+    // If we don't have any rules, we still need a dummy testcase so that there's something to parse
     if (testcases.length === 0) {
         data.tests = 1;
         testcases.push(testcaseTemplate('no errors', ''));
     }
+
     const xml = reportTemplate(
         suiteTemplate('stricter', data.failures, data.errors, data.tests, testcases),
     );

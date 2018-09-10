@@ -5,6 +5,8 @@
 - Bump dependencies
 - Use OS-specific line-breaks
 - Refactoring
+- Improved JUnit reporter
+- Subtle console reporter changes
 
 ## 0.1.1 - JUnit reporter
 

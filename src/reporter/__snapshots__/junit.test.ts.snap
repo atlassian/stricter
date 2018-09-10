@@ -33,3 +33,14 @@ exports[`junitReporter outputs valid empty xml 1`] = `
 </testsuite>
     </testsuites>"
 `;
+
+exports[`junitReporter outputs valid xml when there is no rules violations 1`] = `
+"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
+    <testsuites package=\\"stricter\\">
+        <testsuite name=\\"stricter\\" failures=\\"0\\" errors=\\"0\\" tests=\\"1\\">
+    <testcase name=\\"rule1\\">
+    
+</testcase>
+</testsuite>
+    </testsuites>"
+`;

@@ -17,7 +17,7 @@ export enum ReporterType {
     MOCHA = 'mocha',
 }
 
-export type Reporter = (logs: LogEntry[]) => void;
+export type Reporter = (report: RuleToRuleApplicationResult) => void;
 
 export interface RuleUsageConfig {
     [prop: string]: any;
@@ -58,6 +58,7 @@ export interface FileToDependency {
 export interface RuleApplicationResult {
     errors?: string[];
     warnings?: string[];
+    time?: number;
 }
 
 export interface RuleToRuleApplicationResult {

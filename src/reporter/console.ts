@@ -1,12 +1,14 @@
 import chalk from 'chalk';
-import { LogEntry } from './../types';
+import { compactProjectLogs } from './flatten';
+import { RuleToRuleApplicationResult } from './../types';
 
-export default (logs: LogEntry[]): void => {
+export default (report: RuleToRuleApplicationResult): void => {
+    const logs = compactProjectLogs(report);
+
     if (!logs.length) {
+        console.log('No errors');
         return;
     }
-
-    console.log(chalk.bgBlackBright('Project'));
 
     logs.forEach(log => {
         if (log.warnings) {
@@ -21,4 +23,8 @@ export default (logs: LogEntry[]): void => {
             });
         }
     });
+
+    const errorCount = logs.reduce((acc, i) => acc + ((i.errors && i.errors.length) || 0), 0);
+
+    console.log(`${errorCount} error${errorCount > 1 ? 's' : ''}`);
 };

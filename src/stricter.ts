@@ -1,7 +1,7 @@
 import { getConfig } from './config';
 import { getRuleDefinitions, getRuleApplications, filterFilesToProcess } from './rule';
 import { applyProjectRules, readFilesData } from './processor';
-import { compactProjectLogs, getErrorCount } from './reporter';
+import { getErrorCount } from './reporter';
 import { listFiles } from './utils';
 import { StricterArguments } from './types';
 
@@ -15,7 +15,7 @@ export default ({
         configPath,
     });
 
-    log('Stricter: Checking...');
+    log('Checking...');
 
     debug('Read config');
     const config = getConfig(configPath);
@@ -38,20 +38,11 @@ export default ({
     debug('Apply rules');
     const projectResult = applyProjectRules(config.root, filesData, ruleApplications);
 
-    debug('Massage logs');
-    const logs = compactProjectLogs(projectResult);
-
-    debug('Write logs');
-    reporter(logs);
+    debug('Output report');
+    reporter(projectResult);
 
     debug('Count errors');
-    const result = getErrorCount(logs);
+    const result = getErrorCount(projectResult) === 0 ? 0 : 1;
 
-    if (result === 0) {
-        log('Stricter: No errors');
-    } else {
-        log(`Stricter: ${result} error${result > 1 ? 's' : ''}`);
-    }
-
-    return result === 0 ? 0 : 1;
+    return result;
 };

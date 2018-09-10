@@ -8,22 +8,37 @@ describe('consoleReporter', () => {
         logMock.mockReset();
     });
 
-    it('runs warn for every warning', () => {
-        const warn = {
-            rule: 'rule',
-            warnings: ['warning1', 'warning2'],
+    it('outputs errors for empty report', () => {
+        const empty = {};
+        logConsole(empty);
+
+        expect(logMock.mock.calls.length).toBe(1);
+    });
+
+    it('outputs warn for every warning', () => {
+        const warns = {
+            rule1: {
+                warnings: ['warning1', 'warning2'],
+            },
+            rule2: {
+                warnings: ['warning1', 'warning2'],
+            },
         };
-        logConsole([warn, warn]);
+        logConsole(warns);
 
         expect(logMock.mock.calls.length).toBe(4 + 1);
     });
 
-    it('runs error for every error', () => {
-        const error = {
-            rule: 'rule',
-            errors: ['error1', 'error2'],
+    it('outputs error for every error', () => {
+        const errors = {
+            rule1: {
+                warnings: ['error1', 'error2'],
+            },
+            rule2: {
+                warnings: ['error1', 'error2'],
+            },
         };
-        logConsole([error, error]);
+        logConsole(errors);
 
         expect(logMock.mock.calls.length).toBe(4 + 1);
     });

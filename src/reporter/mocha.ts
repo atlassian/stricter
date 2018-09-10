@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { EOL } from 'os';
-import { LogEntry } from './../types';
+import { RuleToRuleApplicationResult } from './../types';
 
 const reportFileName = 'stricter.json';
 
@@ -20,11 +20,40 @@ const encode = (str: string) => {
     return result;
 };
 
-export default (logs: LogEntry[]): void => {
-    const now = new Date();
-    const failuresCount = logs.reduce((acc, i) => acc + ((i.errors && i.errors.length) || 0), 0);
+interface Failure {
+    title: string;
+    fullTitle: string;
+    duration: number;
+    errorCount: number;
+    error: string | undefined;
+}
 
-    const report = {
+export default (report: RuleToRuleApplicationResult): void => {
+    const now = new Date();
+    const failuresCount = Object.values(report).reduce(
+        (acc, i) => acc + ((i.errors && i.errors.length) || 0),
+        0,
+    );
+
+    const failures = Object.entries(report).reduce(
+        (acc, [rule, applicationResult]) => {
+            acc.push({
+                title: rule,
+                fullTitle: rule,
+                duration: 0,
+                errorCount: (applicationResult.errors && applicationResult.errors.length) || 0,
+                error:
+                    applicationResult.errors &&
+                    applicationResult.errors.map(i => encode(i)).join(EOL),
+            });
+
+            return acc;
+        },
+        [] as Failure[],
+    );
+
+    const result = {
+        failures,
         stats: {
             tests: failuresCount,
             passes: 0,
@@ -33,16 +62,9 @@ export default (logs: LogEntry[]): void => {
             start: now,
             end: now,
         },
-        failures: logs.map(log => ({
-            title: log.rule,
-            fullTitle: log.rule,
-            duration: 0,
-            errorCount: (log.errors && log.errors.length) || 0,
-            error: log.errors && log.errors.map(i => encode(i)).join(EOL),
-        })),
         passes: [],
         skipped: [],
     };
 
-    fs.writeFileSync(reportFileName, JSON.stringify(report, null, 2), 'utf-8');
+    fs.writeFileSync(reportFileName, JSON.stringify(result, null, 2), 'utf-8');
 };
