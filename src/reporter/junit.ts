@@ -1,5 +1,6 @@
-import { LogEntry } from './../types';
+import { EOL } from 'os';
 import xmlEscape = require('xml-escape');
+import { LogEntry } from './../types';
 
 enum Level {
     WARNING = 'warning',
@@ -33,7 +34,7 @@ const suiteTemplate = (
 ) => `<testsuite name="${xmlEscape(
     name,
 )}" failures="${failureCount}" errors="${errors}" tests="${tests}">
-    ${testcases.join('\n')}
+    ${testcases.join(EOL)}
 </testsuite>`;
 
 const testcaseTemplate = (name: string, failures: string) => `<testcase name="${xmlEscape(name)}">
@@ -57,12 +58,12 @@ export default (logs: LogEntry[]): void => {
             if (log.errors) {
                 acc.failures += log.errors.length;
                 acc.errors += log.errors.length;
-                acc.rules[log.rule].push(testcaseFailure(Level.ERROR, '', log.errors.join('\n')));
+                acc.rules[log.rule].push(testcaseFailure(Level.ERROR, '', log.errors.join(EOL)));
             }
             if (log.warnings) {
                 acc.failures += log.warnings.length;
                 acc.rules[log.rule].push(
-                    testcaseFailure(Level.WARNING, '', log.warnings.join('\n')),
+                    testcaseFailure(Level.WARNING, '', log.warnings.join(EOL)),
                 );
             }
             acc.tests += 1;
@@ -72,7 +73,7 @@ export default (logs: LogEntry[]): void => {
     );
 
     const testcases = Object.keys(data.rules).map(rule =>
-        testcaseTemplate(rule, data.rules[rule].join('\n')),
+        testcaseTemplate(rule, data.rules[rule].join(EOL)),
     );
 
     // the JUnit format isn't really designed for a system that doesn't log success, so if we don't

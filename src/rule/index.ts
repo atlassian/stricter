@@ -1,4 +1,5 @@
 import * as path from 'path';
+import { EOL } from 'os';
 import { listFiles, getMatcher } from './../utils';
 import { Config, RuleApplications, RuleDefinitions, RuleUsage } from './../types';
 import { unusedFilesRule } from './default-rules';
@@ -46,7 +47,7 @@ export const getRuleApplications = (
 
     if (notExistingRules.length) {
         throw new Error(
-            `Unable to find definitions for following rules:\r\n${notExistingRules.join('\r\n')}`,
+            `Unable to find definitions for following rules:${EOL}${notExistingRules.join(EOL)}`,
         );
     }
 

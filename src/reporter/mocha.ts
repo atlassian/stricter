@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import { EOL } from 'os';
 import { LogEntry } from './../types';
 
 const reportFileName = 'stricter.json';
@@ -37,7 +38,7 @@ export default (logs: LogEntry[]): void => {
             fullTitle: log.rule,
             duration: 0,
             errorCount: (log.errors && log.errors.length) || 0,
-            error: log.errors && log.errors.map(i => encode(i)).join('\n'),
+            error: log.errors && log.errors.map(i => encode(i)).join(EOL),
         })),
         passes: [],
         skipped: [],

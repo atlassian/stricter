@@ -3,6 +3,8 @@
 ## Master
 
 - Bump dependencies
+- Use OS-specific line-breaks
+- Refactoring
 
 ## 0.1.1 - JUnit reporter
 
