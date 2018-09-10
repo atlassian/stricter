@@ -75,7 +75,7 @@ describe('listFiles', () => {
         readdirSync.mockImplementation(() => fileList);
 
         const result = listFiles('test');
-        expect(result).toEqual(fileList.map(i => 'test_' + i));
+        expect(result).toEqual(fileList.map(i => `test_${i}`));
     });
 
     it('lists files in folder with subfolders', () => {
@@ -107,7 +107,7 @@ describe('listFiles', () => {
         );
 
         const result = listFiles('test');
-        expect(result).toEqual(fileList.map(i => 'test_folder_' + i));
+        expect(result).toEqual(fileList.map(i => `test_folder_${i}`));
     });
 
     it('does not list same symlink files twice', () => {

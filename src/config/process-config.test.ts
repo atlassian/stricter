@@ -30,7 +30,7 @@ describe('getDirResolver', () => {
 describe('processConfig', () => {
     beforeAll(() => {
         const { resolve } = require('path');
-        resolve.mockImplementation((_: string, dir: string) => 'resolved_' + dir);
+        resolve.mockImplementation((_: string, dir: string) => `resolved_${dir}`);
     });
 
     it('populates root and rules', () => {
