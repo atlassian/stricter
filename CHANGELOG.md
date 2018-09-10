@@ -2,6 +2,7 @@
 
 ## Master
 
+- **BREAKING** Dependency resolution is more correct now (and a bit slower)
 - Bump dependencies
 - Use OS-specific line-breaks
 - Refactoring

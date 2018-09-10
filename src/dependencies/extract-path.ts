@@ -1,18 +1,9 @@
-import { dirname, resolve } from 'path';
+import { dirname } from 'path';
+import * as resolveFrom from 'resolve-from';
 
 export default (importString: string, filePath: string): string => {
     try {
-        /*
-            node_modules is a "safe" default
-            so that node doesn't try to resolve absolute/package path as a relative one
-            an issue might occur in case we require a package without index.js in root
-        */
-        const basePath = importString.startsWith('.')
-            ? dirname(filePath)
-            : resolve(filePath, '..', 'node_modules');
-        const result = require.resolve(importString, {
-            paths: [basePath],
-        });
+        const result = resolveFrom(dirname(filePath), importString);
 
         return result;
     } catch (e) {}
