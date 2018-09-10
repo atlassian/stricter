@@ -119,3 +119,10 @@ export interface Logger {
     debug: (message: any) => void;
     log: (message: any) => void;
 }
+
+export interface CliOptions {
+    config?: string | undefined;
+    reporter?: string | undefined;
+}
+
+export type Stricter = () => number;
