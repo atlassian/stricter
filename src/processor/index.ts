@@ -121,7 +121,7 @@ export const applyProjectRules = (
     ruleApplications: RuleApplications,
 ): RuleToRuleApplicationResult => {
     const dependencies = Object.entries(filesData)
-        .filter(([fileName, fileData]: [string, FileData]) => !!fileData.dependencies)
+        .filter(([, fileData]: [string, FileData]) => !!fileData.dependencies)
         .reduce(
             (acc, [fileName, fileData]: [string, FileData]) => {
                 acc[fileName] = fileData.dependencies as string[];
@@ -137,6 +137,7 @@ export const applyProjectRules = (
                 : [ruleApplication.usage];
             const definition = ruleApplication.definition;
             let ruleApplicationResult;
+            const startTime = process.hrtime();
 
             ruleApplicationResult = usage
                 .map(usage => processRule(directory, definition, usage, filesData, dependencies))
@@ -151,6 +152,9 @@ export const applyProjectRules = (
                     } as RuleApplicationResult,
                 );
 
+            const elapsedTime = process.hrtime(startTime);
+
+            ruleApplicationResult.time = elapsedTime[0] * 1e3 + elapsedTime[1] / 1e6;
             acc[ruleName] = ruleApplicationResult;
 
             return acc;

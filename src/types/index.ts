@@ -11,11 +11,13 @@ export enum Level {
     OFF = 'off',
 }
 
-export enum Reporter {
+export enum ReporterType {
     CONSOLE = 'console',
     JUNIT = 'junit',
     MOCHA = 'mocha',
 }
+
+export type Reporter = (report: RuleToRuleApplicationResult) => void;
 
 export interface RuleUsageConfig {
     [prop: string]: any;
@@ -56,6 +58,7 @@ export interface FileToDependency {
 export interface RuleApplicationResult {
     errors?: string[];
     warnings?: string[];
+    time?: number;
 }
 
 export interface RuleToRuleApplicationResult {
@@ -99,9 +102,11 @@ export interface LogEntry {
 }
 
 export interface StricterArguments {
-    silent?: boolean;
-    configPath?: string;
-    reporter?: Reporter;
+    options: {
+        configPath?: string;
+    };
+    reporter: Reporter;
+    logger: Logger;
 }
 
 export interface ParsedImportsResult {
@@ -110,3 +115,15 @@ export interface ParsedImportsResult {
 }
 
 export type PathMatcher = (path: string) => boolean;
+
+export interface Logger {
+    debug: (message: any) => void;
+    log: (message: any) => void;
+}
+
+export interface CliOptions {
+    config?: string | undefined;
+    reporter?: string | undefined;
+}
+
+export type Stricter = () => number;

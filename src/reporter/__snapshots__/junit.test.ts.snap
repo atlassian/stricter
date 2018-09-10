@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`junitLogger outputs valid complex xml 1`] = `
+exports[`junitReporter outputs valid complex xml 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
     <testsuites package=\\"stricter\\">
         <testsuite name=\\"stricter\\" failures=\\"5\\" errors=\\"3\\" tests=\\"3\\">
@@ -23,11 +23,22 @@ rule3-warning]]></failure>
     </testsuites>"
 `;
 
-exports[`junitLogger outputs valid empty xml 1`] = `
+exports[`junitReporter outputs valid empty xml 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
     <testsuites package=\\"stricter\\">
         <testsuite name=\\"stricter\\" failures=\\"0\\" errors=\\"0\\" tests=\\"1\\">
     <testcase name=\\"no errors\\">
+    
+</testcase>
+</testsuite>
+    </testsuites>"
+`;
+
+exports[`junitReporter outputs valid xml when there is no rules violations 1`] = `
+"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
+    <testsuites package=\\"stricter\\">
+        <testsuite name=\\"stricter\\" failures=\\"0\\" errors=\\"0\\" tests=\\"1\\">
+    <testcase name=\\"rule1\\">
     
 </testcase>
 </testsuite>

@@ -1,6 +1,5 @@
 import * as program from 'commander';
-import * as isCi from 'is-ci';
-import stricter from './stricter';
+import getStricter from '../factory';
 
 export default (): number => {
     program
@@ -13,11 +12,13 @@ export default (): number => {
             'console',
         )
         .parse(process.argv);
-    const result = stricter({
-        configPath: program.config,
+
+    const stricter = getStricter({
+        config: program.config,
         reporter: program.reporter,
-        silent: isCi,
     });
+
+    const result = stricter();
 
     return result;
 };
