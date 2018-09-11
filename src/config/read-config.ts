@@ -1,4 +1,4 @@
-import * as cosmiconfig from 'cosmiconfig';
+import cosmiconfig from 'cosmiconfig';
 import { CosmiConfig } from './../types';
 
 const moduleName = 'stricter';

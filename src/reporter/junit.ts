@@ -1,5 +1,5 @@
 import { EOL } from 'os';
-import xmlEscape = require('xml-escape');
+import xmlEscape from 'xml-escape';
 import { RuleToRuleApplicationResult } from './../types';
 
 enum Level {

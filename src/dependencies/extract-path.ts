@@ -1,5 +1,5 @@
 import { dirname } from 'path';
-import * as resolveFrom from 'resolve-from';
+import resolveFrom from 'resolve-from';
 
 export default (importString: string, filePath: string): string => {
     try {

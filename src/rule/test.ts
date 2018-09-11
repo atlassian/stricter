@@ -30,7 +30,7 @@ describe('getRuleDefinitions', () => {
             rulesDir: 'test',
             root: 'root',
             rules: {
-                rule1: {}
+                rule1: {},
             },
         };
 
@@ -52,7 +52,7 @@ describe('getRuleDefinitions', () => {
             rulesDir: 'test',
             root: 'root',
             rules: {
-                rule1: {}
+                rule1: {},
             },
         };
 
@@ -79,7 +79,7 @@ describe('getRuleDefinitions', () => {
             rulesDir: 'test',
             root: 'root',
             rules: {
-                [ruleName]: {}
+                [ruleName]: {},
             },
         };
 

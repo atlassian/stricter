@@ -1,4 +1,4 @@
-import * as getDebug from 'debug';
+import getDebug from 'debug';
 import { Logger } from '../types';
 
 export default (): Logger => {
