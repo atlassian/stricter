@@ -55,25 +55,23 @@ export const readFilesData = (files: string[]): FileToData => {
 const createRuleApplicationResult = (
     messageType: string,
     ruleMessages: string[],
+    time: number,
 ): RuleApplicationResult => {
-    let result;
+    const result: RuleApplicationResult = {
+        time,
+        warnings: [],
+        errors: [],
+    };
 
     switch (messageType) {
         case Level.ERROR:
-            result = {
-                errors: ruleMessages,
-            };
+            result.errors = ruleMessages;
             break;
         case Level.OFF:
-            result = {
-                errors: [],
-            };
             break;
         case Level.WARNING:
         default:
-            result = {
-                warnings: ruleMessages,
-            };
+            result.warnings = ruleMessages;
     }
 
     return result;
@@ -86,6 +84,8 @@ const processRule = (
     filesData: FileToData,
     dependencies: FileToDependency,
 ) => {
+    const startTime = process.hrtime();
+
     const reducedFilesData = Object.keys(filesData)
         .filter(i => matchesRuleUsage(directory, i, ruleUsage))
         .reduce(
@@ -104,13 +104,17 @@ const processRule = (
         files: reducedFilesData,
         rootPath: directory,
     });
+
+    const elapsedTime = process.hrtime(startTime);
+    const timeInMs = elapsedTime[0] * 1e3 + elapsedTime[1] / 1e6;
+
     let messageType = ruleUsage.level;
 
     if (!messageType || Object.values(Level).indexOf(messageType) === -1) {
         messageType = Level.WARNING;
     }
 
-    const ruleApplicationResult = createRuleApplicationResult(messageType, ruleMessages);
+    const ruleApplicationResult = createRuleApplicationResult(messageType, ruleMessages, timeInMs);
 
     return ruleApplicationResult;
 };
@@ -136,25 +140,22 @@ export const applyProjectRules = (
                 ? ruleApplication.usage
                 : [ruleApplication.usage];
             const definition = ruleApplication.definition;
-            let ruleApplicationResult;
-            const startTime = process.hrtime();
 
-            ruleApplicationResult = usage
+            const ruleApplicationResult = usage
                 .map(usage => processRule(directory, definition, usage, filesData, dependencies))
                 .reduce(
                     (acc, i) => ({
-                        errors: [...(acc.errors || []), ...(i.errors || [])],
-                        warnings: [...(acc.warnings || []), ...(i.warnings || [])],
+                        errors: acc.errors.concat(i.errors),
+                        warnings: acc.warnings.concat(i.warnings),
+                        time: acc.time + i.time,
                     }),
                     {
                         errors: [],
                         warnings: [],
+                        time: 0,
                     } as RuleApplicationResult,
                 );
 
-            const elapsedTime = process.hrtime(startTime);
-
-            ruleApplicationResult.time = elapsedTime[0] * 1e3 + elapsedTime[1] / 1e6;
             acc[ruleName] = ruleApplicationResult;
 
             return acc;

@@ -56,9 +56,9 @@ export interface FileToDependency {
 }
 
 export interface RuleApplicationResult {
-    errors?: string[];
-    warnings?: string[];
-    time?: number;
+    errors: string[];
+    warnings: string[];
+    time: number;
 }
 
 export interface RuleToRuleApplicationResult {
@@ -97,8 +97,9 @@ export interface FileToRule {
 
 export interface LogEntry {
     rule: string;
-    errors?: string[];
-    warnings?: string[];
+    errors: string[];
+    warnings: string[];
+    time: number;
 }
 
 export interface StricterArguments {

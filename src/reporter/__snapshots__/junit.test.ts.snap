@@ -2,18 +2,18 @@
 
 exports[`junitReporter outputs valid complex xml 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
-    <testsuites package=\\"stricter\\">
+    <testsuites package=\\"stricter\\" time=\\"0.006\\">
         <testsuite name=\\"stricter\\" failures=\\"5\\" errors=\\"3\\" tests=\\"3\\">
-    <testcase name=\\"rule1\\">
+    <testcase name=\\"rule1\\" time=\\"0.001\\">
     <failure type=\\"error\\"><![CDATA[
 error1
 someting 'that' \\"needs\\" <escaping> and closes it's CDATA ]]]]><![CDATA[> early]]></failure>
 </testcase>
-<testcase name=\\"rule2\\">
+<testcase name=\\"rule2\\" time=\\"0.002\\">
     <failure type=\\"warning\\"><![CDATA[
 rule2-warning]]></failure>
 </testcase>
-<testcase name=\\"rule3\\">
+<testcase name=\\"rule3\\" time=\\"0.003\\">
     <failure type=\\"error\\"><![CDATA[
 rule3-error]]></failure>
 <failure type=\\"warning\\"><![CDATA[
@@ -25,9 +25,9 @@ rule3-warning]]></failure>
 
 exports[`junitReporter outputs valid empty xml 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
-    <testsuites package=\\"stricter\\">
+    <testsuites package=\\"stricter\\" time=\\"0\\">
         <testsuite name=\\"stricter\\" failures=\\"0\\" errors=\\"0\\" tests=\\"1\\">
-    <testcase name=\\"no errors\\">
+    <testcase name=\\"no errors\\" time=\\"0\\">
     
 </testcase>
 </testsuite>
@@ -36,9 +36,9 @@ exports[`junitReporter outputs valid empty xml 1`] = `
 
 exports[`junitReporter outputs valid xml when there is no rules violations 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
-    <testsuites package=\\"stricter\\">
+    <testsuites package=\\"stricter\\" time=\\"0.001\\">
         <testsuite name=\\"stricter\\" failures=\\"0\\" errors=\\"0\\" tests=\\"1\\">
-    <testcase name=\\"rule1\\">
+    <testcase name=\\"rule1\\" time=\\"0.001\\">
     
 </testcase>
 </testsuite>

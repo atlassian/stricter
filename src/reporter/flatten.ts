@@ -6,8 +6,9 @@ export const compactProjectLogs = (projectResult: RuleToRuleApplicationResult): 
             rule,
             errors: applicationResult.errors,
             warnings: applicationResult.warnings,
+            time: applicationResult.time,
         }))
-        .filter(i => (i.warnings && i.warnings.length) || (i.errors && i.errors.length));
+        .filter(i => i.warnings.length || i.errors.length);
 
     return result;
 };

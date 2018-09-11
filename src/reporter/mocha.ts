@@ -30,6 +30,7 @@ interface Failure {
 
 export default (report: RuleToRuleApplicationResult): void => {
     const now = new Date();
+    const testsCount = Object.values(report).length;
     const failuresCount = Object.values(report).reduce(
         (acc, i) => acc + ((i.errors && i.errors.length) || 0),
         0,
@@ -40,11 +41,9 @@ export default (report: RuleToRuleApplicationResult): void => {
             acc.push({
                 title: rule,
                 fullTitle: rule,
-                duration: 0,
-                errorCount: (applicationResult.errors && applicationResult.errors.length) || 0,
-                error:
-                    applicationResult.errors &&
-                    applicationResult.errors.map(i => encode(i)).join(EOL),
+                duration: applicationResult.time / 1000,
+                errorCount: applicationResult.errors.length,
+                error: applicationResult.errors.map(i => encode(i)).join(EOL),
             });
 
             return acc;
@@ -55,8 +54,8 @@ export default (report: RuleToRuleApplicationResult): void => {
     const result = {
         failures,
         stats: {
-            tests: failuresCount,
-            passes: 0,
+            tests: testsCount,
+            passes: testsCount - failuresCount,
             failures: failuresCount,
             duration: 0,
             start: now,

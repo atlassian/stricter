@@ -16,7 +16,11 @@ describe('junitReporter', () => {
 
     it('outputs valid xml when there is no rules violations', () => {
         logJunit({
-            rule1: {},
+            rule1: {
+                errors: [],
+                warnings: [],
+                time: 1,
+            },
         });
         const output = logMock.mock.calls[0][0];
         expect(output).toMatchSnapshot();
@@ -29,9 +33,19 @@ describe('junitReporter', () => {
                     'error1',
                     `someting 'that' "needs" <escaping> and closes it's CDATA ]]> early`,
                 ],
+                warnings: [],
+                time: 1,
             },
-            rule2: { warnings: ['rule2-warning'] },
-            rule3: { errors: ['rule3-error'], warnings: ['rule3-warning'] },
+            rule2: {
+                errors: [],
+                warnings: ['rule2-warning'],
+                time: 2,
+            },
+            rule3: {
+                errors: ['rule3-error'],
+                warnings: ['rule3-warning'],
+                time: 3,
+            },
         });
         const output = logMock.mock.calls[0][0];
         expect(output).toMatchSnapshot();

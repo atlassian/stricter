@@ -8,6 +8,7 @@
 - Refactoring
 - Improved JUnit reporter
 - Subtle console reporter changes
+- Add timing data for the rules (#23)
 
 ## 0.1.1 - JUnit reporter
 
