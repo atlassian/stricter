@@ -2,6 +2,11 @@
 
 ## Master
 
+- Add possibility to verify specific rules (`--verify ruleName`)
+
+
+## 0.2.0 - More correct
+
 - **BREAKING** Dependency resolution is more correct now (and a bit slower)
 - Bump dependencies
 - Use OS-specific line-breaks

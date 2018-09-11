@@ -103,6 +103,16 @@ interface RuleDefinition {
 
 `exclude` value of `exclude` from the rule
 
+# CLI
+```
+Options:
+  --help          Show help                                            [boolean]
+  --version       Show version number                                  [boolean]
+  -c, --config    Specify config location                               [string]
+  -r, --reporter  Specify reporter        [choices: "console", "mocha", "junit"]
+  -v, --verify    Verify particular rule                                 [array]
+```
+
 # Debugging
 It helps to use `src/debug.ts` as an entry point for debugging.
 A sample launch.json for VS Code might look like

@@ -1,21 +1,32 @@
-import * as program from 'commander';
+import * as yargs from 'yargs';
 import getStricter from '../factory';
 
 export default (): number => {
-    program
+    const argv = yargs
         .version(process.env.STRICTER_VERSION as string)
-        .option('-c, --config <path>', 'specify config location')
-        .option(
-            '-r, --reporter <console|mocha|junit>',
-            'specify reporter',
-            /^(console|mocha|junit)$/i,
-            'console',
-        )
-        .parse(process.argv);
+        .option('c', {
+            alias: 'config',
+            description: 'Specify config location',
+            string: true,
+            requiresArg: true,
+        })
+        .option('r', {
+            alias: 'reporter',
+            description: 'Specify reporter',
+            choices: ['console', 'mocha', 'junit'],
+            requiresArg: true,
+        })
+        .option('v', {
+            alias: 'verify',
+            description: 'Verify particular rule',
+            array: true,
+            requiresArg: true,
+        }).argv;
 
     const stricter = getStricter({
-        config: program.config,
-        reporter: program.reporter,
+        config: argv.config,
+        reporter: argv.reporter,
+        rulesToVerify: argv.verify,
     });
 
     const result = stricter();

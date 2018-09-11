@@ -17,6 +17,7 @@ export default (options: CliOptions): Stricter => {
             reporter,
             options: {
                 configPath,
+                rulesToVerify: options.rulesToVerify,
             },
         });
 };

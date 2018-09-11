@@ -105,6 +105,7 @@ export interface LogEntry {
 export interface StricterArguments {
     options: {
         configPath?: string;
+        rulesToVerify?: string[];
     };
     reporter: Reporter;
     logger: Logger;
@@ -125,6 +126,7 @@ export interface Logger {
 export interface CliOptions {
     config?: string | undefined;
     reporter?: string | undefined;
+    rulesToVerify?: string[] | undefined;
 }
 
 export type Stricter = () => number;

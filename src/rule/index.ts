@@ -8,7 +8,7 @@ export const defaultRules: RuleDefinitions = {
     'stricter/unused-files': unusedFilesRule,
 };
 
-export const RULE_SUFFIX = '.rule';
+export const RULE_SUFFIX = '.rule.js';
 
 const stripOutSuffix = (str: string): string => {
     return str.substring(0, str.length - RULE_SUFFIX.length);
@@ -19,31 +19,31 @@ export const getRuleDefinitions = (config: Config): RuleDefinitions => {
         return defaultRules;
     }
 
-    const ruleFiles = listFiles(config.rulesDir).filter(i => i.endsWith(`${RULE_SUFFIX}.js`));
+    const rulesUsed = Object.keys(config.rules);
+    const ruleFiles = listFiles(config.rulesDir).filter(i => i.endsWith(RULE_SUFFIX));
     const customRules = ruleFiles.reduce(
         (acc, filePath: string) => {
-            const ruleName = path.basename(filePath, path.extname(filePath));
+            const ruleName = stripOutSuffix(path.basename(filePath));
+
+            if (!rulesUsed.includes(ruleName)) {
+                return acc;
+            }
+
             const rule = require(filePath);
 
             if (!rule.onProject) {
                 throw new Error(`Rule ${ruleName} should have onProject.`);
             }
-            acc[stripOutSuffix(ruleName)] = rule;
+
+            acc[ruleName] = rule;
 
             return acc;
         },
         {} as RuleDefinitions,
     );
 
-    return { ...defaultRules, ...customRules };
-};
-
-export const getRuleApplications = (
-    config: Config,
-    ruleDefinitions: RuleDefinitions,
-): RuleApplications => {
-    const usages = Object.keys(config.rules);
-    const notExistingRules = usages.filter(i => !ruleDefinitions[i]);
+    const foundRules = Object.keys(customRules);
+    const notExistingRules = rulesUsed.filter(ruleName => !foundRules.includes(ruleName));
 
     if (notExistingRules.length) {
         throw new Error(
@@ -51,8 +51,45 @@ export const getRuleApplications = (
         );
     }
 
+    return { ...defaultRules, ...customRules };
+};
+
+export const filterRuleDefinitions = (
+    rules: RuleDefinitions,
+    rulesToVerify: string[] | undefined,
+): RuleDefinitions => {
+    if (!rulesToVerify || !rulesToVerify.length) {
+        return rules;
+    }
+
+    const result = Object.entries(rules).reduce(
+        (acc, [ruleName, ruleDefinition]) => {
+            if (!rulesToVerify.includes(ruleName)) {
+                return acc;
+            }
+
+            acc[ruleName] = ruleDefinition;
+
+            return acc;
+        },
+        {} as RuleDefinitions,
+    );
+
+    return result;
+};
+
+export const getRuleApplications = (
+    config: Config,
+    ruleDefinitions: RuleDefinitions,
+    rulesToVerify: string[] | undefined,
+): RuleApplications => {
+    const usages = Object.keys(config.rules);
     const result = usages.reduce(
         (acc, ruleName) => {
+            if (rulesToVerify && !rulesToVerify.includes(ruleName)) {
+                return acc;
+            }
+
             acc[ruleName] = {
                 definition: ruleDefinitions[ruleName],
                 usage: config.rules[ruleName],

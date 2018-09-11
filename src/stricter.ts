@@ -1,18 +1,23 @@
 import { getConfig } from './config';
-import { getRuleDefinitions, getRuleApplications, filterFilesToProcess } from './rule';
+import {
+    getRuleDefinitions,
+    getRuleApplications,
+    filterFilesToProcess,
+    filterRuleDefinitions,
+} from './rule';
 import { applyProjectRules, readFilesData } from './processor';
 import { getErrorCount } from './reporter';
 import { listFiles } from './utils';
 import { StricterArguments } from './types';
 
 export default ({
-    options: { configPath },
+    options: { configPath, rulesToVerify },
     reporter,
     logger: { debug, log },
 }: StricterArguments): number => {
     debug({
-        reporter,
         configPath,
+        rulesToVerify,
     });
 
     log('Checking...');
@@ -26,8 +31,11 @@ export default ({
     debug('Get rule definitions');
     const ruleDefinitions = getRuleDefinitions(config);
 
+    debug('Filter rule definitions');
+    const filteredRuleDefinitions = filterRuleDefinitions(ruleDefinitions, rulesToVerify);
+
     debug('Get rule applications');
-    const ruleApplications = getRuleApplications(config, ruleDefinitions);
+    const ruleApplications = getRuleApplications(config, filteredRuleDefinitions, rulesToVerify);
 
     debug('Get files to process');
     const filesToProcess = filterFilesToProcess(config.root, fileList, ruleApplications);

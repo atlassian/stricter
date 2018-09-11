@@ -15,8 +15,8 @@ describe('getRuleDefinitions', () => {
         expect(result).toEqual(defaultRules);
     });
 
-    it('should throw if no onProject is provided', () => {
-        const filePath = `filePath1${RULE_SUFFIX}.js`;
+    it('throws if non-existing rules found', () => {
+        const filePath = `rule1${RULE_SUFFIX}`;
 
         const { listFiles } = require('./../utils');
         listFiles.mockReturnValue([filePath]);
@@ -29,14 +29,39 @@ describe('getRuleDefinitions', () => {
         const config = {
             rulesDir: 'test',
             root: 'root',
-            rules: {},
+            rules: {
+                rule1: {}
+            },
+        };
+
+        expect(() => getRuleDefinitions(config)).toThrow();
+    });
+
+    it('should throw if no onProject is provided', () => {
+        const filePath = `rule1${RULE_SUFFIX}`;
+
+        const { listFiles } = require('./../utils');
+        listFiles.mockReturnValue([filePath]);
+
+        jest.doMock(filePath, () => ({}), { virtual: true });
+
+        const { basename } = require('path');
+        basename.mockReturnValue('ruleName');
+
+        const config = {
+            rulesDir: 'test',
+            root: 'root',
+            rules: {
+                rule1: {}
+            },
         };
 
         expect(() => getRuleDefinitions(config)).toThrow();
     });
 
     it('should add rule if onProject is provided', () => {
-        const filePath = `filePath4${RULE_SUFFIX}.js`;
+        const ruleName = 'ruleName';
+        const filePath = `${ruleName}${RULE_SUFFIX}`;
 
         const { listFiles } = require('./../utils');
         listFiles.mockReturnValue([filePath]);
@@ -48,13 +73,14 @@ describe('getRuleDefinitions', () => {
         jest.doMock(filePath, () => rule, { virtual: true });
 
         const { basename } = require('path');
-        const ruleName = 'ruleName';
         basename.mockReturnValue(`${ruleName}${RULE_SUFFIX}`);
 
         const config = {
             rulesDir: 'test',
             root: 'root',
-            rules: {},
+            rules: {
+                [ruleName]: {}
+            },
         };
 
         const result = getRuleDefinitions(config);
@@ -62,8 +88,10 @@ describe('getRuleDefinitions', () => {
     });
 
     it('should add multiple rules', () => {
-        const filePath5 = `filePath5${RULE_SUFFIX}.js`;
-        const filePath6 = `filePath6${RULE_SUFFIX}.js`;
+        const ruleName1 = 'ruleName1';
+        const ruleName2 = 'ruleName2';
+        const filePath5 = `${ruleName1}${RULE_SUFFIX}`;
+        const filePath6 = `${ruleName2}${RULE_SUFFIX}`;
 
         const { listFiles } = require('./../utils');
         listFiles.mockReturnValue([filePath5, filePath6]);
@@ -80,8 +108,6 @@ describe('getRuleDefinitions', () => {
         jest.doMock(filePath6, () => rule2, { virtual: true });
 
         const { basename } = require('path');
-        const ruleName1 = 'ruleName1';
-        const ruleName2 = 'ruleName2';
         basename
             .mockReturnValueOnce(`${ruleName1}${RULE_SUFFIX}`)
             .mockReturnValueOnce(`${ruleName2}${RULE_SUFFIX}`);
@@ -89,14 +115,17 @@ describe('getRuleDefinitions', () => {
         const config = {
             rulesDir: 'test',
             root: 'root',
-            rules: {},
+            rules: {
+                [ruleName1]: {},
+                [ruleName2]: {},
+            },
         };
 
         const result = getRuleDefinitions(config);
         expect(result).toEqual({ ...defaultRules, [ruleName1]: rule1, [ruleName2]: rule2 });
     });
 
-    it(`should ignore all files except for those that end with "${RULE_SUFFIX}.js"`, () => {
+    it(`should ignore all files except for those that end with "${RULE_SUFFIX}"`, () => {
         const filePath7 = 'filePath7.ts';
         const filePath8 = 'filePath8.js';
 
@@ -126,19 +155,6 @@ describe('getRuleDefinitions', () => {
 
 describe('getRuleApplications', () => {
     it('throws if non-existing rules found', () => {
-        const config = {
-            root: 'root',
-            rules: {
-                test: {},
-            },
-        };
-
-        const ruleDefinitions = {};
-
-        expect(() => getRuleApplications(config, ruleDefinitions)).toThrow();
-    });
-
-    it('throws if non-existing rules found11', () => {
         const rule1Usage = {
             include: /rule1/,
         };
@@ -168,7 +184,7 @@ describe('getRuleApplications', () => {
             rule2,
         };
 
-        const result = getRuleApplications(config, ruleDefinitions);
+        const result = getRuleApplications(config, ruleDefinitions, undefined);
 
         expect(result).toEqual({
             rule1: {
