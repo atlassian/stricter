@@ -17,7 +17,7 @@ import {
 const readFileData = (filePath: string): FileData => {
     const source = readFile(filePath);
     // We parse .js-files only at the moment
-    const ast = filePath.endsWith('.js') ? () => parse(source) : undefined;
+    const ast = filePath.endsWith('.js') ? () => parse(source, filePath) : undefined;
     let dependencies: string[] | undefined;
 
     if (ast) {

@@ -538,7 +538,7 @@
     globals "^11.1.0"
     lodash "^4.17.10"
 
-"@babel/types@^7.0.0":
+"@babel/types@^7.0.0", "@babel/types@^7.0.0-beta.54":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.0.0.tgz#6e191793d3c854d19c6749989e3bc55f0e962118"
   dependencies:
@@ -570,6 +570,36 @@
 "@types/babel-types@^7.0.4":
   version "7.0.4"
   resolved "https://registry.yarnpkg.com/@types/babel-types/-/babel-types-7.0.4.tgz#bfd5b0d0d1ba13e351dff65b6e52783b816826c8"
+
+"@types/babel__core@^7.0.1":
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.0.1.tgz#8b608a1c55cb4c752352cc6c78f7beb61a3fd51f"
+  dependencies:
+    "@babel/types" "^7.0.0-beta.54"
+
+"@types/babel__generator@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@types/babel__generator/-/babel__generator-7.0.0.tgz#5f561a83712e52ac86a1b6f53509aa511e6efa4e"
+  dependencies:
+    "@babel/types" "^7.0.0-beta.54"
+
+"@types/babel__parser@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@types/babel__parser/-/babel__parser-7.0.0.tgz#0c7a8e317eff2747a94bc5a116e010a363cbab27"
+  dependencies:
+    "@babel/types" "^7.0.0-beta.54"
+
+"@types/babel__template@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@types/babel__template/-/babel__template-7.0.0.tgz#747b9dd9d0065879e46b5e53c95fd2cfd65c3fea"
+  dependencies:
+    "@babel/types" "^7.0.0-beta.54"
+
+"@types/babel__traverse@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@types/babel__traverse/-/babel__traverse-7.0.0.tgz#0e6a0a8cb938ed26d0d90e83456335ddc6efd2c4"
+  dependencies:
+    "@babel/types" "^7.0.0-beta.54"
 
 "@types/babylon-walk@^3.10.1":
   version "3.10.1"

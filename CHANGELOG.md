@@ -4,6 +4,7 @@
 
 - Add possibility to verify specific rules (`--verify ruleName`)
 - Use `rollup` instead of `fusebox` for bundling
+- Fix default rules handling
 
 
 ## 0.2.0 - More correct

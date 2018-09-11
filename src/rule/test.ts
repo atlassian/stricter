@@ -4,10 +4,23 @@ jest.mock('path');
 jest.mock('./../utils');
 
 describe('getRuleDefinitions', () => {
-    it('returns defaultRules if no rulesDir specified', () => {
+    it('returns nothing is nothing is specified', () => {
         const config = {
             root: 'root',
             rules: {},
+        };
+
+        const result = getRuleDefinitions(config);
+
+        expect(result).toEqual({});
+    });
+
+    it('returns defaultRules if default rule is specified', () => {
+        const config = {
+            root: 'root',
+            rules: {
+                'stricter/unused-files': {},
+            },
         };
 
         const result = getRuleDefinitions(config);
@@ -84,7 +97,7 @@ describe('getRuleDefinitions', () => {
         };
 
         const result = getRuleDefinitions(config);
-        expect(result).toEqual({ ...defaultRules, [ruleName]: rule });
+        expect(result).toEqual({ [ruleName]: rule });
     });
 
     it('should add multiple rules', () => {
@@ -122,7 +135,7 @@ describe('getRuleDefinitions', () => {
         };
 
         const result = getRuleDefinitions(config);
-        expect(result).toEqual({ ...defaultRules, [ruleName1]: rule1, [ruleName2]: rule2 });
+        expect(result).toEqual({ [ruleName1]: rule1, [ruleName2]: rule2 });
     });
 
     it(`should ignore all files except for those that end with "${RULE_SUFFIX}"`, () => {
@@ -149,7 +162,7 @@ describe('getRuleDefinitions', () => {
         };
 
         const result = getRuleDefinitions(config);
-        expect(result).toEqual({ ...defaultRules });
+        expect(result).toEqual({});
     });
 });
 

@@ -15,35 +15,45 @@ const stripOutSuffix = (str: string): string => {
 };
 
 export const getRuleDefinitions = (config: Config): RuleDefinitions => {
-    if (!config.rulesDir) {
-        return defaultRules;
+    const rulesToResolve = Object.keys(config.rules);
+    let allRulesResolved: RuleDefinitions = {};
+
+    if (config.rulesDir) {
+        const customRuleFiles = listFiles(config.rulesDir).filter(i => i.endsWith(RULE_SUFFIX));
+        allRulesResolved = customRuleFiles.reduce(
+            (acc, filePath: string) => {
+                const ruleName = stripOutSuffix(path.basename(filePath));
+
+                if (!rulesToResolve.includes(ruleName)) {
+                    return acc;
+                }
+
+                const rule = require(filePath);
+
+                if (!rule.onProject) {
+                    throw new Error(`Rule ${ruleName} should have onProject.`);
+                }
+
+                acc[ruleName] = rule;
+
+                return acc;
+            },
+            {} as RuleDefinitions,
+        );
     }
 
-    const rulesUsed = Object.keys(config.rules);
-    const ruleFiles = listFiles(config.rulesDir).filter(i => i.endsWith(RULE_SUFFIX));
-    const customRules = ruleFiles.reduce(
-        (acc, filePath: string) => {
-            const ruleName = stripOutSuffix(path.basename(filePath));
-
-            if (!rulesUsed.includes(ruleName)) {
-                return acc;
-            }
-
-            const rule = require(filePath);
-
-            if (!rule.onProject) {
-                throw new Error(`Rule ${ruleName} should have onProject.`);
-            }
-
-            acc[ruleName] = rule;
-
+    allRulesResolved = Object.entries(defaultRules).reduce((acc, [ruleName, rule]) => {
+        if (!rulesToResolve.includes(ruleName)) {
             return acc;
-        },
-        {} as RuleDefinitions,
-    );
+        }
 
-    const foundRules = Object.keys(customRules);
-    const notExistingRules = rulesUsed.filter(ruleName => !foundRules.includes(ruleName));
+        acc[ruleName] = rule;
+
+        return acc;
+    }, allRulesResolved);
+
+    const foundRules = Object.keys(allRulesResolved);
+    const notExistingRules = rulesToResolve.filter(ruleName => !foundRules.includes(ruleName));
 
     if (notExistingRules.length) {
         throw new Error(
@@ -51,7 +61,7 @@ export const getRuleDefinitions = (config: Config): RuleDefinitions => {
         );
     }
 
-    return { ...defaultRules, ...customRules };
+    return allRulesResolved;
 };
 
 export const filterRuleDefinitions = (

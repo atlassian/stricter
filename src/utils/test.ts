@@ -170,7 +170,7 @@ describe('parse', () => {
         parseMock.mockImplementation((i: string) => i);
 
         const src = 'test';
-        const result = parse(src);
+        const result = parse(src, 'filePath');
 
         expect(parseMock.mock.calls.length).toBe(1);
         expect(parseMock.mock.calls[0][0]).toBe(src);
