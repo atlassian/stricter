@@ -1,17 +1,21 @@
 import { ConfigRules, RuleDefinitions, RuleApplications } from './../types';
 
+const applyFilter = (ruleNames: string[], filter: string[] | undefined) => {
+    if (!filter) {
+        return ruleNames;
+    }
+
+    return ruleNames.filter(ruleName => filter.includes(ruleName));
+};
+
 export default (
     rules: ConfigRules,
     ruleDefinitions: RuleDefinitions,
-    rulesToVerify: string[] | undefined,
+    filter: string[] | undefined,
 ): RuleApplications => {
-    const usages = Object.keys(rules);
+    const usages = applyFilter(Object.keys(rules), filter);
     const result = usages.reduce(
         (acc, ruleName) => {
-            if (rulesToVerify && !rulesToVerify.includes(ruleName)) {
-                return acc;
-            }
-
             acc[ruleName] = {
                 definition: ruleDefinitions[ruleName],
                 usage: rules[ruleName],
