@@ -1,16 +1,45 @@
 declare module 'cosmiconfig'; // does not exist
+
 declare module 'is-ci' {
     var isCi: boolean;
     export = isCi;
 }
+
 declare module 'xml-escape' {
     function xmlEscape(str: string, ignore?: string): string;
     export default xmlEscape;
 }
+
 declare module 'resolve-from' {
     function resolveFrom(fromDir: string, moduleId: string): string;
     export default resolveFrom;
 }
+
+declare module 'file-system-cache' {
+    interface Options {
+        basePath?: string;
+        ns?: string;
+    }
+    interface Cache {
+        getSync: (key: string, defaultValue?: Object) => Object;
+        setSync: (key: string, value: Object) => void;
+    }
+    function fileSystemCache(options: Options): Cache;
+    export default fileSystemCache;
+}
+
+declare module 'find-cache-dir' {
+    interface Options {
+        name: string;
+        files?: string[];
+        cwd?: string;
+        create?: boolean;
+        thunk?: boolean;
+    }
+    function resolveFrom(options?: Options): string;
+    export default resolveFrom;
+}
+
 declare module 'debug' {
     interface IFormatters {
         [formatter: string]: Function

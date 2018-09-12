@@ -104,13 +104,22 @@ export interface LogEntry {
     time: number;
 }
 
+export interface CliOptions {
+    config: string | undefined;
+    reporter: string | undefined;
+    rulesToVerify: string[] | undefined;
+    clearCache: boolean | undefined;
+}
+
 export interface StricterArguments {
     options: {
         configPath: string | undefined;
         rulesToVerify: string[] | undefined;
+        clearCache: boolean | undefined;
     };
     reporter: Reporter;
     logger: Logger;
+    cacheManager: CacheManager;
 }
 
 export interface ParsedImportsResult {
@@ -125,12 +134,17 @@ export interface Logger {
     log: (message: any) => void;
 }
 
-export interface CliOptions {
-    config: string | undefined;
-    reporter: string | undefined;
-    rulesToVerify: string[] | undefined;
-}
-
 export type Stricter = () => number;
 
 export type ResolveImport = (importString: string, dir: string) => string;
+
+export interface CacheContents {
+    filesData: FileToData;
+}
+export interface CacheManager {
+    clear: () => void;
+    get: () => CacheContents;
+    set: (contents: CacheContents) => void;
+}
+
+export type HashFunction = (contents: string) => string;

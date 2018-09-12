@@ -7,7 +7,8 @@ import { getErrorCount } from './reporter';
 import { StricterArguments } from './types';
 
 export default ({
-    options: { configPath, rulesToVerify },
+    options: { configPath, rulesToVerify, clearCache },
+    cacheManager,
     reporter,
     logger: { debug, log },
 }: StricterArguments): number => {
@@ -17,6 +18,11 @@ export default ({
     });
 
     log('Checking...');
+
+    if (clearCache) {
+        debug('Clear cache');
+        cacheManager.clear();
+    }
 
     debug('Read config');
     const config = getConfig(configPath);
@@ -28,7 +34,7 @@ export default ({
     const filesToProcess = getFileList(config.root, config.exclude, ruleApplications);
 
     debug('Read files data');
-    const filesData = processFiles(filesToProcess);
+    const filesData = processFiles(filesToProcess, cacheManager);
 
     debug('Apply rules');
     const projectResult = applyProjectRules(config.root, filesData, ruleApplications);

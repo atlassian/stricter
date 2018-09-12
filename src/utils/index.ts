@@ -1,7 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as parser from '@babel/parser';
-import { FileFilter, PathMatcher } from '../types';
+import { h32 } from 'xxhashjs';
+import { FileFilter, HashFunction, PathMatcher } from '../types';
 import { parseSync } from '@babel/core';
 
 export const readFile = (i: string): string => fs.readFileSync(i, 'utf8');
@@ -117,4 +118,15 @@ export const parseWithBabelrc = (source: string, filePath: string): any => {
     });
 
     return result;
+};
+
+export const getHashFunction = (): HashFunction => {
+    const hasher = h32();
+    hasher.init(123);
+
+    return contents =>
+        hasher
+            .update(contents)
+            .digest()
+            .toString(16);
 };

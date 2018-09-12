@@ -108,9 +108,10 @@ interface RuleDefinition {
 Options:
   --help          Show help                                            [boolean]
   --version       Show version number                                  [boolean]
-  -c, --config    Specify config location                               [string]
-  -r, --reporter  Specify reporter        [choices: "console", "mocha", "junit"]
-  -v, --verify    Verify particular rule                                 [array]
+  --config, -c    Specify config location                               [string]
+  --reporter, -r  Specify reporter        [choices: "console", "mocha", "junit"]
+  --rule          Verify particular rule                                 [array]
+  --clearCache    Clears cache
 ```
 
 # Debugging

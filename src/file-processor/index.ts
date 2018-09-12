@@ -1,47 +1,90 @@
 import { dirname } from 'path';
-import { FileData, FileToData, ParsedImportsResult, ResolveImport } from './../types';
-import { readFile, parse } from './../utils';
+import { FileData, FileToData, ResolveImport, HashFunction, CacheManager } from './../types';
+import { getHashFunction, readFile, parse } from './../utils';
 import { default as getImports } from './parse-imports';
 import getResolveImport from './get-resolve-import';
 
-const readFileData = (filePath: string, resolveImport: ResolveImport): FileData => {
-    const source = readFile(filePath);
+interface CachedStuff {
+    [fileName: string]: {
+        hash: string;
+        dependencies: string[] | undefined;
+    };
+}
+
+const getDependencies = (ast: any, filePath: string, resolveImport: ResolveImport): string[] => {
     const fileDir = dirname(filePath);
+    const imports = getImports(ast);
+    const result = imports.staticImports
+        .concat(imports.dynamicImports)
+        .map(i => resolveImport(i, fileDir));
+
+    return result;
+};
+
+const readFileData = (
+    filePath: string,
+    resolveImport: ResolveImport,
+    cachedFilesData: CachedStuff,
+    getHash: HashFunction,
+): FileData => {
+    const source = readFile(filePath);
     // We parse .js-files only at the moment
     const ast = filePath.endsWith('.js') ? () => parse(source, filePath) : undefined;
     let dependencies: string[] | undefined;
-    let imports: ParsedImportsResult | undefined;
 
-    if (ast) {
-        try {
-            const parsedAst = ast();
-            imports = getImports(parsedAst);
-            dependencies = imports.staticImports
-                .concat(imports.dynamicImports)
-                .map(i => resolveImport(i, fileDir));
-        } catch (e) {
-            console.error(`Unable to parse ${filePath}`);
-            throw e;
+    const hash = getHash(source);
+    const cachedValue = cachedFilesData[filePath];
+
+    if (cachedValue && cachedValue.hash === hash) {
+        dependencies = cachedValue.dependencies;
+    } else {
+        if (ast) {
+            let parsedAst: any;
+            try {
+                parsedAst = ast();
+            } catch (e) {
+                console.error(`Unable to parse ${filePath}`);
+                throw e;
+            }
+
+            dependencies = getDependencies(parsedAst, filePath, resolveImport);
         }
     }
 
-    return {
+    const result = {
         source,
         ast,
         dependencies,
     };
+
+    cachedFilesData[filePath] = {
+        dependencies,
+        hash,
+    };
+
+    return result;
 };
 
-export default (files: string[]): FileToData => {
+export default (files: string[], cacheManager: CacheManager): FileToData => {
     const resolveImport = getResolveImport();
+    // cacheManager check is here to avoid breaking external consumers
+    const cache = cacheManager ? cacheManager.get() : { filesData: {} };
+    const cachedFilesData = (cache.filesData || {}) as CachedStuff;
+    const getHash = getHashFunction();
     const filesData = files.reduce(
         (acc, filePath) => {
-            acc[filePath] = readFileData(filePath, resolveImport);
+            acc[filePath] = readFileData(filePath, resolveImport, cachedFilesData, getHash);
 
             return acc;
         },
         {} as FileToData,
     );
+
+    // cacheManager check is here to avoid breaking external consumers
+    if (cacheManager) {
+        cache.filesData = cachedFilesData;
+        cacheManager.set(cache);
+    }
 
     return filesData;
 };
