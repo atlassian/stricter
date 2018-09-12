@@ -32,13 +32,15 @@ export interface RuleUsage {
     config?: RuleUsageConfig;
 }
 
+export interface ConfigRules {
+    [ruleName: string]: RuleUsage | RuleUsage[];
+}
+
 export interface Config {
     root: string;
     rulesDir?: string;
     exclude?: FileFilter;
-    rules: {
-        [ruleName: string]: RuleUsage | RuleUsage[];
-    };
+    rules: ConfigRules;
 }
 
 export interface FileData {
@@ -104,8 +106,8 @@ export interface LogEntry {
 
 export interface StricterArguments {
     options: {
-        configPath?: string;
-        rulesToVerify?: string[];
+        configPath: string | undefined;
+        rulesToVerify: string[] | undefined;
     };
     reporter: Reporter;
     logger: Logger;
@@ -124,9 +126,9 @@ export interface Logger {
 }
 
 export interface CliOptions {
-    config?: string | undefined;
-    reporter?: string | undefined;
-    rulesToVerify?: string[] | undefined;
+    config: string | undefined;
+    reporter: string | undefined;
+    rulesToVerify: string[] | undefined;
 }
 
 export type Stricter = () => number;

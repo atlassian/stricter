@@ -1,29 +1,22 @@
-import { getRuleDefinitions, getRuleApplications, defaultRules, RULE_SUFFIX } from '.';
+import getRuleDefinitions, { RULE_SUFFIX } from './get-rule-definitions';
+import defaultRules from '../default-rules';
 
 jest.mock('path');
 jest.mock('./../utils');
 
 describe('getRuleDefinitions', () => {
     it('returns nothing is nothing is specified', () => {
-        const config = {
-            root: 'root',
-            rules: {},
-        };
-
-        const result = getRuleDefinitions(config);
+        const result = getRuleDefinitions({});
 
         expect(result).toEqual({});
     });
 
     it('returns defaultRules if default rule is specified', () => {
-        const config = {
-            root: 'root',
-            rules: {
-                'stricter/unused-files': {},
-            },
+        const rules = {
+            'stricter/unused-files': {},
         };
 
-        const result = getRuleDefinitions(config);
+        const result = getRuleDefinitions(rules);
 
         expect(result).toEqual(defaultRules);
     });
@@ -39,15 +32,13 @@ describe('getRuleDefinitions', () => {
         const { basename } = require('path');
         basename.mockReturnValue('ruleName');
 
-        const config = {
-            rulesDir: 'test',
-            root: 'root',
-            rules: {
-                rule1: {},
-            },
+        const rules = {
+            rule1: {},
         };
 
-        expect(() => getRuleDefinitions(config)).toThrow();
+        const rulesDir = 'test';
+
+        expect(() => getRuleDefinitions(rules, rulesDir)).toThrow();
     });
 
     it('should throw if no onProject is provided', () => {
@@ -61,15 +52,12 @@ describe('getRuleDefinitions', () => {
         const { basename } = require('path');
         basename.mockReturnValue('ruleName');
 
-        const config = {
-            rulesDir: 'test',
-            root: 'root',
-            rules: {
-                rule1: {},
-            },
+        const rules = {
+            rule1: {},
         };
+        const rulesDir = 'test';
 
-        expect(() => getRuleDefinitions(config)).toThrow();
+        expect(() => getRuleDefinitions(rules, rulesDir)).toThrow();
     });
 
     it('should add rule if onProject is provided', () => {
@@ -88,15 +76,12 @@ describe('getRuleDefinitions', () => {
         const { basename } = require('path');
         basename.mockReturnValue(`${ruleName}${RULE_SUFFIX}`);
 
-        const config = {
-            rulesDir: 'test',
-            root: 'root',
-            rules: {
-                [ruleName]: {},
-            },
+        const rules = {
+            [ruleName]: {},
         };
+        const rulesDir = 'test';
 
-        const result = getRuleDefinitions(config);
+        const result = getRuleDefinitions(rules, rulesDir);
         expect(result).toEqual({ [ruleName]: rule });
     });
 
@@ -125,16 +110,14 @@ describe('getRuleDefinitions', () => {
             .mockReturnValueOnce(`${ruleName1}${RULE_SUFFIX}`)
             .mockReturnValueOnce(`${ruleName2}${RULE_SUFFIX}`);
 
-        const config = {
-            rulesDir: 'test',
-            root: 'root',
-            rules: {
-                [ruleName1]: {},
-                [ruleName2]: {},
-            },
+        const rules = {
+            [ruleName1]: {},
+            [ruleName2]: {},
         };
 
-        const result = getRuleDefinitions(config);
+        const rulesDir = 'test';
+
+        const result = getRuleDefinitions(rules, rulesDir);
         expect(result).toEqual({ [ruleName1]: rule1, [ruleName2]: rule2 });
     });
 
@@ -155,59 +138,10 @@ describe('getRuleDefinitions', () => {
         const { basename } = require('path');
         basename.mockReturnValue('ruleName');
 
-        const config = {
-            rulesDir: 'test',
-            root: 'root',
-            rules: {},
-        };
+        const rules = {};
+        const rulesDir = 'test';
 
-        const result = getRuleDefinitions(config);
+        const result = getRuleDefinitions(rules, rulesDir);
         expect(result).toEqual({});
-    });
-});
-
-describe('getRuleApplications', () => {
-    it('throws if non-existing rules found', () => {
-        const rule1Usage = {
-            include: /rule1/,
-        };
-
-        const rule2Usage = {
-            exclude: /rule2/,
-        };
-
-        const config = {
-            root: 'root',
-            rules: {
-                rule1: rule1Usage,
-                rule2: rule2Usage,
-            },
-        };
-
-        const rule1 = {
-            onProject: () => [],
-        };
-
-        const rule2 = {
-            onProject: () => [],
-        };
-
-        const ruleDefinitions = {
-            rule1,
-            rule2,
-        };
-
-        const result = getRuleApplications(config, ruleDefinitions, undefined);
-
-        expect(result).toEqual({
-            rule1: {
-                definition: rule1,
-                usage: rule1Usage,
-            },
-            rule2: {
-                definition: rule2,
-                usage: rule2Usage,
-            },
-        });
     });
 });

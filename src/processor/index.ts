@@ -1,5 +1,5 @@
 import { readFile, parse } from './../utils';
-import { matchesRuleUsage } from './../rule';
+import { matchesRuleUsage } from './../rule-resolver';
 import { readDependencies } from './../dependencies';
 
 import {
@@ -162,6 +162,30 @@ export const applyProjectRules = (
         },
         {} as RuleToRuleApplicationResult,
     );
+
+    return result;
+};
+
+const getRuleUsages = (ruleApplications: RuleApplications): RuleUsage[] => {
+    return Object.values(ruleApplications).reduce(
+        (acc, i) => {
+            if (Array.isArray(i.usage)) {
+                return [...acc, ...i.usage];
+            }
+
+            return [...acc, i.usage];
+        },
+        [] as RuleUsage[],
+    );
+};
+
+export const filterFilesToProcess = (
+    directory: string,
+    files: string[],
+    ruleApplications: RuleApplications,
+): string[] => {
+    const ruleUsages = getRuleUsages(ruleApplications);
+    const result = files.filter(i => ruleUsages.some(j => matchesRuleUsage(directory, i, j)));
 
     return result;
 };
