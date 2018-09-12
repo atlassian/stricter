@@ -1,4 +1,4 @@
-import { OnProjectArgument, RuleDefinition, FileToDependency } from './../../types';
+import { OnProjectArgument, RuleDefinition, FileToDependency } from '../../types';
 
 type EntryType = RegExp | RegExp[] | Function;
 type Seen = { [prop: string]: boolean };

@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as parser from '@babel/parser';
 import { FileFilter, PathMatcher } from '../types';
+import { parseSync } from '@babel/core';
 
 export const readFile = (i: string): string => fs.readFileSync(i, 'utf8');
 
@@ -73,37 +74,46 @@ export const listFiles = (directory: string, exclude?: FileFilter): string[] => 
 // based on https://babeljs.io/docs/en/next/babel-parser.html
 const defaultPlugins = [
     'flow',
-    'jsx',
     'flowComments',
-    'doExpressions',
-    'objectRestSpread',
-    ['decorators', { decoratorsBeforeExport: true }],
+    'jsx',
+    'asyncGenerators',
+    'bigInt',
     'classProperties',
     'classPrivateProperties',
     'classPrivateMethods',
+    ['decorators', { decoratorsBeforeExport: true }],
+    'doExpressions',
+    'dynamicImport',
     'exportDefaultFrom',
     'exportNamespaceFrom',
-    'asyncGenerators',
     'functionBind',
     'functionSent',
-    'dynamicImport',
-    'numericSeparator',
-    'optionalChaining',
     'importMeta',
-    'bigInt',
-    'optionalCatchBinding',
-    'throwExpressions',
-    ['pipelineOperator', { proposal: 'minimal' }],
+    'logicalAssignment',
     'nullishCoalescingOperator',
-];
+    'numericSeparator',
+    'objectRestSpread',
+    'optionalCatchBinding',
+    'optionalChaining',
+    ['pipelineOperator', { proposal: 'minimal' }],
+    'throwExpressions',
+] as parser.PluginList;
 
-export const parse = (source: string): any => {
+export const parse = (source: string, filePath: string): any => {
     const plugins = defaultPlugins;
 
     const result = parser.parse(source, {
         plugins,
         allowImportExportEverywhere: true,
         sourceType: 'script',
+    });
+
+    return result;
+};
+
+export const parseWithBabelrc = (source: string, filePath: string): any => {
+    const result = parseSync(source, {
+        filename: filePath,
     });
 
     return result;

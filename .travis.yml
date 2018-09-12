@@ -11,6 +11,7 @@ before_install:
 before_script: greenkeeper-lockfile-update
 script:
   - yarn lint
+  - yarn typecheck
   - yarn build
   - yarn test
   - yarn report-coverage
