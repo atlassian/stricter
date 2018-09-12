@@ -1,6 +1,4 @@
-import { readFile, parse } from './../utils';
 import matchesRuleUsage from './../utils/matches-rule-usage';
-import { readDependencies } from '../dependencies';
 
 import {
     FileData,
@@ -13,44 +11,6 @@ import {
     RuleApplicationResult,
     RuleToRuleApplicationResult,
 } from './../types';
-
-const readFileData = (filePath: string): FileData => {
-    const source = readFile(filePath);
-    // We parse .js-files only at the moment
-    const ast = filePath.endsWith('.js') ? () => parse(source, filePath) : undefined;
-    let dependencies: string[] | undefined;
-
-    if (ast) {
-        try {
-            const parsedAst = ast();
-            dependencies = readDependencies(parsedAst, filePath);
-        } catch (e) {
-            console.error(`Unable to parse ${filePath}`);
-            throw e;
-        }
-    }
-
-    return Object.freeze({
-        source,
-        ast,
-        dependencies,
-    });
-};
-
-export const readFilesData = (files: string[]): FileToData => {
-    const filesData = Object.freeze(
-        files.reduce(
-            (acc, filePath) => {
-                acc[filePath] = readFileData(filePath);
-
-                return acc;
-            },
-            {} as FileToData,
-        ),
-    );
-
-    return filesData;
-};
 
 const createRuleApplicationResult = (
     messageType: string,

@@ -132,3 +132,5 @@ export interface CliOptions {
 }
 
 export type Stricter = () => number;
+
+export type ResolveImport = (importString: string, dir: string) => string;

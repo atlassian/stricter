@@ -1,7 +1,8 @@
 import { getConfig } from './config';
 import getRuleApplications from './rule-resolver';
 import getFileList from './file-resolver';
-import { applyProjectRules, readFilesData } from './processor';
+import processFiles from './file-processor';
+import { applyProjectRules } from './processor';
 import { getErrorCount } from './reporter';
 import { StricterArguments } from './types';
 
@@ -27,7 +28,7 @@ export default ({
     const filesToProcess = getFileList(config.root, config.exclude, ruleApplications);
 
     debug('Read files data');
-    const filesData = readFilesData(filesToProcess);
+    const filesData = processFiles(filesToProcess);
 
     debug('Apply rules');
     const projectResult = applyProjectRules(config.root, filesData, ruleApplications);

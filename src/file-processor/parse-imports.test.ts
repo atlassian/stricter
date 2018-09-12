@@ -1,5 +1,5 @@
 import { default as parseImport } from './parse-imports';
-import { parse } from './../utils';
+import { parse } from '../utils';
 
 describe('resolveImport', () => {
     it('should count require', () => {
