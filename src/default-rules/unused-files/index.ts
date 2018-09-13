@@ -14,8 +14,8 @@ const dfs = (stack: string[], dependencies: FileToDependency, seen: Seen): void 
     }
 };
 
-export const unusedFilesRule: RuleDefinition = {
-    onProject: ({ config, dependencies, files }: OnProjectArgument) => {
+const unusedFilesRule: RuleDefinition = {
+    onProject: ({ config, dependencies, files }: OnProjectArgument): string[] => {
         if (!config || !config.entry || !Array.isArray(config.entry)) {
             return [];
         }
@@ -49,3 +49,5 @@ const checkForMatch = (setting: EntryType, filePath: string) => {
 
     return regexSetting.some(i => i.test(filePath));
 };
+
+export default unusedFilesRule;

@@ -18,7 +18,7 @@ describe('getRuleDefinitions', () => {
 
         const result = getRuleDefinitions(rules);
 
-        expect(result).toEqual(defaultRules);
+        expect(Object.keys(result)).toEqual(['stricter/unused-files']);
     });
 
     it('throws if non-existing rules found', () => {

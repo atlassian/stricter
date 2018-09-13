@@ -15,6 +15,11 @@ declare module 'resolve-from' {
     export default resolveFrom;
 }
 
+declare module 'graphlib-dot' {
+    import * as graphlib from'graphlib';
+    export const write: (graph: graphlib.Graph) => string
+}
+
 declare module 'file-system-cache' {
     interface Options {
         basePath?: string;

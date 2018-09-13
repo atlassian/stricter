@@ -3,10 +3,11 @@
 ## Master
 - Refactoring
 - **BREAKING** Pass only the files included by the rule in dependencies object
+- Add default `stricter/circular-dependencies` rule (original version by Martin Sturm)
 
 ## 0.2.1 - Cache it
 
-- Add possibility to verify specific rules (`--verify ruleName`)
+- Add possibility to verify specific rules (`--rule ruleName`)
 - Use `rollup` instead of `fusebox` for bundling
 - Fix default rules handling
 - Refactoring
