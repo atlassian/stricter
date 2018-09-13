@@ -1,7 +1,8 @@
 # Changelog
 
 ## Master
-
+- Refactoring
+- **BREAKING** Pass only the files included by the rule in dependencies object
 
 ## 0.2.1 - Cache it
 

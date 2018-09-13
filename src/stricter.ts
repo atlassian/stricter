@@ -1,8 +1,8 @@
 import { getConfig } from './config';
-import getRuleApplications from './rule-resolver';
-import getFileList from './file-resolver';
+import resolveFiles from './file-resolver';
 import processFiles from './file-processor';
-import { applyProjectRules } from './processor';
+import resolveRules from './rule-resolver';
+import processRules from './rule-processor';
 import { getErrorCount } from './reporter';
 import { StricterArguments } from './types';
 
@@ -28,16 +28,16 @@ export default ({
     const config = getConfig(configPath);
 
     debug('Get rules');
-    const ruleApplications = getRuleApplications(config.rules, config.rulesDir, rulesToVerify);
+    const ruleApplications = resolveRules(config.rules, config.rulesDir, rulesToVerify);
 
     debug('Get file list');
-    const filesToProcess = getFileList(config.root, config.exclude, ruleApplications);
+    const filesToProcess = resolveFiles(config.root, config.exclude, ruleApplications);
 
     debug('Read files data');
     const filesData = processFiles(filesToProcess, cacheManager);
 
     debug('Apply rules');
-    const projectResult = applyProjectRules(config.root, filesData, ruleApplications);
+    const projectResult = processRules(config.root, filesData, ruleApplications);
 
     debug('Output report');
     reporter(projectResult);
