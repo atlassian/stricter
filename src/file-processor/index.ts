@@ -67,8 +67,7 @@ const readFileData = (
 
 export default (files: string[], cacheManager: CacheManager): FileToData => {
     const resolveImport = getResolveImport();
-    // cacheManager check is here to avoid breaking external consumers
-    const cache = cacheManager ? cacheManager.get() : { filesData: {} };
+    const cache = cacheManager.get();
     const cachedFilesData = (cache.filesData || {}) as CachedStuff;
     const getHash = getHashFunction();
     const filesData = files.reduce(
@@ -80,11 +79,8 @@ export default (files: string[], cacheManager: CacheManager): FileToData => {
         {} as FileToData,
     );
 
-    // cacheManager check is here to avoid breaking external consumers
-    if (cacheManager) {
-        cache.filesData = cachedFilesData;
-        cacheManager.set(cache);
-    }
+    cache.filesData = cachedFilesData;
+    cacheManager.set(cache);
 
     return filesData;
 };

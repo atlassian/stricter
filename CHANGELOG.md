@@ -1,8 +1,11 @@
 # Changelog
 
 ## Master
-- Refactoring
 - **BREAKING** Pass only the files included by the rule in dependencies object
+- **BREAKING** Removed external `readFilesData(files: string[]): FileToData` and
+`readDependencies(filesToData: FileToData): FileToDependency` in favour of
+`parseDependencies(files: string[]): FileToDependency`
+- Refactoring
 - Add default `stricter/circular-dependencies` rule (original version by Martin Sturm)
 
 ## 0.2.1 - Cache it

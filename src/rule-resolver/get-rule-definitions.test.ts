@@ -1,5 +1,4 @@
 import getRuleDefinitions, { RULE_SUFFIX } from './get-rule-definitions';
-import defaultRules from '../default-rules';
 
 jest.mock('path');
 jest.mock('./../utils');
