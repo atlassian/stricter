@@ -6,7 +6,8 @@
 `readDependencies(filesToData: FileToData): FileToDependency` in favour of
 `parseDependencies(files: string[]): FileToDependency`
 - Refactoring
-- Add default `stricter/circular-dependencies` rule (original version by Martin Sturm)
+- Add default rule `stricter/circular-dependencies` created by @WorstCase00
+- `--clearCache` no longer performs a check
 
 ## 0.2.1 - Cache it
 

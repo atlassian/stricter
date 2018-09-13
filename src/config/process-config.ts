@@ -1,12 +1,12 @@
 import * as path from 'path';
-import { Config, CosmiConfig } from './../types';
+import { Config, ConfigFile } from './../types';
 
 export const getDirResolver = (filepath: string) => (dir: string) =>
     path.resolve(path.dirname(filepath), dir);
 
-export default (foundConfig: CosmiConfig): Config => {
-    const { config, filepath } = foundConfig;
-    const resolveDir = getDirResolver(filepath);
+export default (foundConfig: ConfigFile): Config => {
+    const { config, filePath } = foundConfig;
+    const resolveDir = getDirResolver(filePath);
 
     const result: Config = {
         root: resolveDir(config.root),

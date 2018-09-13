@@ -1,25 +1,32 @@
 import readConfig from './read-config';
 
-const mockLocation = 'location';
-const mockConfigData = {};
-process.cwd = jest.fn().mockReturnValue(mockLocation);
-
-jest.mock('cosmiconfig', () =>
-    jest.fn().mockReturnValue({
-        load: jest.fn(val => {
-            if (val === mockLocation) {
-                return mockConfigData;
-            }
-        }),
-        searchSync: jest.fn(val => {
-            return mockConfigData;
-        }),
-    }),
-);
+jest.mock('app-root-path', () => {});
+jest.mock('path');
 
 describe('readConfig', () => {
     it('runs consmiconfig based on cwd', () => {
+        const configPath = 'configPath1';
+        const config = {};
+        jest.doMock(configPath, () => config, { virtual: true });
+
+        const { join } = require('path');
+
+        join.mockReturnValue(configPath);
+
         const result = readConfig();
-        expect(result).toBe(mockConfigData);
+
+        expect(result.filePath).toBe(configPath);
+        expect(result.config).toBe(config);
+    });
+
+    it('runs consmiconfig based on cwd', () => {
+        const configPath = 'configPath2';
+        const config = {};
+        jest.doMock(configPath, () => config, { virtual: true });
+
+        const result = readConfig(configPath);
+
+        expect(result.filePath).toBe(configPath);
+        expect(result.config).toBe(config);
     });
 });

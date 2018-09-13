@@ -5,6 +5,7 @@ export default (): Logger => {
 
     return {
         debug: noop,
+        error: noop,
         log: noop,
     };
 };

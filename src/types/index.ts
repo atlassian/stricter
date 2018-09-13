@@ -1,5 +1,5 @@
-export interface CosmiConfig {
-    filepath: string;
+export interface ConfigFile {
+    filePath: string;
     config: {
         [prop: string]: any;
     };
@@ -132,6 +132,7 @@ export type PathMatcher = (path: string) => boolean;
 export interface Logger {
     debug: (message: any) => void;
     log: (message: any) => void;
+    error: (message: any) => void;
 }
 
 export type Stricter = () => number;

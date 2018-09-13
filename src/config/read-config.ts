@@ -1,14 +1,20 @@
-import cosmiconfig from 'cosmiconfig';
-import { CosmiConfig } from './../types';
+import * as appRoot from 'app-root-path';
+import * as path from 'path';
+import { ConfigFile } from './../types';
 
-const moduleName = 'stricter';
+export default (configPath?: string): ConfigFile => {
+    if (configPath) {
+        return {
+            filePath: configPath,
+            config: require(configPath),
+        };
+    }
 
-export default (configPath?: string): CosmiConfig => {
-    const explorer = cosmiconfig(moduleName, {
-        searchPlaces: [`${moduleName}.config.js`],
-    });
+    const rootDir = appRoot.toString();
+    const defaultConfigPath = path.join(rootDir, 'stricter.config.js');
 
-    const foundConfigData = configPath ? explorer.loadSync(configPath) : explorer.searchSync();
-
-    return foundConfigData;
+    return {
+        filePath: defaultConfigPath,
+        config: require(defaultConfigPath),
+    };
 };

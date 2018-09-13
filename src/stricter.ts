@@ -10,19 +10,22 @@ export default ({
     options: { configPath, rulesToVerify, clearCache },
     cacheManager,
     reporter,
-    logger: { debug, log },
+    logger,
 }: StricterArguments): number => {
+    const { debug, log } = logger;
+
     debug({
         configPath,
         rulesToVerify,
     });
-
-    log('Checking...');
-
     if (clearCache) {
         debug('Clear cache');
         cacheManager.clear();
+
+        return 0;
     }
+
+    log('Checking...');
 
     debug('Read config');
     const config = getConfig(configPath);

@@ -38,7 +38,7 @@ describe('processConfig', () => {
             config: {
                 root: 'test',
             },
-            filepath: '',
+            filePath: '',
         });
 
         expect(result.root).toBe('resolved_test');
@@ -50,7 +50,7 @@ describe('processConfig', () => {
             config: {
                 rulesDir: 'test',
             },
-            filepath: '',
+            filePath: '',
         });
 
         expect(result.rulesDir).toBe('resolved_test');
@@ -62,7 +62,7 @@ describe('processConfig', () => {
             config: {
                 rules,
             },
-            filepath: '',
+            filePath: '',
         });
 
         expect(result.rules).toBe(rules);
@@ -74,7 +74,7 @@ describe('processConfig', () => {
             config: {
                 exclude,
             },
-            filepath: '',
+            filePath: '',
         });
 
         expect(result.exclude).toBe(exclude);
