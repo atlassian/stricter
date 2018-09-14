@@ -1,6 +1,9 @@
 # Changelog
 
 ## Master
+
+## 0.3.0 - +1 rule, -1 external API
+
 - **BREAKING** Pass only the files included by the rule in dependencies object
 - **BREAKING** Removed external `readFilesData(files: string[]): FileToData` and
 `readDependencies(filesToData: FileToData): FileToDependency` in favour of
