@@ -5,7 +5,6 @@ import replace from 'rollup-plugin-replace';
 
 import pkg from './package.json';
 
-const production = !process.env.ROLLUP_WATCH;
 const extensions = ['.ts', '.mjs', '.js', '.json', '.node'];
 
 export default [

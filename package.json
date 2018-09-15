@@ -6,7 +6,7 @@
         "LICENSE",
         "README.md",
         "CHANGELOG.md",
-        "lib",
+        "lib/**/!(*.test.d.ts|test.d.ts)",
         "bin"
     ],
     "main": "./lib/index.js",
@@ -15,11 +15,12 @@
         "stricter": "./bin/cli.js"
     },
     "scripts": {
-        "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
+        "build:main": "cross-env NODE_ENV=production rollup -c rollup.config.js",
         "watch": "rollup -c rollup.config.js -w",
         "lint": "tslint --project .",
         "typecheck": "tsc --noEmit",
-        "all": "concurrently npm:build npm:lint npm:typecheck -c green,yellow,blue",
+        "build:types": "tsc --emitDeclarationOnly",
+        "all": "concurrently npm:build:main npm:build:types npm:lint npm:typecheck -c green,yellow,blue",
         "test": "jest",
         "report-coverage": "coveralls < coverage/lcov.info"
     },

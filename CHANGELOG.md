@@ -2,6 +2,8 @@
 
 ## Master
 
+- Expose TypeScript definitions
+
 ## 0.3.0 - +1 rule, -1 external API
 
 - **BREAKING** Pass only the files included by the rule in dependencies object
