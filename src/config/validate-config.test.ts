@@ -16,7 +16,7 @@ describe('validateConfig', () => {
         }).toThrow();
     });
 
-    it('throws if no config.root field is present', () => {
+    it('throws if empty config is provided', () => {
         expect(() => {
             validateConfig({ config: {} });
         }).toThrow();

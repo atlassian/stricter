@@ -4,8 +4,6 @@
         "module": "commonjs",
         "moduleResolution": "node",
         "allowJs": false,
-        "declaration": true,
-        "declarationDir": "./lib",
         "isolatedModules": false,
         "jsx": "react",
         "lib": ["esnext"],
@@ -21,7 +19,8 @@
         "pretty": true,
         "suppressImplicitAnyIndexErrors": false,
         "alwaysStrict": true,
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true
     },
     "include": ["src/**/*", "types/**/*"],
     "compileOnSave": false,

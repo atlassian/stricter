@@ -1,7 +1,6 @@
 .vscode
-.fusebox
-.idea
 
 lib
 coverage
 node_modules
+src/config/config-schema.json

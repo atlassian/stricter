@@ -1,5 +1,10 @@
 {
     "extends": ["tslint-config-airbnb", "tslint-config-prettier"],
+    "linterOptions": {
+        "exclude": [
+            "**/*.json"
+        ]
+    },
     "rulesDirectory": ["tslint-plugin-prettier"],
     "rules": {
         "ter-indent": false,
