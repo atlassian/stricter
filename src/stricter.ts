@@ -30,14 +30,14 @@ export default ({
     debug('Read config');
     const config = getConfig(configPath);
 
-    debug('Get rules');
-    const ruleApplications = resolveRules(config.rules, config.rulesDir, rulesToVerify);
-
     debug('Get file list');
-    const filesToProcess = resolveFiles(config.root, config.exclude, ruleApplications);
+    const filesToProcess = resolveFiles(config.root, config.exclude);
 
     debug('Read files data');
     const filesData = processFiles(filesToProcess, cacheManager);
+
+    debug('Get rules');
+    const ruleApplications = resolveRules(config.rules, config.rulesDir, rulesToVerify);
 
     debug('Apply rules');
     const projectResult = processRules(config.root, filesData, ruleApplications);
