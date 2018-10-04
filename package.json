@@ -51,7 +51,7 @@
         "@types/babel__traverse": "^7.0.0",
         "@types/babylon-walk": "^3.10.1",
         "@types/chalk": "^2.2.0",
-        "@types/debug": "^0.0.30",
+        "@types/debug": "^0.0.31",
         "@types/graphlib": "^2.1.4",
         "@types/jest": "^23.3.2",
         "@types/node": "^10.9.4",
