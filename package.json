@@ -78,7 +78,7 @@
         "tslint-config-prettier": "^1.15.0",
         "tslint-plugin-prettier": "^2.0.0",
         "typescript": "^3.0.3",
-        "typescript-json-schema": "^0.32.0"
+        "typescript-json-schema": "^0.33.0"
     },
     "dependencies": {
         "@babel/core": "^7.0.1",
