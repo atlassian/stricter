@@ -92,7 +92,7 @@
         "find-cache-dir": "^2.0.0",
         "graphlib": "^2.1.5",
         "graphlib-dot": "^0.6.2",
-        "is-ci": "^1.2.1",
+        "is-ci": "^2.0.0",
         "resolve-from": "^4.0.0",
         "rimraf": "^2.6.2",
         "xml-escape": "^1.1.0",
