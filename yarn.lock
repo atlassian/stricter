@@ -657,9 +657,10 @@
   version "10.9.4"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.9.4.tgz#0f4cb2dc7c1de6096055357f70179043c33e9897"
 
-"@types/resolve-from@^0.0.18":
-  version "0.0.18"
-  resolved "https://registry.yarnpkg.com/@types/resolve-from/-/resolve-from-0.0.18.tgz#a8ccb7ce3fb1db75c95eb7dea7ed51b8d060385d"
+"@types/resolve-from@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/resolve-from/-/resolve-from-2.0.0.tgz#6c822fce4ab5cfbc6083a7e5ab37c38b09984e8a"
+  integrity sha512-71vA8tlOp+eVLmn+9q8USFRToee5O+4VbYouRPZMnJzwQ/N5AQMqqa6hZhFJYoLhU/xsBN3kv/VNbH0M8pp2HQ==
 
 "@types/rimraf@^2.0.2":
   version "2.0.2"
