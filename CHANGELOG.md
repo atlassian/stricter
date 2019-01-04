@@ -2,6 +2,8 @@
 
 ## Master
 
+## 0.3.1 - New year, new release
+
 - Expose TypeScript definitions
 - Parse all the files in the project instead of the relevant only (the result is cached)
 - Add config validation
