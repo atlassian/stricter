@@ -1,23 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`junitReporter ignores warnings 1`] = `
+"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
+    <testsuites package=\\"stricter\\" time=\\"0.002\\">
+        <testsuite name=\\"stricter\\" failures=\\"0\\" errors=\\"0\\" tests=\\"1\\">
+    <testcase name=\\"rule1\\" time=\\"0.002\\">
+    
+</testcase>
+</testsuite>
+    </testsuites>"
+`;
+
 exports[`junitReporter outputs valid complex xml 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
     <testsuites package=\\"stricter\\" time=\\"0.006\\">
-        <testsuite name=\\"stricter\\" failures=\\"5\\" errors=\\"3\\" tests=\\"3\\">
+        <testsuite name=\\"stricter\\" failures=\\"3\\" errors=\\"3\\" tests=\\"3\\">
     <testcase name=\\"rule1\\" time=\\"0.001\\">
     <failure type=\\"error\\"><![CDATA[
 error1
 someting 'that' \\"needs\\" <escaping> and closes it's CDATA ]]]]><![CDATA[> early]]></failure>
 </testcase>
 <testcase name=\\"rule2\\" time=\\"0.002\\">
-    <failure type=\\"warning\\"><![CDATA[
-rule2-warning]]></failure>
+    
 </testcase>
 <testcase name=\\"rule3\\" time=\\"0.003\\">
     <failure type=\\"error\\"><![CDATA[
 rule3-error]]></failure>
-<failure type=\\"warning\\"><![CDATA[
-rule3-warning]]></failure>
 </testcase>
 </testsuite>
     </testsuites>"

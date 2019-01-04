@@ -26,6 +26,18 @@ describe('junitReporter', () => {
         expect(output).toMatchSnapshot();
     });
 
+    it('ignores warnings', () => {
+        logJunit({
+            rule1: {
+                errors: [],
+                warnings: ['rule2-warning'],
+                time: 2,
+            },
+        });
+        const output = logMock.mock.calls[0][0];
+        expect(output).toMatchSnapshot();
+    });
+
     it('outputs valid complex xml', () => {
         logJunit({
             rule1: {

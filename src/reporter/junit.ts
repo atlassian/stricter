@@ -2,11 +2,6 @@ import { EOL } from 'os';
 import xmlEscape from 'xml-escape';
 import { RuleToRuleApplicationResult } from './../types';
 
-enum Level {
-    WARNING = 'warning',
-    ERROR = 'error',
-}
-
 interface ReportData {
     failures: number;
     errors: number;
@@ -51,8 +46,8 @@ const testcaseTemplate = (
     ${failures}
 </testcase>`;
 
-const testcaseFailure = (type: Level, detail: string) =>
-    `<failure type="${type}">${
+const testcaseFailure = (detail: string) =>
+    `<failure type="error">${
         detail !== ''
             ? `<![CDATA[
 ${escapeCDATA(detail)}]]>`
@@ -67,14 +62,7 @@ export default (report: RuleToRuleApplicationResult): void => {
             if (applicationResult.errors.length) {
                 acc.failures += applicationResult.errors.length;
                 acc.errors += applicationResult.errors.length;
-                failureList.push(testcaseFailure(Level.ERROR, applicationResult.errors.join(EOL)));
-            }
-
-            if (applicationResult.warnings.length) {
-                acc.failures += applicationResult.warnings.length;
-                failureList.push(
-                    testcaseFailure(Level.WARNING, applicationResult.warnings.join(EOL)),
-                );
+                failureList.push(testcaseFailure(applicationResult.errors.join(EOL)));
             }
 
             const timeInS = applicationResult.time / 1000;
