@@ -19,10 +19,12 @@ export default (): number => {
         .option('rule', {
             description: 'Verify particular rule',
             array: true,
+            string: true,
             requiresArg: true,
         })
         .option('clearCache', {
             description: 'Clears cache',
+            boolean: true,
         }).argv;
 
     const stricter = getStricter({

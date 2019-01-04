@@ -5,6 +5,7 @@
 - Expose TypeScript definitions
 - Parse all the files in the project instead of the relevant only (the result is cached)
 - Add config validation
+- Dependencies bump
 
 ## 0.3.0 - +1 rule, -1 external API
 

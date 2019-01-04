@@ -132,8 +132,8 @@ describe('listFiles', () => {
 
         join.mockImplementation((a: string, b: string) => `${a}_${b}`);
 
-        readdirSync.mockImplementation(
-            (dir: string) => (dir === 'test' ? fileList : ['other-file']),
+        readdirSync.mockImplementation((dir: string) =>
+            dir === 'test' ? fileList : ['other-file'],
         );
 
         const result = listFiles('test');

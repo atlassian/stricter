@@ -73,7 +73,7 @@ export const listFiles = (directory: string, exclude?: FileFilter): string[] => 
 };
 
 // based on https://babeljs.io/docs/en/next/babel-parser.html
-const defaultPlugins = [
+const defaultPlugins: parser.ParserPlugin[] = [
     'flow',
     'flowComments',
     'jsx',
@@ -82,7 +82,7 @@ const defaultPlugins = [
     'classProperties',
     'classPrivateProperties',
     'classPrivateMethods',
-    ['decorators', { decoratorsBeforeExport: true }],
+    'decorators-legacy',
     'doExpressions',
     'dynamicImport',
     'exportDefaultFrom',
@@ -98,7 +98,7 @@ const defaultPlugins = [
     'optionalChaining',
     ['pipelineOperator', { proposal: 'minimal' }],
     'throwExpressions',
-] as parser.PluginList;
+] as parser.ParserPlugin[];
 
 export const parse = (source: string, filePath: string): any => {
     const plugins = defaultPlugins;
