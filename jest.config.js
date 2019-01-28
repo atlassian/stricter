@@ -1,7 +1,4 @@
 module.exports = {
-    "transform": {
-        "^.+\\.ts$": "babel-jest"
-    },
     "testRegex": "(\\.|/)test\\.ts$",
     "moduleFileExtensions": [
         "ts",

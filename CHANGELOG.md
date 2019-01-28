@@ -2,6 +2,8 @@
 
 ## Master
 
+- Dependencies bump
+
 ## 0.3.1 - New year, new release
 
 - Expose TypeScript definitions
