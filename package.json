@@ -52,7 +52,7 @@
         "@types/chalk": "^2.2.0",
         "@types/debug": "^0.0.31",
         "@types/graphlib": "^2.1.4",
-        "@types/jest": "^23.3.13",
+        "@types/jest": "^24.0.0",
         "@types/node": "^10.12.18",
         "@types/resolve-from": "^4.0.0",
         "@types/rimraf": "^2.0.2",
