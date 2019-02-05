@@ -667,9 +667,10 @@
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@types/graphlib/-/graphlib-2.1.4.tgz#1b517f4111e07766555cf1bd9304bec9053b0240"
 
-"@types/jest@^23.3.13":
-  version "23.3.13"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-23.3.13.tgz#c81484b6f4ca007bb09887ed15ecb3286d58f928"
+"@types/jest@^24.0.0":
+  version "24.0.0"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-24.0.0.tgz#848492026c327b3548d92be0352a545c36a21e8a"
+  integrity sha512-kOafJnUTnMd7/OfEO/x3I47EHswNjn+dbz9qk3mtonr1RvKT+1FGVxnxAx08I9K8Tl7j9hpoJRE7OCf+t10fng==
 
 "@types/minimatch@*":
   version "3.0.3"
