@@ -643,9 +643,10 @@
   dependencies:
     chalk "*"
 
-"@types/debug@^0.0.31":
-  version "0.0.31"
-  resolved "https://registry.yarnpkg.com/@types/debug/-/debug-0.0.31.tgz#bac8d8aab6a823e91deb7f79083b2a35fa638f33"
+"@types/debug@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.0.tgz#f47877eca7cb38bbc94e716c044919bb54075828"
+  integrity sha512-QEYGliFbMQmDLZAcXJS+AbMDtnH0HjvgiALFbWPHsVn9dD75No+/MGEfpLCsAOWKg8WjtQxwfaPbRiq25XLYDw==
 
 "@types/estree@0.0.39":
   version "0.0.39"
