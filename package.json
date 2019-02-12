@@ -53,7 +53,7 @@
         "@types/debug": "^0.0.31",
         "@types/graphlib": "^2.1.4",
         "@types/jest": "^23.3.13",
-        "@types/node": "^10.12.18",
+        "@types/node": "^11.9.0",
         "@types/resolve-from": "^4.0.0",
         "@types/rimraf": "^2.0.2",
         "@types/xxhashjs": "^0.1.1",
