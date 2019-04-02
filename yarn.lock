@@ -4627,10 +4627,10 @@ type-check@~0.3.2:
   dependencies:
     prelude-ls "~1.1.2"
 
-typescript-json-schema@^0.36.0:
-  version "0.36.0"
-  resolved "https://registry.yarnpkg.com/typescript-json-schema/-/typescript-json-schema-0.36.0.tgz#08748a39fcc23d928819a20f394fe4c0f9b88639"
-  integrity sha512-Frj/WAS+S8FPMHKzyIX9SJhXzuLpWHNbzKMCrkO2396TOmExgy27BBvD+byFzBzMFZM+7r8BFPu86bvDrsUwCQ==
+typescript-json-schema@^0.37.0:
+  version "0.37.0"
+  resolved "https://registry.yarnpkg.com/typescript-json-schema/-/typescript-json-schema-0.37.0.tgz#c7c8c6eaeba68aed68f7cedb2000e721f7afb032"
+  integrity sha512-ipR41ZPQY74X7nOYsoiI6dgCrU+etui9yvsZH3qeTp2938G4nsdce5bxQhdlWE7OPoP+adKkvukIptvuPhv4PQ==
   dependencies:
     glob "~7.1.2"
     json-stable-stringify "^1.0.1"
