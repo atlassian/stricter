@@ -69,11 +69,19 @@ export default (fileDependencyGraph: Graph) => {
         const commonRoot = getCommonRoot(edge.v, edge.w);
         const parentFolders = getParentFolders(edge.w, commonRoot);
 
-        parentFolders.pop(); // ditch common root
-        parentFolders.forEach(parent => {
-            graph.setEdge(source, parent);
-            mapping[createEdgeKey(source, parent)] = `${edge.v} => ${edge.w}`;
-        });
+        /**
+         * we only need first parent, not the whole set of parents
+         * i.e. this is a circle:
+         *      src/folder1/subfolder2 -> src/folder1/subfolderA
+         *      src/folder1/subfolderA -> src/folder1/subfolder2
+         * but this is not:
+         *      src/folder1/subfolder2 -> src/folder1/subfolderA
+         *      src/folder1/subfolderB -> src/folder1/subfolder1
+         */
+
+        const parent = parentFolders[0];
+        graph.setEdge(source, parent);
+        mapping[createEdgeKey(source, parent)] = `${edge.v} => ${edge.w}`;
     });
 
     const mapFunction: Mapping = (source: string, target: string): string =>
