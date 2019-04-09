@@ -87,7 +87,7 @@
         "chalk": "^2.4.2",
         "debug": "^4.1.1",
         "file-system-cache": "^1.0.5",
-        "find-cache-dir": "^2.1.0",
+        "find-cache-dir": "^3.0.0",
         "graphlib": "^2.1.7",
         "graphlib-dot": "^0.6.2",
         "is-ci": "^2.0.0",
