@@ -69,6 +69,33 @@ module.exports = {
   - `exclude` - `RegExp | RegExp[] | Function`, regular expressions to exclude from matched files, uses relative path from root or function accepting relative path and returning boolean
   - `config` - `any`, config to be passed into rule
 
+# Default rules
+
+## stricter/circular-dependencies
+Checks for circular dependencies in the code. Has a configuration to additionally check for cycles on folder level.
+
+```
+'stricter/circular-dependencies': {
+    config: {
+        checkSubTreeCycle: Boolean; // true to check for folder-lever cycles
+    }
+}
+```
+
+## stricter/unused-files
+Checks for unused files. 
+`entry` - application entry points. Usually these files are mentioned in `entry` part of webpack config or they are non-js files you want to keep (configs, markdown, etc.)
+`relatedEntry` - related entry points, they are considered used only if any of its dependencies are used by an `entry` or its transitive dependencies. Usually these are tests and storybooks.
+
+```
+'stricter/unused-files': {
+    config: {
+        entry: RegExp | RegExp[] | Function; // if function, will get file path as an argument
+        relatedEntry: RegExp | RegExp[] | Function; // if function, will get file path as an argument
+    }
+}
+```
+
 # Custom rules
 A rule is a javascript module that exports an object that implements the following interface
 ```typescript
