@@ -54,7 +54,7 @@
         "@types/graphlib": "^2.1.4",
         "@types/jest": "^24.0.11",
         "@types/node": "^11.11.1",
-        "@types/resolve-from": "^4.0.0",
+        "@types/resolve-from": "^5.0.0",
         "@types/rimraf": "^2.0.2",
         "@types/xxhashjs": "^0.2.0",
         "@types/yargs": "^12.0.9",
