@@ -930,9 +930,12 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-11.11.1.tgz#9ee55ffce20f72e141863b0036a6e51c6fc09a1f"
   integrity sha512-2azXFP9n4aA2QNLkKm/F9pzKxgYj1SMawZ5Eh9iC21RH3XNcFsivLVU2NhpMgQm7YobSByvIol4c42ZFusXFHQ==
 
-"@types/resolve-from@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@types/resolve-from/-/resolve-from-4.0.0.tgz#55538ffe8e35c3116a4cebf814ce1a1f1d663fcc"
+"@types/resolve-from@^5.0.0":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@types/resolve-from/-/resolve-from-5.0.1.tgz#2714eaa840c0472dcfa96ec3fb9d170dbf0b677d"
+  integrity sha512-1G7n5Jtr5inoS1Ez2Y9Efedk9/wH6uGQslbfhGTOw9J42PCAwuyaDgQHW7fIq02+shwB02kM/w31W8gMxI8ORg==
+  dependencies:
+    resolve-from "*"
 
 "@types/rimraf@^2.0.2":
   version "2.0.2"
@@ -3990,6 +3993,11 @@ resolve-cwd@^2.0.0:
   resolved "https://registry.yarnpkg.com/resolve-cwd/-/resolve-cwd-2.0.0.tgz#00a9f7387556e27038eae232caa372a6a59b665a"
   dependencies:
     resolve-from "^3.0.0"
+
+resolve-from@*:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-5.0.0.tgz#c35225843df8f776df21c57557bc087e9dfdfc69"
+  integrity sha512-qYg9KP24dD5qka9J47d0aVky0N+b4fTU89LN9iDnjB5waksiC49rvMB0PrUJQGoTmH50XPiqOvAjDfaijGxYZw==
 
 resolve-from@^3.0.0:
   version "3.0.0"
