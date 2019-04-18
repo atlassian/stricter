@@ -5,7 +5,7 @@ import getRuleDefinitions from './get-rule-definitions';
 
 export default (
     rules: ConfigRules,
-    rulesDir: string | undefined,
+    rulesDir: string | string[] | undefined,
     rulesToVerify: string[] | undefined,
 ): RuleApplications => {
     const ruleDefinitions = getRuleDefinitions(rules, rulesDir);

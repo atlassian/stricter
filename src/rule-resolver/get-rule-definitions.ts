@@ -10,12 +10,17 @@ const stripOutSuffix = (str: string): string => {
     return str.substring(0, str.length - RULE_SUFFIX.length);
 };
 
-export default (rules: ConfigRules, rulesDir?: string | undefined): RuleDefinitions => {
+export default (rules: ConfigRules, rulesDir?: string | string[] | undefined): RuleDefinitions => {
     const rulesToResolve = Object.keys(rules);
     let allRulesResolved: RuleDefinitions = {};
 
     if (rulesDir) {
-        const customRuleFiles = listFiles(rulesDir).filter(i => i.endsWith(RULE_SUFFIX));
+        const rulesDirArr = Array.isArray(rulesDir) ? rulesDir : [rulesDir];
+
+        const customRuleFiles = rulesDirArr.reduce(
+            (acc, dir) => [...acc, ...listFiles(dir).filter(i => i.endsWith(RULE_SUFFIX))],
+            [] as string[],
+        );
         allRulesResolved = customRuleFiles.reduce(
             (acc, filePath: string) => {
                 const ruleName = stripOutSuffix(path.basename(filePath));

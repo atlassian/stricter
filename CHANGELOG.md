@@ -3,6 +3,7 @@
 ## Master
 
 - Dependencies bump
+- Allow `rulesDir` to accept an array of folders
 
 ## 0.3.1 - New year, new release
 

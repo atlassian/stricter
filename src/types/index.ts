@@ -38,7 +38,7 @@ export interface ConfigRules {
 
 export interface Config {
     root: string;
-    rulesDir?: string;
+    rulesDir?: string | string[];
     exclude?: FileFilter;
     rules: ConfigRules;
 }
