@@ -57,9 +57,9 @@ module.exports = {
 ```
 
 ## Description
-`root` - root folder for the project.
+`root` - `string`, root folder for the project.
 
-`rulesDir` - folder, containing custom rules. Rule files need to follow naming convention `<rulename>.rule.js`. They will be available for configuration as `<rulename>`.
+`rulesDir` - `string | string[]`, folder(s), containing custom rules. Rule files need to follow naming convention `<rulename>.rule.js`. They will be available for configuration as `<rulename>`.
 
 `exclude` - `RegExp | RegExp[] | Function`, regular expressions to exclude files, uses relative path from root or function accepting relative path and returning boolean
 

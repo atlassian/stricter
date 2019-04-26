@@ -1,9 +1,14 @@
-import getRuleDefinitions, { RULE_SUFFIX } from './get-rule-definitions';
-
-jest.mock('path');
-jest.mock('./../utils');
+import { RULE_SUFFIX } from './get-rule-definitions';
 
 describe('getRuleDefinitions', () => {
+    let getRuleDefinitions: any;
+    beforeEach(() => {
+        jest.resetModules();
+        jest.restoreAllMocks();
+        jest.doMock('path');
+        jest.doMock('./../utils');
+        getRuleDefinitions = require('./get-rule-definitions').default;
+    });
     it('returns nothing is nothing is specified', () => {
         const result = getRuleDefinitions({});
 
@@ -142,5 +147,42 @@ describe('getRuleDefinitions', () => {
 
         const result = getRuleDefinitions(rules, rulesDir);
         expect(result).toEqual({});
+    });
+
+    it('should add rules from multiple rule directories', () => {
+        const ruleName1 = 'ruleName1';
+        const ruleName2 = 'ruleName2';
+        const filePath1 = `${ruleName1}${RULE_SUFFIX}`;
+        const filePath2 = `${ruleName2}${RULE_SUFFIX}`;
+
+        const { listFiles } = require('./../utils');
+        listFiles.mockReturnValueOnce([filePath1]).mockReturnValueOnce([filePath2]);
+
+        const rule1 = {
+            onProject: () => {},
+        };
+
+        const rule2 = {
+            onProject: () => {},
+        };
+
+        jest.doMock(filePath1, () => rule1, { virtual: true });
+        jest.doMock(filePath2, () => rule2, { virtual: true });
+
+        const { basename } = require('path');
+        basename
+            .mockReturnValueOnce(`${ruleName1}${RULE_SUFFIX}`)
+            .mockReturnValueOnce(`${ruleName2}${RULE_SUFFIX}`);
+
+        const rules = {
+            [ruleName1]: {},
+            [ruleName2]: {},
+        };
+
+        const rulesDir = ['ruleDir1', 'ruleDir2'];
+
+        const result = getRuleDefinitions(rules, rulesDir);
+        expect(result[ruleName1]).toEqual(rule1);
+        expect(result).toEqual({ [ruleName1]: rule1, [ruleName2]: rule2 });
     });
 });
