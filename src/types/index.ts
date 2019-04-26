@@ -1,8 +1,6 @@
 export interface ConfigFile {
     filePath: string;
-    config: {
-        [prop: string]: any;
-    };
+    config: Config;
 }
 
 export enum Level {

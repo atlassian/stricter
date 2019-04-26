@@ -14,7 +14,9 @@ export default (foundConfig: ConfigFile): Config => {
     };
 
     if (config.rulesDir) {
-        result.rulesDir = resolveDir(config.rulesDir);
+        result.rulesDir = Array.isArray(config.rulesDir)
+            ? config.rulesDir.map(resolveDir)
+            : resolveDir(config.rulesDir);
     }
 
     if (config.rules) {
