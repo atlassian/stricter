@@ -2,21 +2,27 @@
  * Integration tests
  */
 
-import path from 'path';
 import getStricter from '../factory';
 
 describe('Stricter', () => {
+    const stricterConfigPath = `${__dirname}/__fixtures__/stricter.config.js`;
+
     beforeEach(() => {
         jest.spyOn(console, 'log').mockImplementation(() => null);
     });
 
     afterEach(() => {
         jest.restoreAllMocks();
+        jest.resetModules();
     });
 
     it('should report no errors when no rules or rulesDir specified', () => {
+        jest.doMock(stricterConfigPath, () => ({
+            root: 'project/src',
+            rules: {},
+        }));
         const stricter = getStricter({
-            config: path.resolve(`${__dirname}/__fixtures__/stricter.config.no-rules.js`),
+            config: stricterConfigPath,
             reporter: undefined,
             rulesToVerify: undefined,
             clearCache: undefined,
@@ -28,8 +34,22 @@ describe('Stricter', () => {
     });
 
     it('should report no errors when default rules and rulesDir are specified', () => {
+        jest.doMock(stricterConfigPath, () => ({
+            root: 'project/src',
+            rulesDir: 'project/rules',
+            rules: {
+                'stricter/unused-files': [
+                    {
+                        level: 'error',
+                        config: {
+                            entry: [/.*\/src\/index\.js/],
+                        },
+                    },
+                ],
+            },
+        }));
         const stricter = getStricter({
-            config: path.resolve(`${__dirname}/__fixtures__/stricter.config.success.js`),
+            config: stricterConfigPath,
             reporter: undefined,
             rulesToVerify: undefined,
             clearCache: undefined,
@@ -41,8 +61,22 @@ describe('Stricter', () => {
     });
 
     it('should report no errors when default rules and multiple rulesDir are specified', () => {
+        jest.doMock(stricterConfigPath, () => ({
+            root: 'project/src',
+            rulesDir: ['project/rules', 'project/another_rules'],
+            rules: {
+                'stricter/unused-files': [
+                    {
+                        level: 'error',
+                        config: {
+                            entry: [/.*\/src\/index\.js/],
+                        },
+                    },
+                ],
+            },
+        }));
         const stricter = getStricter({
-            config: path.resolve(`${__dirname}/__fixtures__/stricter.config.multiple-rulesdir.js`),
+            config: stricterConfigPath,
             reporter: undefined,
             rulesToVerify: undefined,
             clearCache: undefined,
@@ -54,8 +88,22 @@ describe('Stricter', () => {
     });
 
     it('should report errors when a rule violation occurs', () => {
+        jest.doMock(stricterConfigPath, () => ({
+            root: 'project/src',
+            rulesDir: 'project/rules',
+            rules: {
+                'stricter/unused-files': [
+                    {
+                        level: 'error',
+                        config: {
+                            entry: [/\/src\/bar\/index.js/],
+                        },
+                    },
+                ],
+            },
+        }));
         const stricter = getStricter({
-            config: path.resolve(`${__dirname}/__fixtures__/stricter.config.failing.js`),
+            config: stricterConfigPath,
             reporter: undefined,
             rulesToVerify: undefined,
             clearCache: undefined,
