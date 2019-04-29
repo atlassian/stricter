@@ -1,4 +1,4 @@
-import * as ajv from 'ajv';
+import ajv from 'ajv';
 import * as schema from './config-schema.json';
 
 export default (foundConfig: any): void => {
