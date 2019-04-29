@@ -98,4 +98,18 @@ describe('processConfig', () => {
 
         expect(result.exclude).toBe(exclude);
     });
+
+    it('populates plugins', () => {
+        const plugins = ['abc'];
+        const result = processConfig({
+            config: {
+                plugins,
+                root: 'test',
+                rules: {},
+            },
+            filePath: '',
+        });
+
+        expect(result.plugins).toBe(plugins);
+    });
 });

@@ -37,7 +37,12 @@ export default ({
     const filesData = processFiles(filesToProcess, cacheManager);
 
     debug('Get rules');
-    const ruleApplications = resolveRules(config.rules, config.rulesDir, rulesToVerify);
+    const ruleApplications = resolveRules(
+        config.rules,
+        config.rulesDir,
+        config.plugins,
+        rulesToVerify,
+    );
 
     debug('Apply rules');
     const projectResult = processRules(config.root, filesData, ruleApplications);

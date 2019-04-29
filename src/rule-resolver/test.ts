@@ -22,10 +22,11 @@ afterEach(() => {
 
 describe('ruleResolver', () => {
     it('should invoke child functions', () => {
-        ruleResolver({}, undefined, undefined);
+        ruleResolver({}, 'rules-dir', ['plugin-1'], undefined);
 
         expect(getRuleApplicationsMock.mock.calls.length).toBe(1);
         expect(filterRuleDefinitionsMock.mock.calls.length).toBe(1);
         expect(getRuleDefinitionsMock.mock.calls.length).toBe(1);
+        expect(getRuleDefinitionsMock).toHaveBeenCalledWith({}, 'rules-dir', ['plugin-1']);
     });
 });
