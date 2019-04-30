@@ -20,7 +20,8 @@
         "suppressImplicitAnyIndexErrors": false,
         "alwaysStrict": true,
         "forceConsistentCasingInFileNames": true,
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "esModuleInterop": true
     },
     "include": ["src/**/*", "types/**/*"],
     "compileOnSave": false,

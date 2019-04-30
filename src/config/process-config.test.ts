@@ -37,6 +37,7 @@ describe('processConfig', () => {
         const result = processConfig({
             config: {
                 root: 'test',
+                rules: {},
             },
             filePath: '',
         });
@@ -48,6 +49,8 @@ describe('processConfig', () => {
     it('populates rulesDir', () => {
         const result = processConfig({
             config: {
+                root: 'test',
+                rules: {},
                 rulesDir: 'test',
             },
             filePath: '',
@@ -56,11 +59,25 @@ describe('processConfig', () => {
         expect(result.rulesDir).toBe('resolved_test');
     });
 
+    it('populates rulesDir when it is an array', () => {
+        const result = processConfig({
+            config: {
+                root: 'test',
+                rules: {},
+                rulesDir: ['test1', 'test2'],
+            },
+            filePath: '',
+        });
+
+        expect(result.rulesDir).toEqual(['resolved_test1', 'resolved_test2']);
+    });
+
     it('populates rules', () => {
         const rules = {};
         const result = processConfig({
             config: {
                 rules,
+                root: 'test',
             },
             filePath: '',
         });
@@ -73,6 +90,8 @@ describe('processConfig', () => {
         const result = processConfig({
             config: {
                 exclude,
+                root: 'test',
+                rules: {},
             },
             filePath: '',
         });

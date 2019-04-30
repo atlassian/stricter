@@ -10,15 +10,13 @@ export default (foundConfig: ConfigFile): Config => {
 
     const result: Config = {
         root: resolveDir(config.root),
-        rules: {},
+        rules: config.rules,
     };
 
     if (config.rulesDir) {
-        result.rulesDir = resolveDir(config.rulesDir);
-    }
-
-    if (config.rules) {
-        result.rules = config.rules;
+        result.rulesDir = Array.isArray(config.rulesDir)
+            ? config.rulesDir.map(resolveDir)
+            : resolveDir(config.rulesDir);
     }
 
     if (config.exclude) {

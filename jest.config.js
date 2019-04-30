@@ -1,5 +1,5 @@
 module.exports = {
-    "testEnvironment": "node",
-    "collectCoverage": true,
-    "collectCoverageFrom" : ["src/**/*.ts", "!src/types/**", "!src/*.ts", "!src/**/test.ts"],
+    testEnvironment: 'node',
+    collectCoverage: true,
+    collectCoverageFrom: ['src/**/*.ts', '!src/types/**'],
 };
