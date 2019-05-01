@@ -170,8 +170,9 @@ rule names across different plugins.
 ## Configuration
 
 In the `plugins` field, you can specify the plugin using its short name `<name>` or its long form `stricter-plugin-<name>`. You can then
-enable and configure rules from a plugin by specifying the rules in the `rules` field. Note that each rule of the plugin will be namespaced by the
-plugin name `<name>/<ruleName>` when used by the consumer of the plugin, e.g. `tangerine/project-structure`.
+enable and configure rules from a plugin by specifying the rules in the `rules` field.
+
+When configuring rules from a plugin, they must be prefixed by their short plugin name `<name>/<ruleName>`, e.g. `tangerine/project-structure`.
 
 e.g.
 
@@ -191,7 +192,9 @@ module.exports = {
 
 ## Creating plugins
 
-To create a stricter plugin, export a `rules` key that contains the rule definitions you wish to provide.
+To create a stricter plugin, ensure the package name is of the format `stricter-plugin-<name>`.
+
+The main file of the package should then export a `rules` key that contains the rule definitions you wish to provide.
 
 e.g.
 
@@ -208,13 +211,11 @@ module.exports = {
 }
 ```
 
-The rules should not be prefixed with the plugin name when defined by the package, only consumers of the package should reference them with their fully qualified name.
-
-Also ensure the package name starts with `stricter-plugin` otherwise it won't be able to be loaded.
+Note that the rule names should not be prefixed when defining them inside the plugin, they are only prefixed when specifying them in configuration.
 
 ## Pre-configured plugin rules
 
-Rules provided by a plugin do not enable those rules by default. If you would like to provide a preset configuration of rules provided by your plugin, simply export your preset configuration under a certain key. Consumers can then import that configuration and spread it into the `rules` field of their stricter config.
+Rules provided by a plugin are not enabled by default, they must be configured by the end-user. If you would like to provide a preset configuration of rules provided by your plugin, simply export your preset configuration under a certain key. Consumers can then import that configuration and spread it into the `rules` field of their stricter config.
 
 E.g.
 
@@ -223,6 +224,7 @@ E.g.
 ```js
 // stricter-plugin-tangerine/index.js
 module.exports = {
+    // This key can be arbitrarily named
     config: {
         'tangerine/project-structure': {
             level: 'error',
@@ -247,6 +249,7 @@ module.exports = {
 ```js
 // stricter.config.js
 
+// This import key `config` must match what is exported by the plugin
 const { config: tangerineConfig } = require('stricter-plugin-tangerine');
 
 module.exports = {
