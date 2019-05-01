@@ -3,6 +3,7 @@ import { EOL } from 'os';
 import { listFiles } from './../utils';
 import { RuleDefinitions, ConfigRules } from './../types';
 import defaultRules from '../default-rules';
+import getPluginRuleDefinitions from './get-plugin-rule-definitions';
 
 export const RULE_SUFFIX = '.rule.js';
 
@@ -10,7 +11,11 @@ const stripOutSuffix = (str: string): string => {
     return str.substring(0, str.length - RULE_SUFFIX.length);
 };
 
-export default (rules: ConfigRules, rulesDir?: string | string[] | undefined): RuleDefinitions => {
+export default (
+    rules: ConfigRules,
+    rulesDir?: string | string[] | undefined,
+    pluginNames?: string[] | undefined,
+): RuleDefinitions => {
     const rulesToResolve = Object.keys(rules);
     let allRulesResolved: RuleDefinitions = {};
 
@@ -43,7 +48,11 @@ export default (rules: ConfigRules, rulesDir?: string | string[] | undefined): R
         );
     }
 
-    allRulesResolved = Object.entries(defaultRules).reduce((acc, [ruleName, rule]) => {
+    const pluginRules = pluginNames ? getPluginRuleDefinitions(pluginNames) : {};
+
+    const externalRules = { ...defaultRules, ...pluginRules };
+
+    allRulesResolved = Object.entries(externalRules).reduce((acc, [ruleName, rule]) => {
         if (!rulesToResolve.includes(ruleName)) {
             return acc;
         }

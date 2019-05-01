@@ -125,4 +125,74 @@ describe('Stricter', () => {
         );
         expect(console.log).toHaveBeenNthCalledWith(3, '2 errors');
     });
+
+    describe('plugins', () => {
+        it('should add rule definitions available to be used in `rules`', () => {
+            const ruleSpy = jest.fn(() => []);
+            jest.doMock(
+                'stricter-plugin-abc',
+                () => ({
+                    rules: {
+                        'some-rule': {
+                            onProject: ruleSpy,
+                        },
+                    },
+                }),
+                { virtual: true },
+            );
+            jest.doMock(stricterConfigPath, () => ({
+                root: 'project/src',
+                rulesDir: 'project/rules',
+                rules: {
+                    'abc/some-rule': [
+                        {
+                            level: 'error',
+                        },
+                    ],
+                },
+                plugins: ['abc'],
+            }));
+            const stricter = getStricter({
+                config: stricterConfigPath,
+                reporter: undefined,
+                rulesToVerify: undefined,
+                clearCache: undefined,
+            });
+            stricter();
+            expect(console.log).toHaveBeenCalledTimes(1);
+            expect(console.log).toHaveBeenCalledWith('No errors');
+            expect(ruleSpy).toHaveBeenCalledTimes(1);
+        });
+
+        it('should not enable rules by default', () => {
+            const ruleSpy = jest.fn(() => []);
+            jest.doMock(
+                'stricter-plugin-abc',
+                () => ({
+                    rules: {
+                        'some-rule': {
+                            onProject: ruleSpy,
+                        },
+                    },
+                }),
+                { virtual: true },
+            );
+            jest.doMock(stricterConfigPath, () => ({
+                root: 'project/src',
+                rulesDir: 'project/rules',
+                rules: {},
+                plugins: ['abc'],
+            }));
+            const stricter = getStricter({
+                config: stricterConfigPath,
+                reporter: undefined,
+                rulesToVerify: undefined,
+                clearCache: undefined,
+            });
+            stricter();
+            expect(console.log).toHaveBeenCalledTimes(1);
+            expect(console.log).toHaveBeenCalledWith('No errors');
+            expect(ruleSpy).not.toHaveBeenCalled();
+        });
+    });
 });

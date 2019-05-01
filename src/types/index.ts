@@ -34,11 +34,18 @@ export interface ConfigRules {
     [ruleName: string]: RuleUsage | RuleUsage[];
 }
 
+export interface Plugin {
+    rules: {
+        [ruleName: string]: RuleDefinition;
+    };
+}
+
 export interface Config {
     root: string;
     rulesDir?: string | string[];
     exclude?: FileFilter;
     rules: ConfigRules;
+    plugins?: string[];
 }
 
 export interface FileData {

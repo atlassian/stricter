@@ -2,11 +2,17 @@ import { RULE_SUFFIX } from './get-rule-definitions';
 
 describe('getRuleDefinitions', () => {
     let getRuleDefinitions: any;
+    let getPluginRuleDefinitionsMock: jest.Mock;
     beforeEach(() => {
         jest.resetModules();
         jest.restoreAllMocks();
         jest.doMock('path');
         jest.doMock('./../utils');
+        getPluginRuleDefinitionsMock = jest.fn(() => ({
+            'abc/rule-1': { onProject: () => [] },
+            'abc/rule-2': { onProject: () => [] },
+        }));
+        jest.doMock('./get-plugin-rule-definitions', () => getPluginRuleDefinitionsMock);
         getRuleDefinitions = require('./get-rule-definitions').default;
     });
     it('returns nothing is nothing is specified', () => {
@@ -184,5 +190,41 @@ describe('getRuleDefinitions', () => {
         const result = getRuleDefinitions(rules, rulesDir);
         expect(result[ruleName1]).toEqual(rule1);
         expect(result).toEqual({ [ruleName1]: rule1, [ruleName2]: rule2 });
+    });
+
+    it('should not get plugin rule definitions if none supplied', () => {
+        const rules = {
+            'stricter/unused-files': {},
+        };
+
+        getRuleDefinitions(rules, undefined, undefined);
+
+        expect(getPluginRuleDefinitionsMock).not.toHaveBeenCalled();
+    });
+
+    it('should add rules from plugin if specified', () => {
+        const rules = {
+            'abc/rule-1': {},
+        };
+
+        const result = getRuleDefinitions(rules, undefined, ['abc']);
+
+        expect(getPluginRuleDefinitionsMock).toHaveBeenCalledTimes(1);
+        expect(getPluginRuleDefinitionsMock).toHaveBeenCalledWith(['abc']);
+
+        expect(Object.keys(result)).toEqual(['abc/rule-1']);
+    });
+
+    it('should not add rules from plugin if none are specified', () => {
+        const rules = {
+            'stricter/unused-files': {},
+        };
+
+        const result = getRuleDefinitions(rules, undefined, ['abc']);
+
+        expect(getPluginRuleDefinitionsMock).toHaveBeenCalledTimes(1);
+        expect(getPluginRuleDefinitionsMock).toHaveBeenCalledWith(['abc']);
+
+        expect(Object.keys(result)).toEqual(['stricter/unused-files']);
     });
 });

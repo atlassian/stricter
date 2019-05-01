@@ -23,5 +23,9 @@ export default (foundConfig: ConfigFile): Config => {
         result.exclude = config.exclude;
     }
 
+    if (config.plugins) {
+        result.plugins = config.plugins;
+    }
+
     return result;
 };
