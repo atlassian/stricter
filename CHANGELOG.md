@@ -2,8 +2,11 @@
 
 ## Master
 
+## 0.3.2 - Plugins
+
 - Dependencies bump
 - Allow `rulesDir` to accept an array of folders
+- Add support for plugins
 
 ## 0.3.1 - New year, new release
 
