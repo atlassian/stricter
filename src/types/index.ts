@@ -1,6 +1,6 @@
 export interface ConfigFile {
     filePath: string;
-    config: Config;
+    config: ConfigAPI;
 }
 
 export enum Level {
@@ -42,12 +42,17 @@ export interface Plugin {
 
 export type ConfigRulesFn = (args: { packages: string[] }) => ConfigRules;
 
-export interface Config {
+export interface ConfigAPI {
     root: string;
     rulesDir?: string | string[];
     exclude?: FileFilter;
     rules: ConfigRules | ConfigRulesFn;
     plugins?: string[];
+    packages?: string[];
+}
+
+export interface Config extends ConfigAPI {
+    rules: ConfigRules;
 }
 
 export interface FileData {
