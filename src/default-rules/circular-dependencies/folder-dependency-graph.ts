@@ -34,7 +34,7 @@ const getCommonRoot = (file1: string, file2: string): string => {
 
 const createEdgeKey = (source: string, target: string): string => `${source}>${target}`;
 
-export default (fileDependencyGraph: Graph) => {
+export default (fileDependencyGraph: Graph, registries: string[]) => {
     const graph = new Graph();
     const mapping: { [key: string]: string } = {};
 
@@ -71,6 +71,10 @@ export default (fileDependencyGraph: Graph) => {
 
         parentFolders.pop(); // ditch common root
         parentFolders.forEach(parent => {
+            if (registries.some(entry => parent.includes(entry))) {
+                return;
+            }
+
             graph.setEdge(source, parent);
             mapping[createEdgeKey(source, parent)] = `${edge.v} => ${edge.w}`;
         });

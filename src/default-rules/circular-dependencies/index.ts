@@ -11,7 +11,7 @@ import trimNodeModules from './trim-node-modules';
 const MESSAGE_HEADER =
     'The following output shows the cyclic structures found in the code in ' +
     'the Graphviz format. You can use some online tool to visualize the graph ' +
-    `(e.g. http://viz-js.com/).${EOL}${EOL}`;
+    `(e.g. http://viz-js.com/ ).${EOL}${EOL}`;
 
 const getCommonPrefix = (strings: string[]) => {
     let commonPrefix = '';
@@ -72,17 +72,23 @@ const createMappedCyclesMessage = (cycles: string[][], mapping: Mapping, graph: 
 const getFullErrorMessage = (message: string) => MESSAGE_HEADER + message;
 
 const circularDependencies: RuleDefinition = {
-    onProject: ({ config = {}, files, dependencies }: OnProjectArgument): string[] => {
+    onProject: ({ config = {}, files, dependencies, rootPath }: OnProjectArgument): string[] => {
         const checkSubTreeCycle = config.checkSubTreeCycle || false;
+        const registries = config.registries || [];
         const trimmedDependencies = trimNodeModules(dependencies);
         const fileDependencyGraph = createFilesGraph(files, trimmedDependencies);
 
         const fileCycles = graphlib.alg.findCycles(fileDependencyGraph);
         const cyclesMessage = createCyclesMessage(fileCycles, fileDependencyGraph);
         const fileCyclesError = fileCycles.length ? getFullErrorMessage(cyclesMessage) : undefined;
-
         if (checkSubTreeCycle) {
-            const { graph, mapFunction } = createFoldersGraph(fileDependencyGraph);
+            const fullPathRegistries = registries.map(
+                (singleRegistry: string) => `${rootPath}${singleRegistry}`,
+            );
+            const { graph, mapFunction } = createFoldersGraph(
+                fileDependencyGraph,
+                fullPathRegistries,
+            );
             const subTreeResult = graphlib.alg.findCycles(graph);
             const mappedCyclesMessage = createMappedCyclesMessage(
                 subTreeResult,
