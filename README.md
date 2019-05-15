@@ -56,6 +56,13 @@ module.exports = {
                 ]
             }
         }],
+        'stricter/circular-dependencies': [{
+            level: 'error',
+            config: {
+                checkSubTreeCycle: true,
+                registries: ['/foo/bar', 'baz'],
+            },
+        }],
         'tangerine/project-structure': {
             level: 'error',
             config: { ... },
@@ -86,12 +93,13 @@ module.exports = {
 
 ## stricter/circular-dependencies
 
-Checks for circular dependencies in the code. Has a configuration to additionally check for cycles on folder level.
+Checks for circular dependencies in the code. Has a configuration to additionally check for cycles on folder level with ability to exclude particular directory from check by providing path to it in registries.
 
 ```
 'stricter/circular-dependencies': {
     config: {
-        checkSubTreeCycle: Boolean; // true to check for folder-lever cycles
+        checkSubTreeCycle: Boolean, // true to check for folder-lever cycles
+        registries: string[], // each value should be a path from the root to folder 
     }
 }
 ```
