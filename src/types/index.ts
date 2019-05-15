@@ -40,11 +40,13 @@ export interface Plugin {
     };
 }
 
+export type ConfigRulesFn = (args: { packages: string[] }) => ConfigRules;
+
 export interface Config {
     root: string;
     rulesDir?: string | string[];
     exclude?: FileFilter;
-    rules: ConfigRules;
+    rules: ConfigRules | ConfigRulesFn;
     plugins?: string[];
 }
 

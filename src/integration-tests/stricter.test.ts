@@ -126,6 +126,55 @@ describe('Stricter', () => {
         expect(console.log).toHaveBeenNthCalledWith(3, '2 errors');
     });
 
+    it('should work with function config', () => {
+        jest.doMock(stricterConfigPath, () => ({
+            root: 'project/src',
+            rulesDir: 'project/rules',
+            rules: ({ packages }: { packages: string[] }) => ({
+                'stricter/unused-files': packages.map((pkg: string) => ({
+                    level: 'error',
+                    config: {
+                        entry: [new RegExp(`${pkg}/index.js`)],
+                    },
+                })),
+            }),
+        }));
+        const stricter = getStricter({
+            config: stricterConfigPath,
+            reporter: undefined,
+            rulesToVerify: undefined,
+            clearCache: undefined,
+        });
+
+        stricter();
+        expect(console.log).toHaveBeenCalledTimes(5);
+        expect(console.log).toHaveBeenNthCalledWith(
+            1,
+            expect.stringMatching(
+                /.*error:.*stricter\/unused-files.*__fixtures__\/project\/src\/foo\/index.js/,
+            ),
+        );
+        expect(console.log).toHaveBeenNthCalledWith(
+            2,
+            expect.stringMatching(
+                /.*error:.*stricter\/unused-files.*__fixtures__\/project\/src\/index.js/,
+            ),
+        );
+        expect(console.log).toHaveBeenNthCalledWith(
+            3,
+            expect.stringMatching(
+                /.*error:.*stricter\/unused-files.*__fixtures__\/project\/src\/bar\/index.js/,
+            ),
+        );
+        expect(console.log).toHaveBeenNthCalledWith(
+            4,
+            expect.stringMatching(
+                /.*error:.*stricter\/unused-files.*__fixtures__\/project\/src\/index.js/,
+            ),
+        );
+        expect(console.log).toHaveBeenNthCalledWith(5, '4 errors');
+    });
+
     describe('plugins', () => {
         it('should add rule definitions available to be used in `rules`', () => {
             const ruleSpy = jest.fn(() => []);
