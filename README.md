@@ -67,7 +67,7 @@ module.exports = {
 
 ## Description
 
-`root` - `string`, root folder for the project.
+`root` - `string` required, root folder for the project.
 
 `rulesDir` - `string | string[]`, folder(s), containing custom rules. Rule files need to follow naming convention `<rulename>.rule.js`. They will be available for configuration as `<rulename>`.
 
@@ -75,12 +75,48 @@ module.exports = {
 
 `plugins` - `string[]`, packages that contain third-party rule definitions that you can use in `rules`. See [Plugins](#Plugins) for more details.
 
-`rules` - an object, containing configuration for rules:
+`rules` - required, an object or a function returning an object, containing configuration for rules:
 
 -   `level` - `error | warning | off`, log level
 -   `include` - `RegExp | RegExp[] | Function`, regular expressions to match files, uses relative path from root or function accepting relative path and returning boolean
 -   `exclude` - `RegExp | RegExp[] | Function`, regular expressions to exclude from matched files, uses relative path from root or function accepting relative path and returning boolean
 -   `config` - `any`, config to be passed into rule
+
+`packages` - `string[]`, an array of globs that match paths to packages if you are in a multi-package repo. This can be used to override the default list of packages that are provided to `rules` if using its [function variant](#rules-function).
+
+### `rules` function
+
+The default way of configuring rules is to provide an object, however, the `rules` field may also be a function that returns an object instead.
+This provides an easy way to configure rules designed to be executed against each package separately in a monorepo.
+
+Signature: `(args: { packages: string[] }) => RulesObject`
+
+where `packages` is a list of package directory paths in your project that are automatically detected by searching for package.json's in sub-directories, i.e. `*/**/package.json`.
+To override where `packages` are searched, you can use the top-level `packages` config to provide an array of globs instead. For example, this could be sourced from the yarn workspaces field in your project's root package.json.
+
+E.g.
+
+```js
+module.exports = {
+    ...
+    rules: ({ packages }) => ({
+        'package-structure': packages.map(pkg => ({
+            level: 'error',
+            config: {
+                pkgRoot: pkg,
+            },
+        })),
+        'rule-that-does-not-need-to-execute-multiple-times': {
+            level: 'error',
+            ...
+        }
+    }),
+    ...
+}
+```
+
+Here, the `package-structure` rule enforces a specific structure for a package and takes the root path of the package as a config argument. In a single-package repo, the `rule` can just use the object syntax and specify the root path of the project as the package root.
+However, in a multi-package repo this rule should be executed against each package separately rather than once at the root of the project.
 
 # Default rules
 

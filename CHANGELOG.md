@@ -2,6 +2,8 @@
 
 ## Master
 
+- Add function variant of `rules` to support execution over multiple packages
+
 ## 0.3.2 - Plugins
 
 - Dependencies bump

@@ -8,6 +8,7 @@ describe('Stricter', () => {
     const stricterConfigPath = `${__dirname}/__fixtures__/stricter.config.js`;
 
     beforeEach(() => {
+        // Comment out the mockImplementation to debug issues
         jest.spyOn(console, 'log').mockImplementation(() => null);
     });
 
@@ -37,6 +38,7 @@ describe('Stricter', () => {
         jest.doMock(stricterConfigPath, () => ({
             root: 'project/src',
             rulesDir: 'project/rules',
+            exclude: [/.*\.json/],
             rules: {
                 'stricter/unused-files': [
                     {
@@ -64,6 +66,7 @@ describe('Stricter', () => {
         jest.doMock(stricterConfigPath, () => ({
             root: 'project/src',
             rulesDir: ['project/rules', 'project/another_rules'],
+            exclude: [/.*\.json/],
             rules: {
                 'stricter/unused-files': [
                     {
@@ -91,6 +94,7 @@ describe('Stricter', () => {
         jest.doMock(stricterConfigPath, () => ({
             root: 'project/src',
             rulesDir: 'project/rules',
+            exclude: [/.*\.json/],
             rules: {
                 'stricter/unused-files': [
                     {
@@ -115,6 +119,95 @@ describe('Stricter', () => {
             1,
             expect.stringMatching(
                 /.*error:.*stricter\/unused-files.*__fixtures__\/project\/src\/foo\/index.js/,
+            ),
+        );
+        expect(console.log).toHaveBeenNthCalledWith(
+            2,
+            expect.stringMatching(
+                /.*error:.*stricter\/unused-files.*__fixtures__\/project\/src\/index.js/,
+            ),
+        );
+        expect(console.log).toHaveBeenNthCalledWith(3, '2 errors');
+    });
+
+    it('should work with rules config function', () => {
+        jest.doMock(stricterConfigPath, () => ({
+            root: 'project/src',
+            rulesDir: 'project/rules',
+            exclude: [/.*\.json/],
+            rules: ({ packages }: { packages: string[] }) => ({
+                'stricter/unused-files': packages.map((pkg: string) => ({
+                    level: 'error',
+                    config: {
+                        entry: [new RegExp(`${pkg}/index.js`)],
+                    },
+                })),
+            }),
+        }));
+        const stricter = getStricter({
+            config: stricterConfigPath,
+            reporter: undefined,
+            rulesToVerify: undefined,
+            clearCache: undefined,
+        });
+
+        stricter();
+        expect(console.log).toHaveBeenCalledTimes(5);
+        expect(console.log).toHaveBeenNthCalledWith(
+            1,
+            expect.stringMatching(
+                /.*error:.*stricter\/unused-files.*__fixtures__\/project\/src\/foo\/index.js/,
+            ),
+        );
+        expect(console.log).toHaveBeenNthCalledWith(
+            2,
+            expect.stringMatching(
+                /.*error:.*stricter\/unused-files.*__fixtures__\/project\/src\/index.js/,
+            ),
+        );
+        expect(console.log).toHaveBeenNthCalledWith(
+            3,
+            expect.stringMatching(
+                /.*error:.*stricter\/unused-files.*__fixtures__\/project\/src\/bar\/index.js/,
+            ),
+        );
+        expect(console.log).toHaveBeenNthCalledWith(
+            4,
+            expect.stringMatching(
+                /.*error:.*stricter\/unused-files.*__fixtures__\/project\/src\/index.js/,
+            ),
+        );
+        expect(console.log).toHaveBeenNthCalledWith(5, '4 errors');
+    });
+
+    it('should work with rules config function and custom packages array', () => {
+        jest.doMock(stricterConfigPath, () => ({
+            root: 'project/src',
+            rulesDir: 'project/rules',
+            exclude: [/.*\.json/],
+            rules: ({ packages }: { packages: string[] }) => ({
+                'stricter/unused-files': packages.map((pkg: string) => ({
+                    level: 'error',
+                    config: {
+                        entry: [new RegExp(`${pkg}/index.js`)],
+                    },
+                })),
+            }),
+            packages: ['f*'],
+        }));
+        const stricter = getStricter({
+            config: stricterConfigPath,
+            reporter: undefined,
+            rulesToVerify: undefined,
+            clearCache: undefined,
+        });
+
+        stricter();
+        expect(console.log).toHaveBeenCalledTimes(3);
+        expect(console.log).toHaveBeenNthCalledWith(
+            1,
+            expect.stringMatching(
+                /.*error:.*stricter\/unused-files.*__fixtures__\/project\/src\/bar\/index.js/,
             ),
         );
         expect(console.log).toHaveBeenNthCalledWith(
