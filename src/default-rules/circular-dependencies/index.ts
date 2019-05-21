@@ -27,6 +27,23 @@ const getCommonPrefix = (strings: string[]) => {
     return commonPrefix;
 };
 
+const validateRegistries = (maybeRegistries: string | string[] | undefined): string[] => {
+    const error = 'Invalid config: registries should an array or a string';
+
+    if (!maybeRegistries) {
+        return [];
+    }
+
+    if (Array.isArray(maybeRegistries)) {
+        if (maybeRegistries.some(registry => typeof registry !== 'string')) throw new Error(error);
+        return maybeRegistries;
+    } else if (typeof maybeRegistries === 'string') {
+        return [maybeRegistries];
+    } else {
+        throw new Error(error);
+    }
+};
+
 const createMappedCycleMessage = (cycle: string[], mapping: Mapping, graph: graphlib.Graph) => {
     const cycleGraph = new graphlib.Graph();
     const commonPrefix = getCommonPrefix(cycle);
@@ -72,9 +89,8 @@ const createMappedCyclesMessage = (cycles: string[][], mapping: Mapping, graph: 
 const getFullErrorMessage = (message: string) => MESSAGE_HEADER + message;
 
 const circularDependencies: RuleDefinition = {
-    onProject: ({ config = {}, files, dependencies, rootPath }: OnProjectArgument): string[] => {
+    onProject: ({ config = {}, files, dependencies }: OnProjectArgument): string[] => {
         const checkSubTreeCycle = config.checkSubTreeCycle || false;
-        const registries = config.registries || [];
         const trimmedDependencies = trimNodeModules(dependencies);
         const fileDependencyGraph = createFilesGraph(files, trimmedDependencies);
 
@@ -82,12 +98,9 @@ const circularDependencies: RuleDefinition = {
         const cyclesMessage = createCyclesMessage(fileCycles, fileDependencyGraph);
         const fileCyclesError = fileCycles.length ? getFullErrorMessage(cyclesMessage) : undefined;
         if (checkSubTreeCycle) {
-            const fullPathRegistries = registries.map(
-                (singleRegistry: string) => `${rootPath}${singleRegistry}`,
-            );
             const { graph, mapFunction } = createFoldersGraph(
                 fileDependencyGraph,
-                fullPathRegistries,
+                validateRegistries(config.registries),
             );
             const subTreeResult = graphlib.alg.findCycles(graph);
             const mappedCyclesMessage = createMappedCyclesMessage(

@@ -60,7 +60,7 @@ module.exports = {
             level: 'error',
             config: {
                 checkSubTreeCycle: true,
-                registries: ['/foo/bar', 'baz'],
+                registries: ['**/foo/bar', 'baz'],
             },
         }],
         'tangerine/project-structure': {
@@ -99,7 +99,7 @@ Checks for circular dependencies in the code. Has a configuration to additionall
 'stricter/circular-dependencies': {
     config: {
         checkSubTreeCycle: Boolean, // true to check for folder-lever cycles
-        registries: string[], // each value should be a path from the root to folder 
+        registries?: string[] | string, // Optional: values should be a glob
     }
 }
 ```

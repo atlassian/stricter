@@ -185,7 +185,7 @@ describe("Stricter's ", () => {
                             level: 'error',
                             config: {
                                 checkSubTreeCycle: true,
-                                registries: ['/B'],
+                                registries: '**/src/B',
                             },
                         },
                     ],
@@ -302,7 +302,7 @@ describe("Stricter's ", () => {
                             level: 'error',
                             config: {
                                 checkSubTreeCycle: true,
-                                registries: ['/B'],
+                                registries: ['**/src/B'],
                             },
                         },
                     ],
@@ -321,6 +321,96 @@ describe("Stricter's ", () => {
                 expect.stringMatching(/.*error:.*stricter\/circular-dependencies.*/),
             );
             expect(console.log).toHaveBeenNthCalledWith(2, '1 error');
+        });
+
+        it('report errors when a checkSubTreeCycle option is on registries is set and there are folder level cycles inside registered folder and outside registered folder', () => {
+            jest.doMock(stricterConfigPath, () => ({
+                root: 'project-with-sub-tree-cycle-and-double-nested-sub-tree-cycle/src',
+                rules: {
+                    'stricter/circular-dependencies': [
+                        {
+                            level: 'error',
+                            config: {
+                                checkSubTreeCycle: true,
+                                registries: ['**/src/B'],
+                            },
+                        },
+                    ],
+                },
+            }));
+            const stricter = getStricter({
+                config: stricterConfigPath,
+                reporter: undefined,
+                rulesToVerify: undefined,
+                clearCache: undefined,
+            });
+            console.log(stricter());
+            expect(console.log).toHaveBeenCalledTimes(3);
+            expect(console.log).toHaveBeenNthCalledWith(
+                1,
+                expect.stringMatching(/.*error:.*stricter\/circular-dependencies.*/),
+            );
+            expect(console.log).toHaveBeenNthCalledWith(2, '1 error');
+        });
+
+        it('report errors when a checkSubTreeCycle option is on registry is invalid: number', () => {
+            jest.doMock(stricterConfigPath, () => ({
+                root: 'project-with-sub-tree-cycle-and-double-nested-sub-tree-cycle/src',
+                rules: {
+                    'stricter/circular-dependencies': [
+                        {
+                            level: 'error',
+                            config: {
+                                checkSubTreeCycle: true,
+                                registries: 42,
+                            },
+                        },
+                    ],
+                },
+            }));
+            const stricter = getStricter({
+                config: stricterConfigPath,
+                reporter: undefined,
+                rulesToVerify: undefined,
+                clearCache: undefined,
+            });
+            try {
+                console.log(stricter());
+            } catch (e) {
+                expect(e).toStrictEqual(
+                    new Error('Invalid config: registries should an array or a string'),
+                );
+            }
+        });
+
+        it('report errors when a checkSubTreeCycle option is on registry is invalid: array contains non string entities', () => {
+            jest.doMock(stricterConfigPath, () => ({
+                root: 'project-with-sub-tree-cycle-and-double-nested-sub-tree-cycle/src',
+                rules: {
+                    'stricter/circular-dependencies': [
+                        {
+                            level: 'error',
+                            config: {
+                                checkSubTreeCycle: true,
+                                registries: ['/B', 42],
+                            },
+                        },
+                    ],
+                },
+            }));
+            const stricter = getStricter({
+                config: stricterConfigPath,
+                reporter: undefined,
+                rulesToVerify: undefined,
+                clearCache: undefined,
+            });
+            try {
+                console.log(stricter());
+            } catch (e) {
+                expect(e).toStrictEqual(
+                    new Error('Invalid config: registries should an array or a string'),
+                );
+            }
         });
     });
 
