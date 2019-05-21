@@ -21,4 +21,25 @@ describe('validateConfig', () => {
             validateConfig({ config: {} });
         }).toThrow();
     });
+
+    it('throws if unpreprocessed rule functions are passed', () => {
+        expect(() => {
+            validateConfig({
+                config: {
+                    root: 'src',
+                    rules: {},
+                },
+            });
+        }).not.toThrow();
+        expect(() => {
+            validateConfig({
+                config: {
+                    root: 'src',
+                    rules: {
+                        abc: () => ({}),
+                    },
+                },
+            });
+        }).toThrow();
+    });
 });

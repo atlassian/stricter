@@ -1,4 +1,4 @@
-import { readFile, listFiles, parse } from '.';
+import { readFile, listFiles, parse, getDirResolver } from '.';
 
 jest.mock('fs');
 jest.mock('path');
@@ -175,5 +175,30 @@ describe('parse', () => {
         expect(parseMock.mock.calls.length).toBe(1);
         expect(parseMock.mock.calls[0][0]).toBe(src);
         expect(result).toBe(src);
+    });
+});
+
+describe('getDirResolver', () => {
+    const mockDirname = 'mockDirname';
+
+    beforeAll(() => {
+        const { dirname, resolve } = require('path');
+
+        dirname.mockImplementation((dirName: string) => {
+            if (dirName === mockDirname) {
+                return mockDirname;
+            }
+        });
+        resolve.mockImplementation((dirName: string, dir: string) => {
+            if (dirName === mockDirname) {
+                return dir;
+            }
+        });
+    });
+
+    it('resolves files relative to mockDirName', () => {
+        const dirResolver = getDirResolver(mockDirname);
+
+        expect(dirResolver('test')).toBe('test');
     });
 });

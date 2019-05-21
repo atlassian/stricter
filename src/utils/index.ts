@@ -130,3 +130,6 @@ export const getHashFunction = (): HashFunction => {
             .digest()
             .toString(16);
 };
+
+export const getDirResolver = (filepath: string) => (dir: string) =>
+    path.resolve(path.dirname(filepath), dir);

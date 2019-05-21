@@ -20,7 +20,7 @@
         "lint": "tslint --project .",
         "typecheck": "tsc --noEmit",
         "build:types": "tsc --emitDeclarationOnly --declarationDir lib --declaration",
-        "generate:schema": "typescript-json-schema tsconfig.json ConfigAPI --include src/types/* --out src/config/config-schema.json --noExtraProps --required --useTypeOfKeyword",
+        "generate:schema": "typescript-json-schema tsconfig.json Config --include src/types/* --out src/config/config-schema.json --noExtraProps --required --useTypeOfKeyword",
         "all": "yarn generate:schema && concurrently npm:build:main npm:build:types npm:lint npm:typecheck -c green,yellow,blue",
         "test": "jest",
         "report-coverage": "coveralls < coverage/lcov.info"
