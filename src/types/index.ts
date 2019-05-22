@@ -3,6 +3,10 @@ export interface ConfigFile {
     config: ConfigAPI;
 }
 
+export interface ValidatedConfigFile extends ConfigFile {
+    config: Config;
+}
+
 export enum Level {
     WARNING = 'warning',
     ERROR = 'error',
@@ -30,6 +34,12 @@ export interface RuleUsage {
     config?: RuleUsageConfig;
 }
 
+export type RuleFn = (args: { packages: string[] }) => RuleUsage | RuleUsage[];
+
+export interface ConfigRulesAPI {
+    [ruleName: string]: RuleUsage | RuleUsage[] | RuleFn;
+}
+
 export interface ConfigRules {
     [ruleName: string]: RuleUsage | RuleUsage[];
 }
@@ -40,13 +50,11 @@ export interface Plugin {
     };
 }
 
-export type ConfigRulesFn = (args: { packages: string[] }) => ConfigRules;
-
 export interface ConfigAPI {
     root: string;
     rulesDir?: string | string[];
     exclude?: FileFilter;
-    rules: ConfigRules | ConfigRulesFn;
+    rules: ConfigRulesAPI;
     plugins?: string[];
     packages?: string[];
 }
