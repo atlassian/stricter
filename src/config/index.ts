@@ -1,4 +1,4 @@
-import { Config } from './../types';
+import { Config, ValidatedConfigFile } from './../types';
 import preprocessConfig from './preprocess-config';
 import processConfig from './process-config';
 import readConfig from './read-config';
@@ -10,11 +10,8 @@ export const getConfig = (configPath?: string): Config => {
         ...foundConfig,
         config: foundConfig && foundConfig.config ? preprocessConfig(foundConfig) : undefined,
     };
-    if (validateConfig(preprocessedConfig)) {
-        const processedConfig = processConfig(preprocessedConfig);
-        return processedConfig;
-    }
+    validateConfig(preprocessedConfig);
 
-    // This will never be hit since validateConfig throws if it does not return true
-    throw Error('Invalid config');
+    const processedConfig = processConfig(preprocessedConfig as ValidatedConfigFile);
+    return processedConfig;
 };

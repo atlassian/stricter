@@ -1,41 +1,38 @@
 import fastGlob from 'fast-glob';
 import path from 'path';
-import { Config, RuleUsage, ConfigFile, RuleFn, ConfigRules, ConfigAPI } from './../types';
+import { Config, ConfigFile, RuleFn, ConfigRules, ConfigAPI } from './../types';
 import { getDirResolver } from '../utils';
 
-const getRuleUsages = (
-    rulesFn: RuleFn,
-    root: string,
-    /* Cache is mutated */
-    cache: { packages?: string[] } = {},
-    packageGlobs: string[] = ['*/**'],
-): RuleUsage | RuleUsage[] => {
+const getPackages = (root: string, packageGlobs: string[] = ['*/**']) => {
     const pkgJsonGlobs = packageGlobs.map(p => `${p}/package.json`);
-    if (!cache.packages) {
-        const resolvedPackages: string[] = fastGlob
-            .sync<string>([...pkgJsonGlobs, '!**/node_modules/**'], {
-                cwd: root,
-            })
-            .map(pkgJsonPath => path.dirname(pkgJsonPath));
-        cache.packages = resolvedPackages;
-    }
-    return rulesFn({ packages: cache.packages });
+    return fastGlob
+        .sync<string>([...pkgJsonGlobs, '!**/node_modules/**'], {
+            cwd: root,
+        })
+        .map(pkgJsonPath => path.dirname(pkgJsonPath));
 };
 
 const transformRules = (config: ConfigAPI): ConfigRules => {
-    const cache = {};
+    const functionRules = Object.entries(config.rules).filter(
+        ([, ruleVal]) => typeof ruleVal === 'function',
+    ) as [string, RuleFn][];
 
-    return Object.entries(config.rules).reduce(
-        (acc, [ruleName, ruleVal]) => {
-            if (typeof ruleVal === 'function') {
-                acc[ruleName] = getRuleUsages(ruleVal, config.root, cache, config.packages);
-            } else {
-                acc[ruleName] = ruleVal;
-            }
-            return acc;
-        },
-        {} as ConfigRules,
-    );
+    if (functionRules.length) {
+        const packages = getPackages(config.root, config.packages);
+        const functionRuleUsages = functionRules.reduce(
+            (acc, [ruleName, ruleFn]) => {
+                acc[ruleName] = ruleFn({ packages });
+                return acc;
+            },
+            {} as ConfigRules,
+        );
+        return {
+            ...config.rules,
+            ...functionRuleUsages,
+        } as ConfigRules;
+    }
+
+    return config.rules as ConfigRules;
 };
 
 /**
