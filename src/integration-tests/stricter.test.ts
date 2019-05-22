@@ -425,14 +425,15 @@ describe("Stricter's ", () => {
                 root: 'project/src',
                 rulesDir: 'project/rules',
                 exclude: [/.*\.json/],
-                rules: ({ packages }: { packages: string[] }) => ({
-                    'stricter/unused-files': packages.map((pkg: string) => ({
-                        level: 'error',
-                        config: {
-                            entry: [new RegExp(`${pkg}/index.js`)],
-                        },
-                    })),
-                }),
+                rules: {
+                    'stricter/unused-files': ({ packages }: { packages: string[] }) =>
+                        packages.map((pkg: string) => ({
+                            level: 'error',
+                            config: {
+                                entry: [new RegExp(`${pkg}/index.js`)],
+                            },
+                        })),
+                },
             }));
             const stricter = getStricter({
                 config: stricterConfigPath,
@@ -442,7 +443,6 @@ describe("Stricter's ", () => {
             });
 
             stricter();
-            expect(console.log).toHaveBeenCalledTimes(5);
             expect(console.log).toHaveBeenNthCalledWith(
                 1,
                 expect.stringMatching(
@@ -468,6 +468,7 @@ describe("Stricter's ", () => {
                 ),
             );
             expect(console.log).toHaveBeenNthCalledWith(5, '4 errors');
+            expect(console.log).toHaveBeenCalledTimes(5);
         });
 
         it('function and custom packages array', () => {
@@ -475,14 +476,15 @@ describe("Stricter's ", () => {
                 root: 'project/src',
                 rulesDir: 'project/rules',
                 exclude: [/.*\.json/],
-                rules: ({ packages }: { packages: string[] }) => ({
-                    'stricter/unused-files': packages.map((pkg: string) => ({
-                        level: 'error',
-                        config: {
-                            entry: [new RegExp(`${pkg}/index.js`)],
-                        },
-                    })),
-                }),
+                rules: {
+                    'stricter/unused-files': ({ packages }: { packages: string[] }) =>
+                        packages.map((pkg: string) => ({
+                            level: 'error',
+                            config: {
+                                entry: [new RegExp(`${pkg}/index.js`)],
+                            },
+                        })),
+                },
                 packages: ['f*'],
             }));
             const stricter = getStricter({
@@ -493,7 +495,6 @@ describe("Stricter's ", () => {
             });
 
             stricter();
-            expect(console.log).toHaveBeenCalledTimes(3);
             expect(console.log).toHaveBeenNthCalledWith(
                 1,
                 expect.stringMatching(
@@ -507,8 +508,9 @@ describe("Stricter's ", () => {
                 ),
             );
             expect(console.log).toHaveBeenNthCalledWith(3, '2 errors');
+            expect(console.log).toHaveBeenCalledTimes(3);
         });
-    });
+    })
 
     describe('plugins should', () => {
         it('add rule definitions available to be used in `rules`', () => {
