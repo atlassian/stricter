@@ -190,7 +190,7 @@ describe("Stricter's ", () => {
                             level: 'error',
                             config: {
                                 checkSubTreeCycle: true,
-                                registries: '**/src/B',
+                                registries: ['**/src', '**/src/B'],
                             },
                         },
                     ],
@@ -286,16 +286,12 @@ describe("Stricter's ", () => {
                 clearCache: undefined,
             });
             console.log(stricter());
-            expect(console.log).toHaveBeenCalledTimes(4);
+            expect(console.log).toHaveBeenCalledTimes(3);
             expect(console.log).toHaveBeenNthCalledWith(
                 1,
                 expect.stringMatching(/.*error:.*stricter\/circular-dependencies.*/),
             );
-            expect(console.log).toHaveBeenNthCalledWith(
-                2,
-                expect.stringMatching(/.*error:.*stricter\/circular-dependencies.*/),
-            );
-            expect(console.log).toHaveBeenNthCalledWith(3, '2 errors');
+            expect(console.log).toHaveBeenNthCalledWith(2, '1 error');
         });
 
         it('report errors when a checkSubTreeCycle option is on registries is set and there are folder level cycles in registered folder and outside registered folder', () => {
@@ -307,7 +303,7 @@ describe("Stricter's ", () => {
                             level: 'error',
                             config: {
                                 checkSubTreeCycle: true,
-                                registries: ['**/src/B'],
+                                registries: ['**/src', '**/src/B'],
                             },
                         },
                     ],
@@ -337,7 +333,7 @@ describe("Stricter's ", () => {
                             level: 'error',
                             config: {
                                 checkSubTreeCycle: true,
-                                registries: ['**/src/B'],
+                                registries: ['**/src', '**/src/B'],
                             },
                         },
                     ],
@@ -510,7 +506,7 @@ describe("Stricter's ", () => {
             expect(console.log).toHaveBeenNthCalledWith(3, '2 errors');
             expect(console.log).toHaveBeenCalledTimes(3);
         });
-    })
+    });
 
     describe('plugins should', () => {
         it('add rule definitions available to be used in `rules`', () => {

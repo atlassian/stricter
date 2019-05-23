@@ -15,6 +15,6 @@
 # Files relations
 
     AAA -> ABA
-    AAB -> BB
     ABB -> AAB
+    AAB -> BB
     BA -> AAA
