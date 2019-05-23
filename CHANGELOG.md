@@ -2,6 +2,8 @@
 
 ## Master
 
+## 0.3.3 - Packages support
+
 - Add new way of configuring rules via a function to support execution over multiple packages
 
 ## 0.3.2 - Plugins
