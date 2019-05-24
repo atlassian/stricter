@@ -379,7 +379,7 @@ describe("Stricter's ", () => {
                 console.log(stricter());
             } catch (e) {
                 expect(e).toStrictEqual(
-                    new Error('Invalid config: registries should an array or a string'),
+                    new Error('Invalid config: registries should be an array or a string'),
                 );
             }
         });
@@ -409,7 +409,7 @@ describe("Stricter's ", () => {
                 console.log(stricter());
             } catch (e) {
                 expect(e).toStrictEqual(
-                    new Error('Invalid config: registries should an array or a string'),
+                    new Error('Invalid config: registries should be an array or a string'),
                 );
             }
         });

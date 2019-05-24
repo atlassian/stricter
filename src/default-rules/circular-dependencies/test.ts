@@ -28,7 +28,7 @@ describe('circular-dependencies', () => {
                 validateRegistries(1);
             } catch (e) {
                 expect(e).toEqual(
-                    new Error('Invalid config: registries should an array or a string'),
+                    new Error('Invalid config: registries should be an array or a string'),
                 );
             }
         });

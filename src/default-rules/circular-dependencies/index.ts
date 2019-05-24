@@ -28,7 +28,7 @@ const getCommonPrefix = (strings: string[]) => {
 };
 
 export const validateRegistries = (maybeRegistries: string | string[] | undefined): string[] => {
-    const error = 'Invalid config: registries should an array or a string';
+    const error = 'Invalid config: registries should be an array or a string';
 
     if (!maybeRegistries) {
         return [];

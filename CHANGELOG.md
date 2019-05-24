@@ -2,7 +2,7 @@
 
 ## Master
 
-## 0.3.3 - Packages support
+## 0.3.4 - Packages support
 
 - Add new way of configuring rules via a function to support execution over multiple packages
 
