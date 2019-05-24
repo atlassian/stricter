@@ -1,6 +1,7 @@
 import * as path from 'path';
 import { Graph } from 'graphlib';
 import { Mapping } from './types';
+import micromatch from 'micromatch';
 
 const getParentFolder = (file: string) => file.substring(0, file.lastIndexOf(path.sep));
 
@@ -32,9 +33,26 @@ const getCommonRoot = (file1: string, file2: string): string => {
     return commonRoot.substring(0, commonRoot.lastIndexOf(path.sep));
 };
 
+const removeRestrictedParents = (parents: string[], restrictedFolders: string[]): string[] => {
+    for (const currentFolder in parents) {
+        // types are invalid
+        // https://github.com/DefinitelyTyped/DefinitelyTyped/blob/46cec09177b120f2a89fac11971ab9a3eeeb2cbc/types/micromatch/index.d.ts#L276
+        // https://www.npmjs.com/package/micromatch#ismatch
+        // @ts-ignore
+        if (micromatch.isMatch(parents[currentFolder], restrictedFolders)) {
+            // ditch restricted folder and all of it's ancestors
+            parents.splice(Number(currentFolder), parents.length);
+            return parents;
+        }
+    }
+    // otherwise ditch only common root
+    parents.pop();
+    return parents;
+};
+
 const createEdgeKey = (source: string, target: string): string => `${source}>${target}`;
 
-export default (fileDependencyGraph: Graph) => {
+export default (fileDependencyGraph: Graph, registries: string[]) => {
     const graph = new Graph();
     const mapping: { [key: string]: string } = {};
 
@@ -68,9 +86,9 @@ export default (fileDependencyGraph: Graph) => {
         // different subtrees
         const commonRoot = getCommonRoot(edge.v, edge.w);
         const parentFolders = getParentFolders(edge.w, commonRoot);
+        const allowedParents = removeRestrictedParents(parentFolders, registries);
 
-        parentFolders.pop(); // ditch common root
-        parentFolders.forEach(parent => {
+        allowedParents.forEach(parent => {
             graph.setEdge(source, parent);
             mapping[createEdgeKey(source, parent)] = `${edge.v} => ${edge.w}`;
         });

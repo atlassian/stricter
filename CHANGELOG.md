@@ -6,6 +6,10 @@
 
 - Add new way of configuring rules via a function to support execution over multiple packages
 
+## 0.3.3 - Cyclic dependencies exclusions
+
+- Allow `registries` to accept an array of globs, or single glob to be excluded from folder-level cyclic dependencies checks
+
 ## 0.3.2 - Plugins
 
 - Dependencies bump

@@ -11,7 +11,7 @@ import trimNodeModules from './trim-node-modules';
 const MESSAGE_HEADER =
     'The following output shows the cyclic structures found in the code in ' +
     'the Graphviz format. You can use some online tool to visualize the graph ' +
-    `(e.g. http://viz-js.com/).${EOL}${EOL}`;
+    `(e.g. http://viz-js.com/ ).${EOL}${EOL}`;
 
 const getCommonPrefix = (strings: string[]) => {
     let commonPrefix = '';
@@ -27,12 +27,35 @@ const getCommonPrefix = (strings: string[]) => {
     return commonPrefix;
 };
 
+export const validateRegistries = (maybeRegistries: string | string[] | undefined): string[] => {
+    const error = 'Invalid config: registries should an array or a string';
+
+    if (!maybeRegistries) {
+        return [];
+    }
+
+    if (Array.isArray(maybeRegistries)) {
+        if (maybeRegistries.some(registry => typeof registry !== 'string')) throw new Error(error);
+        return maybeRegistries;
+    } else if (typeof maybeRegistries === 'string') {
+        return [maybeRegistries];
+    } else {
+        throw new Error(error);
+    }
+};
+
+export const createNodeName = (node: string, commonPrefix: string): string =>
+    node.substring(commonPrefix.length, node.length) || commonPrefix;
+
+const createUserOutput = (commonPrefix: string, cycleGraph: graphlib.Graph): string =>
+    `cyclic root folder: ${commonPrefix}${EOL}${dot.write(cycleGraph)}`;
+
 const createMappedCycleMessage = (cycle: string[], mapping: Mapping, graph: graphlib.Graph) => {
     const cycleGraph = new graphlib.Graph();
     const commonPrefix = getCommonPrefix(cycle);
 
-    cycleGraph.setGraph(`cyclic root folder: ${commonPrefix}`);
-    cycle.forEach(node => cycleGraph.setNode(node.substring(commonPrefix.length, node.length)));
+    cycleGraph.setGraph(commonPrefix);
+    cycle.forEach(node => cycleGraph.setNode(createNodeName(node, commonPrefix)));
     cycle.forEach(node => {
         const outerEdges = graph.outEdges(node);
 
@@ -44,8 +67,8 @@ const createMappedCycleMessage = (cycle: string[], mapping: Mapping, graph: grap
             .filter((edge: graphlib.Edge) => cycle.includes(edge.w))
             .forEach((edge: graphlib.Edge) =>
                 cycleGraph.setEdge(
-                    edge.v.substring(commonPrefix.length, edge.v.length),
-                    edge.w.substring(commonPrefix.length, edge.w.length),
+                    createNodeName(edge.v, commonPrefix),
+                    createNodeName(edge.w, commonPrefix),
                     {
                         label: mapping(edge.v, edge.w)
                             .split(commonPrefix)
@@ -55,9 +78,7 @@ const createMappedCycleMessage = (cycle: string[], mapping: Mapping, graph: grap
             );
     });
 
-    const msg = dot.write(cycleGraph);
-
-    return msg;
+    return createUserOutput(commonPrefix, cycleGraph);
 };
 
 const createCycleMessage = (cycle: string[], graph: graphlib.Graph) =>
@@ -80,9 +101,11 @@ const circularDependencies: RuleDefinition = {
         const fileCycles = graphlib.alg.findCycles(fileDependencyGraph);
         const cyclesMessage = createCyclesMessage(fileCycles, fileDependencyGraph);
         const fileCyclesError = fileCycles.length ? getFullErrorMessage(cyclesMessage) : undefined;
-
         if (checkSubTreeCycle) {
-            const { graph, mapFunction } = createFoldersGraph(fileDependencyGraph);
+            const { graph, mapFunction } = createFoldersGraph(
+                fileDependencyGraph,
+                validateRegistries(config.registries),
+            );
             const subTreeResult = graphlib.alg.findCycles(graph);
             const mappedCyclesMessage = createMappedCyclesMessage(
                 subTreeResult,
