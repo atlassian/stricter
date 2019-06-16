@@ -87,7 +87,7 @@
         "babylon-walk": "^1.0.2",
         "chalk": "^2.4.2",
         "debug": "^4.1.1",
-        "fast-glob": "^2.2.6",
+        "fast-glob": "^3.0.0",
         "file-system-cache": "^1.0.5",
         "find-cache-dir": "^3.0.0",
         "graphlib": "^2.1.7",
