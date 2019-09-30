@@ -77,6 +77,7 @@ const defaultPlugins: parser.ParserPlugin[] = [
     'flow',
     'flowComments',
     'jsx',
+    'typescript',
     'asyncGenerators',
     'bigInt',
     'classProperties',
