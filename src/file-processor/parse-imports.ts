@@ -4,6 +4,7 @@ import {
     ImportDeclaration,
     ExportNamedDeclaration,
     ExportAllDeclaration,
+    // TSImportEqualsDeclaration,
     CallExpression,
     Identifier,
     Node,
@@ -36,6 +37,13 @@ export default (ast: NodeTypes): ParsedImportsResult => {
                     state.staticImports.push(casted.source.value);
                 }
             },
+            // Not currently supported in babylon-walk
+            // TSImportEqualsDeclaration(node: NodeTypes, state: ParsedImportsResult) {
+            //     const casted = <TSImportEqualsDeclaration>node;
+            //     if (casted.moduleReference.type === "TSExternalModuleReference") {
+            //         state.staticImports.push(casted.moduleReference.expression.value);
+            //     }
+            // },
             CallExpression(node: NodeTypes, state: ParsedImportsResult) {
                 const casted = <CallExpression>node;
 

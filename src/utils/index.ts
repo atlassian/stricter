@@ -74,9 +74,9 @@ export const listFiles = (directory: string, exclude?: FileFilter): string[] => 
 
 // based on https://babeljs.io/docs/en/next/babel-parser.html
 const defaultPlugins: parser.ParserPlugin[] = [
-    'flow',
-    'flowComments',
-    'jsx',
+    // 'flow',
+    // 'flowComments',
+    // 'jsx',
     'typescript',
     'asyncGenerators',
     'bigInt',
