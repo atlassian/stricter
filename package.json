@@ -60,7 +60,7 @@
         "@types/xxhashjs": "^0.2.1",
         "@types/yargs": "^13.0.0",
         "babel-core": "^7.0.0-0",
-        "concurrently": "^4.1.0",
+        "concurrently": "^5.0.0",
         "coveralls": "^3.0.3",
         "cross-env": "^5.2.0",
         "jest": "^24.7.1",
