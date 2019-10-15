@@ -1,4 +1,4 @@
-// This is not the actual CLI deploye with the app.
+// This is not the actual CLI deployed with the app.
 // The sole purpose of the file is to help debugging.
 let run = require('.').cli;
 let result = run();
