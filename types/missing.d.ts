@@ -76,9 +76,18 @@ declare module 'debug' {
 
 declare module '@wojtekmaj/babylon-walk' {
     import * as babelTypes from 'babel-types';
-    export type NodeTypes = babelTypes.ImportDeclaration | babelTypes.ExportNamedDeclaration | babelTypes.ExportAllDeclaration | babelTypes.TSImportEqualsDeclaration | babelTypes.CallExpression;
+    export type NodeTypes = 
+        | babelTypes.ImportDeclaration
+        | babelTypes.ExportNamedDeclaration
+        | babelTypes.ExportAllDeclaration
+        | babelTypes.TSImportEqualsDeclaration 
+        | babelTypes.CallExpression;
     export interface visitors<V> {
-        ImportDeclaration?: V, ExportNamedDeclaration?: V, ExportAllDeclaration?: V, TSImportEqualsDeclaration?: V, CallExpression?: V;
+        ImportDeclaration?: V,
+        ExportNamedDeclaration?: V,
+        ExportAllDeclaration?: V,
+        TSImportEqualsDeclaration?: V,
+        CallExpression?: V;
     }
     export type SimpleVisitor = (node: NodeTypes, state: any) => void;
     export function simple(node: NodeTypes, visitors: visitors<SimpleVisitor>, state: any): void;
