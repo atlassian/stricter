@@ -106,7 +106,7 @@ export const parse = (
     const plugins = isTypescript
         ? defaultPlugins.concat(['typescript'])
         : defaultPlugins.concat(['flow', 'flowComments', 'jsx']);
-    if (isTSX) plugins.push('jsx');
+    if (isTypescript && isTSX) plugins.push('jsx');
 
     const result = parser.parse(source, {
         plugins,
