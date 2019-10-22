@@ -661,9 +661,9 @@
     "@babel/plugin-transform-typescript" "^7.3.2"
 
 "@babel/runtime@^7.0.0":
-  version "7.6.2"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.6.2.tgz#c3d6e41b304ef10dcf13777a33e7694ec4a9a6dd"
-  integrity sha512-EXxN64agfUqqIGeEjI5dL5z0Sw0ZwWo1mLTi4mQowCZ42O59b7DRpZAnTC6OqdF28wMBMFKNb/4uFGrVaigSpg==
+  version "7.6.3"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/runtime/-/runtime-7.6.3.tgz#935122c74c73d2240cafd32ddb5fc2a6cd35cf1f"
+  integrity sha1-k1Eix0xz0iQMr9Mt21/Cps01zx8=
   dependencies:
     regenerator-runtime "^0.13.2"
 
@@ -1109,10 +1109,10 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@wojtekmaj/babylon-walk@^2.0.0":
+"@wojtekmaj/babylon-walk@2.0.0":
   version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@wojtekmaj/babylon-walk/-/babylon-walk-2.0.0.tgz#b178f4b8fccbd22c258f681ac38b21063bfcc13d"
-  integrity sha512-Z4p/TfbQ/qJQcWhQs8d6f740eXMdJp2If5VikcH9xtRqzJUDF+HMdxHMZeDkrK/l3YnUFTfQPE3Up/Vr7OwRXA==
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@wojtekmaj/babylon-walk/-/babylon-walk-2.0.0.tgz#b178f4b8fccbd22c258f681ac38b21063bfcc13d"
+  integrity sha1-sXj0uPzL0iwlj2gaw4shBjv8wT0=
   dependencies:
     "@babel/runtime" "^7.0.0"
     "@babel/types" "^7.0.0"
@@ -3502,7 +3502,7 @@ locate-path@^5.0.0:
 
 lodash.clone@^4.5.0:
   version "4.5.0"
-  resolved "https://registry.yarnpkg.com/lodash.clone/-/lodash.clone-4.5.0.tgz#195870450f5a13192478df4bc3d23d2dea1907b6"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/lodash.clone/-/lodash.clone-4.5.0.tgz#195870450f5a13192478df4bc3d23d2dea1907b6"
   integrity sha1-GVhwRQ9aExkkeN9Lw9I9LeoZB7Y=
 
 lodash.sortby@^4.7.0:
@@ -4370,8 +4370,8 @@ regenerate@^1.4.0:
 
 regenerator-runtime@^0.13.2:
   version "0.13.3"
-  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.3.tgz#7cf6a77d8f5c6f60eb73c5fc1955b2ceb01e6bf5"
-  integrity sha512-naKIZz2GQ8JWh///G7L3X6LaQUAMp2lvb1rvwwsURe/VXwD6VMfr+/1NuNw3ag8v2kY1aQ/go5SNn79O9JU7yw==
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/regenerator-runtime/-/regenerator-runtime-0.13.3.tgz#7cf6a77d8f5c6f60eb73c5fc1955b2ceb01e6bf5"
+  integrity sha1-fPanfY9cb2Drc8X8GVWyzrAea/U=
 
 regenerator-transform@^0.13.4:
   version "0.13.4"

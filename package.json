@@ -81,7 +81,7 @@
     "dependencies": {
         "@babel/core": "^7.4.4",
         "@babel/parser": "^7.4.4",
-        "@wojtekmaj/babylon-walk": "^2.0.0",
+        "@wojtekmaj/babylon-walk": "2.0.0",
         "ajv": "^6.10.0",
         "app-root-path": "^2.2.1",
         "chalk": "^2.4.2",
