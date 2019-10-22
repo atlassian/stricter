@@ -28,7 +28,8 @@ const readFileData = (
     getHash: HashFunction,
 ): FileData => {
     const source = readFile(filePath);
-    // We parse .js-files only at the moment
+
+    // Parse .js, .jsx, .ts, and .tsx files
     const fileCheck = /\.([jt])s(x?)$/.exec(filePath);
     const ast = fileCheck
         ? () => parse(source, filePath, fileCheck[1] === 't', fileCheck[2] === 'x')
