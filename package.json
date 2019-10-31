@@ -83,7 +83,7 @@
         "@babel/core": "^7.4.4",
         "@babel/parser": "^7.4.4",
         "ajv": "^6.10.0",
-        "app-root-path": "^2.2.1",
+        "app-root-path": "^3.0.0",
         "babylon-walk": "^1.0.2",
         "chalk": "^2.4.2",
         "debug": "^4.1.1",
