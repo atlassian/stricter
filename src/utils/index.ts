@@ -97,16 +97,18 @@ const defaultPlugins: parser.ParserPlugin[] = [
     'throwExpressions',
 ] as parser.ParserPlugin[];
 
-export const parse = (
-    source: string,
-    filePath: string,
-    isTypescript?: boolean,
-    isTSX?: boolean,
-): any => {
-    const plugins = isTypescript
-        ? defaultPlugins.concat(['typescript'])
-        : defaultPlugins.concat(['flow', 'flowComments', 'jsx']);
-    if (isTypescript && isTSX) plugins.push('jsx');
+export const parse = (source: string, filePath: string): any => {
+    const plugins = [...defaultPlugins];
+    const fileType = /\.([jt])s(x?)$/.exec(filePath);
+
+    if (fileType && fileType[1] === 't') {
+        plugins.push('typescript');
+        if (fileType[2] === 'x') {
+            plugins.push('jsx');
+        }
+    } else {
+        plugins.push('flow', 'flowComments', 'jsx');
+    }
 
     const result = parser.parse(source, {
         plugins,

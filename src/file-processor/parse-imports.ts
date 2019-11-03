@@ -1,6 +1,7 @@
 // tslint:disable function-name
 // Use of fork will be removed once required features are in bablyon-walk
 // https://product-fabric.atlassian.net/browse/BUILDTOOLS-333
+// However, this may never occur, see: https://github.com/parcel-bundler/parcel/issues/3225
 import { simple, NodeTypes } from '@wojtekmaj/babylon-walk';
 import {
     ImportDeclaration,

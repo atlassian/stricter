@@ -30,10 +30,7 @@ const readFileData = (
     const source = readFile(filePath);
 
     // Parse .js, .jsx, .ts, and .tsx files
-    const fileCheck = /\.([jt])s(x?)$/.exec(filePath);
-    const ast = fileCheck
-        ? () => parse(source, filePath, fileCheck[1] === 't', fileCheck[2] === 'x')
-        : undefined;
+    const ast = /\.[jt]sx?$/.test(filePath) ? () => parse(source, filePath) : undefined;
     let dependencies: string[] | undefined;
 
     const hash = getHash(source);

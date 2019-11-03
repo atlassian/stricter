@@ -104,8 +104,7 @@ describe('resolveImport', () => {
                 `
             import test1 = require('test-file1');
         `,
-                'filePath',
-                true,
+                'filePath.tsx',
             ),
         );
 
