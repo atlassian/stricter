@@ -2,6 +2,11 @@
 
 ## Master
 
+## 0.3.5 - Typescript support
+
+- Dependencies bump
+- TypeScript support (#83 by @gardnerjack)
+
 ## 0.3.4 - Cyclic dependencies exclusions
 
 - Allow `registries` to accept an array of globs, or single glob to be excluded from folder-level cyclic dependencies checks
