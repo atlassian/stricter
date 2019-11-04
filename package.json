@@ -48,7 +48,6 @@
         "@types/babel__generator": "^7.0.2",
         "@types/babel__template": "^7.0.2",
         "@types/babel__traverse": "^7.0.4",
-        "@types/babylon-walk": "^3.10.1",
         "@types/chalk": "^2.2.0",
         "@types/debug": "^4.1.4",
         "@types/graphlib": "^2.1.4",
@@ -82,9 +81,9 @@
     "dependencies": {
         "@babel/core": "^7.4.4",
         "@babel/parser": "^7.4.4",
+        "@wojtekmaj/babylon-walk": "2.0.0",
         "ajv": "^6.10.0",
         "app-root-path": "^2.2.1",
-        "babylon-walk": "^1.0.2",
         "chalk": "^2.4.2",
         "debug": "^4.1.1",
         "fast-glob": "^2.2.6",
