@@ -74,9 +74,6 @@ export const listFiles = (directory: string, exclude?: FileFilter): string[] => 
 
 // based on https://babeljs.io/docs/en/next/babel-parser.html
 const defaultPlugins: parser.ParserPlugin[] = [
-    'flow',
-    'flowComments',
-    'jsx',
     'asyncGenerators',
     'bigInt',
     'classProperties',
@@ -101,7 +98,17 @@ const defaultPlugins: parser.ParserPlugin[] = [
 ] as parser.ParserPlugin[];
 
 export const parse = (source: string, filePath: string): any => {
-    const plugins = defaultPlugins;
+    const plugins = [...defaultPlugins];
+    const fileType = /\.([jt])s(x?)$/.exec(filePath);
+
+    if (fileType && fileType[1] === 't') {
+        plugins.push('typescript');
+        if (fileType[2] === 'x') {
+            plugins.push('jsx');
+        }
+    } else {
+        plugins.push('flow', 'flowComments', 'jsx');
+    }
 
     const result = parser.parse(source, {
         plugins,

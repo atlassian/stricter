@@ -6,7 +6,7 @@ import { getDirResolver } from '../utils';
 const getPackages = (root: string, packageGlobs: string[] = ['*/**']) => {
     const pkgJsonGlobs = packageGlobs.map(p => `${p}/package.json`);
     return fastGlob
-        .sync<string>([...pkgJsonGlobs, '!**/node_modules/**'], {
+        .sync([...pkgJsonGlobs, '!**/node_modules/**'], {
             cwd: root,
         })
         .map(pkgJsonPath => path.dirname(pkgJsonPath));

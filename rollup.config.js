@@ -14,7 +14,7 @@ export default [
         output: [{ file: pkg.main, format: 'cjs' }, { file: pkg.module, format: 'es' }],
         plugins: [
             resolve({
-                jsnext: true,
+                mainFields: ['module', 'main', 'jsnext:main'],
                 extensions,
             }),
             json({

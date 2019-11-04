@@ -97,4 +97,18 @@ describe('resolveImport', () => {
         expect(result.staticImports).toEqual([]);
         expect(result.dynamicImports).toEqual([]);
     });
+
+    it('should count TS import equals declaration', () => {
+        const result = parseImport(
+            parse(
+                `
+            import test1 = require('test-file1');
+        `,
+                'filePath.tsx',
+            ),
+        );
+
+        expect(result.staticImports).toEqual(['test-file1']);
+        expect(result.dynamicImports).toEqual([]);
+    });
 });
