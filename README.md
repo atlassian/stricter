@@ -321,10 +321,9 @@ A sample launch.json for VS Code might look like
             "type": "node",
             "request": "launch",
             "args": ["${relativeFile}"],
-            "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
-            "sourceMaps": true,
-            "cwd": "${workspaceRoot}",
-            "protocol": "inspector"
+            "env": { "TS_NODE_FILES": "true" },
+            "runtimeArgs": ["-r", "ts-node/register"],
+            "cwd": "${workspaceRoot}"
         }
     ]
 }
