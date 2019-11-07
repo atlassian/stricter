@@ -2,6 +2,8 @@
 
 ## Master
 
+- Dependencies bump
+
 ## 0.3.5 - Typescript support
 
 - Dependencies bump
