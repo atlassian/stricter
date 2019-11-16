@@ -97,7 +97,7 @@
         "rimraf": "^3.0.0",
         "xml-escape": "^1.1.0",
         "xxhashjs": "^0.2.2",
-        "yargs": "^14.2.0"
+        "yargs": "^15.0.1"
     },
     "engines": {
         "node": ">=8.9.0"
