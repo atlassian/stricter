@@ -2,6 +2,8 @@
 
 ## Master
 
+## 0.4.0 - Typescript support, for real
+- **BREAKING** Migrate to using [`enhanced-resolve`](https://github.com/webpack/enhanced-resolve) (fixes #86, native dependencies will now resolve to corresponding files in `node_modules`, if they exist)
 - Dependencies bump
 
 ## 0.3.5 - Typescript support

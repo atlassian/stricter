@@ -10,11 +10,6 @@ declare module 'xml-escape' {
     export default xmlEscape;
 }
 
-declare module 'resolve-from' {
-    function resolveFrom(fromDir: string, moduleId: string): string;
-    export default resolveFrom;
-}
-
 declare module 'graphlib-dot' {
     import * as graphlib from'graphlib';
     export const write: (graph: graphlib.Graph) => string

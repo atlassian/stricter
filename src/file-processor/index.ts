@@ -3,6 +3,7 @@ import { FileData, FileToData, ResolveImport, HashFunction, CacheManager } from 
 import { getHashFunction, readFile, parse } from './../utils';
 import { default as getImports } from './parse-imports';
 import getResolveImport from './get-resolve-import';
+import { parsedExtensionsRe } from './constants';
 
 interface CachedStuff {
     [fileName: string]: {
@@ -28,9 +29,7 @@ const readFileData = (
     getHash: HashFunction,
 ): FileData => {
     const source = readFile(filePath);
-
-    // Parse .js, .jsx, .ts, and .tsx files
-    const ast = /\.[jt]sx?$/.test(filePath) ? () => parse(source, filePath) : undefined;
+    const ast = parsedExtensionsRe.test(filePath) ? () => parse(source, filePath) : undefined;
     let dependencies: string[] | undefined;
 
     const hash = getHash(source);
