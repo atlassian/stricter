@@ -14,17 +14,14 @@ export default (
     filter: string[] | undefined,
 ): RuleApplications => {
     const usages = applyFilter(Object.keys(rules), filter);
-    const result = usages.reduce(
-        (acc, ruleName) => {
-            acc[ruleName] = {
-                definition: ruleDefinitions[ruleName],
-                usage: rules[ruleName],
-            };
+    const result = usages.reduce((acc, ruleName) => {
+        acc[ruleName] = {
+            definition: ruleDefinitions[ruleName],
+            usage: rules[ruleName],
+        };
 
-            return acc;
-        },
-        {} as RuleApplications,
-    );
+        return acc;
+    }, {} as RuleApplications);
 
     return result;
 };

@@ -36,20 +36,17 @@ export default (report: RuleToRuleApplicationResult): void => {
         0,
     );
 
-    const failures = Object.entries(report).reduce(
-        (acc, [rule, applicationResult]) => {
-            acc.push({
-                title: rule,
-                fullTitle: rule,
-                duration: applicationResult.time / 1000,
-                errorCount: applicationResult.errors.length,
-                error: applicationResult.errors.map(i => encode(i)).join(EOL),
-            });
+    const failures = Object.entries(report).reduce((acc, [rule, applicationResult]) => {
+        acc.push({
+            title: rule,
+            fullTitle: rule,
+            duration: applicationResult.time / 1000,
+            errorCount: applicationResult.errors.length,
+            error: applicationResult.errors.map(i => encode(i)).join(EOL),
+        });
 
-            return acc;
-        },
-        [] as Failure[],
-    );
+        return acc;
+    }, [] as Failure[]);
 
     const result = {
         failures,

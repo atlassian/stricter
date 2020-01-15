@@ -7,13 +7,10 @@ export default (rules: RuleDefinitions, filter: string[] | undefined): RuleDefin
 
     const result = Object.entries(rules)
         .filter(([ruleName]) => filter.includes(ruleName))
-        .reduce(
-            (acc, [ruleName, ruleDefinition]) => {
-                acc[ruleName] = ruleDefinition;
-                return acc;
-            },
-            {} as RuleDefinitions,
-        );
+        .reduce((acc, [ruleName, ruleDefinition]) => {
+            acc[ruleName] = ruleDefinition;
+            return acc;
+        }, {} as RuleDefinitions);
 
     return result;
 };

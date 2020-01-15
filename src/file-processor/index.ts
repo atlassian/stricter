@@ -71,14 +71,11 @@ export default (files: string[], cacheManager: CacheManager): FileToData => {
     const cache = cacheManager.get();
     const cachedFilesData = (cache.filesData || {}) as CachedStuff;
     const getHash = getHashFunction();
-    const filesData = files.reduce(
-        (acc, filePath) => {
-            acc[filePath] = readFileData(filePath, resolveImport, cachedFilesData, getHash);
+    const filesData = files.reduce((acc, filePath) => {
+        acc[filePath] = readFileData(filePath, resolveImport, cachedFilesData, getHash);
 
-            return acc;
-        },
-        {} as FileToData,
-    );
+        return acc;
+    }, {} as FileToData);
 
     cache.filesData = cachedFilesData;
     cacheManager.set(cache);

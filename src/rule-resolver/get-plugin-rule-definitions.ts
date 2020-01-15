@@ -42,14 +42,11 @@ const retrievePluginRules = (pluginName: string): RuleDefinitions => {
 };
 
 export default (pluginNames: string[]): RuleDefinitions => {
-    return pluginNames.reduce(
-        (acc, pluginName) => {
-            const pluginRules = retrievePluginRules(pluginName);
-            return {
-                ...acc,
-                ...pluginRules,
-            };
-        },
-        {} as RuleDefinitions,
-    );
+    return pluginNames.reduce((acc, pluginName) => {
+        const pluginRules = retrievePluginRules(pluginName);
+        return {
+            ...acc,
+            ...pluginRules,
+        };
+    }, {} as RuleDefinitions);
 };

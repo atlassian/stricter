@@ -18,17 +18,14 @@ const trimNodeModule = (path: string) => {
 };
 
 export default (dependencyHash: FileToDependency) => {
-    const result = Object.keys(dependencyHash).reduce(
-        (acc, key) => {
-            const newKey = trimNodeModule(key);
-            const value = dependencyHash[key].map(i => trimNodeModule(i));
+    const result = Object.keys(dependencyHash).reduce((acc, key) => {
+        const newKey = trimNodeModule(key);
+        const value = dependencyHash[key].map(i => trimNodeModule(i));
 
-            acc[newKey] = value;
+        acc[newKey] = value;
 
-            return acc;
-        },
-        {} as FileToDependency,
-    );
+        return acc;
+    }, {} as FileToDependency);
 
     return result;
 };

@@ -8,18 +8,15 @@ export const parseDependencies = (files: string[]): FileToDependency => {
         set: () => {},
     };
     const filesData = processFiles(files, nullCacheManager);
-    const result = Object.entries(filesData).reduce(
-        (acc, [filePath, data]) => {
-            if (!data.ast) {
-                return acc;
-            }
-
-            acc[filePath] = data.dependencies as string[];
-
+    const result = Object.entries(filesData).reduce((acc, [filePath, data]) => {
+        if (!data.ast) {
             return acc;
-        },
-        {} as FileToDependency,
-    );
+        }
+
+        acc[filePath] = data.dependencies as string[];
+
+        return acc;
+    }, {} as FileToDependency);
 
     return result;
 };

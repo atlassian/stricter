@@ -19,13 +19,10 @@ const transformRules = (config: ConfigAPI): ConfigRules => {
 
     if (functionRules.length) {
         const packages = getPackages(config.root, config.packages);
-        const functionRuleUsages = functionRules.reduce(
-            (acc, [ruleName, ruleFn]) => {
-                acc[ruleName] = ruleFn({ packages });
-                return acc;
-            },
-            {} as ConfigRules,
-        );
+        const functionRuleUsages = functionRules.reduce((acc, [ruleName, ruleFn]) => {
+            acc[ruleName] = ruleFn({ packages });
+            return acc;
+        }, {} as ConfigRules);
         return {
             ...config.rules,
             ...functionRuleUsages,

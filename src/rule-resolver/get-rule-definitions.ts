@@ -26,26 +26,23 @@ export default (
             (acc, dir) => [...acc, ...listFiles(dir).filter(i => i.endsWith(RULE_SUFFIX))],
             [] as string[],
         );
-        allRulesResolved = customRuleFiles.reduce(
-            (acc, filePath: string) => {
-                const ruleName = stripOutSuffix(path.basename(filePath));
+        allRulesResolved = customRuleFiles.reduce((acc, filePath: string) => {
+            const ruleName = stripOutSuffix(path.basename(filePath));
 
-                if (!rulesToResolve.includes(ruleName)) {
-                    return acc;
-                }
-
-                const rule = require(filePath);
-
-                if (!rule.onProject) {
-                    throw new Error(`Rule ${ruleName} should have onProject.`);
-                }
-
-                acc[ruleName] = rule;
-
+            if (!rulesToResolve.includes(ruleName)) {
                 return acc;
-            },
-            {} as RuleDefinitions,
-        );
+            }
+
+            const rule = require(filePath);
+
+            if (!rule.onProject) {
+                throw new Error(`Rule ${ruleName} should have onProject.`);
+            }
+
+            acc[ruleName] = rule;
+
+            return acc;
+        }, {} as RuleDefinitions);
     }
 
     const pluginRules = pluginNames ? getPluginRuleDefinitions(pluginNames) : {};
