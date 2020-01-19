@@ -1,6 +1,8 @@
 # Changelog
 
 ## Master
+- Support for the scoped plugins (#93 by @nadiam84)
+- Dependencies bump
 
 ## 0.4.0 - Typescript support, for real
 - **BREAKING** Migrate to using [`enhanced-resolve`](https://www.npmjs.com/package/enhanced-resolve) (fixes #86, native dependencies will now resolve to corresponding files in `node_modules`, if they exist)
