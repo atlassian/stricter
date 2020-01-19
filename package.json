@@ -1,6 +1,6 @@
 {
     "name": "stricter",
-    "version": "0.4.0",
+    "version": "0.4.1",
     "description": "A project-wide js-linting tool",
     "files": [
         "LICENSE",
@@ -18,10 +18,11 @@
         "build:main": "cross-env NODE_ENV=production rollup -c rollup.config.js",
         "watch": "rollup -c rollup.config.js -w",
         "lint": "tslint --project .",
+        "stricter": "stricter",
         "typecheck": "tsc --noEmit",
         "build:types": "tsc --emitDeclarationOnly --declarationDir lib --declaration",
         "generate:schema": "typescript-json-schema tsconfig.json Config --include src/types/* --out src/config/config-schema.json --noExtraProps --required --useTypeOfKeyword",
-        "all": "yarn generate:schema && concurrently npm:build:main npm:build:types npm:lint npm:typecheck -c green,yellow,blue,magenta",
+        "all": "yarn generate:schema && concurrently npm:build:main npm:build:types npm:lint npm:typecheck npm:stricter -c green,yellow,blue,magenta,cyan",
         "test": "jest",
         "report-coverage": "coveralls < coverage/lcov.info"
     },
@@ -71,6 +72,7 @@
         "rollup-plugin-json": "^4.0.0",
         "rollup-plugin-node-resolve": "^5.2.0",
         "rollup-plugin-replace": "^2.2.0",
+        "stricter": "^0.4.0",
         "ts-node": "^8.6.2",
         "tslint": "^5.20.1",
         "tslint-config-airbnb": "^5.11.2",

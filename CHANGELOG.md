@@ -1,7 +1,10 @@
 # Changelog
 
 ## Master
+
+## 0.4.1 - Dogfooding
 - Support for the scoped plugins (#93 by @nadiam84)
+- Dogfood stricter
 - Dependencies bump
 
 ## 0.4.0 - Typescript support, for real

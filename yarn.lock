@@ -1185,7 +1185,7 @@ acorn@^7.1.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.1.0.tgz#949d36f2c292535da602283586c2477c57eb2d6c"
   integrity sha512-kL5CuoXA/dgxlBbVrflsflzQ3PAas7RYZB52NOm/6839iVYJgKMJ3cQJD+t2i5+qFa8h3MDpEOJiS64E8JLnSQ==
 
-ajv@^6.11.0:
+ajv@^6.10.2, ajv@^6.11.0:
   version "6.11.0"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.11.0.tgz#c3607cbc8ae392d8a5a536f25b21f8e5f3f87fe9"
   integrity sha512-nCprB/0syFYy9fVYU1ox1l2KN8S9I+tziH8D4zdZuLT3N6RMlGSGt5FSTpAiHB/Whv8Qs1cWHma1aMKZyaHRKA==
@@ -4661,6 +4661,31 @@ stealthy-require@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
+
+stricter@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/stricter/-/stricter-0.4.0.tgz#55d04f0930121c1b8f63751ac893b145fa4c6561"
+  integrity sha512-OJqyvdKeL0HTk0vUmguA6sKw+LcUaJT7N8SuYr38c5kP0J09WUe9TMvtobQ24In7IQlBSClPfKyQQZb6ht09PA==
+  dependencies:
+    "@babel/core" "^7.8.3"
+    "@babel/parser" "^7.8.3"
+    "@wojtekmaj/babylon-walk" "2.0.0"
+    ajv "^6.10.2"
+    app-root-path "^3.0.0"
+    chalk "^3.0.0"
+    debug "^4.1.1"
+    enhanced-resolve "^4.1.1"
+    fast-glob "^3.1.1"
+    file-system-cache "^1.0.5"
+    find-cache-dir "^3.2.0"
+    graphlib "^2.1.8"
+    graphlib-dot "^0.6.4"
+    is-ci "^2.0.0"
+    micromatch "^4.0.2"
+    rimraf "^3.0.0"
+    xml-escape "^1.1.0"
+    xxhashjs "^0.2.2"
+    yargs "^15.1.0"
 
 string-length@^2.0.0:
   version "2.0.0"
