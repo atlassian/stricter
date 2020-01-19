@@ -3,10 +3,14 @@ import { RuleDefinition } from '../types';
 
 describe('getPluginRuleDefinitions', () => {
     let rule1: RuleDefinition;
+    let rule2: RuleDefinition;
     beforeEach(() => {
         jest.clearAllMocks();
         jest.resetModules();
         rule1 = {
+            onProject: jest.fn(),
+        };
+        rule2 = {
             onProject: jest.fn(),
         };
         jest.doMock(
@@ -14,6 +18,15 @@ describe('getPluginRuleDefinitions', () => {
             () => ({
                 rules: {
                     'rule-1': rule1,
+                },
+            }),
+            { virtual: true },
+        );
+        jest.doMock(
+            '@something/stricter-plugin-scoped',
+            () => ({
+                rules: {
+                    'rule-2': rule2,
                 },
             }),
             { virtual: true },
@@ -88,5 +101,18 @@ describe('getPluginRuleDefinitions', () => {
             getPluginRuleDefinitions(['abc']);
         }).toThrowErrorMatchingInlineSnapshot(`"Invalid rule definition: abc/rule-1"`);
     });
-    it.todo('should work with scoped package plugin names');
+    it('should work with short version of the scoped package plugin names', () => {
+        const rules = getPluginRuleDefinitions(['@something/scoped']);
+
+        expect(rules).toEqual({
+            '@something/scoped/rule-2': rule2,
+        });
+    });
+    it('should work with long version of the scoped package plugin names', () => {
+        const rules = getPluginRuleDefinitions(['@something/stricter-plugin-scoped']);
+
+        expect(rules).toEqual({
+            '@something/scoped/rule-2': rule2,
+        });
+    });
 });

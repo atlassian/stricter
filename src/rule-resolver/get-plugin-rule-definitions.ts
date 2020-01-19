@@ -8,7 +8,11 @@ const isValidRule = (rule: { [props: string]: any }): rule is RuleDefinition => 
 
 const normalisePluginName = (pluginName: string) => {
     const shortPluginName = pluginName.replace(pluginPrefix, '');
-    const longPluginName = `${pluginPrefix}${shortPluginName}`;
+    const pluginNameSplitted = shortPluginName.split('/');
+    const longPluginName =
+        pluginNameSplitted.length === 2
+            ? `${pluginNameSplitted[0]}/${pluginPrefix}${pluginNameSplitted[1]}`
+            : `${pluginPrefix}${shortPluginName}`;
 
     return { shortPluginName, longPluginName };
 };
