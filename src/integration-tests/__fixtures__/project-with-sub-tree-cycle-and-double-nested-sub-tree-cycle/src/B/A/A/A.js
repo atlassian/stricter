@@ -1,3 +1,3 @@
 import { BBA } from '../B/A';
 
-export const BAA = 'BAA'
+export const BAA = 'BAA';

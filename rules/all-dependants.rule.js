@@ -4,11 +4,11 @@ module.exports = {
             imports.forEach(i => {
                 const arr = (acc[i] = acc[i] || []);
                 arr.push(file);
-            })
+            });
 
             return acc;
         }, {});
 
-        return [JSON.stringify(result)]; 
-    }
+        return [JSON.stringify(result)];
+    },
 };

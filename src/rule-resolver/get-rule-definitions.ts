@@ -33,6 +33,7 @@ export default (
                 return acc;
             }
 
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
             const rule = require(filePath);
 
             if (!rule.onProject) {

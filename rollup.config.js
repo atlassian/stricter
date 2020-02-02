@@ -11,7 +11,10 @@ const extensions = ['.ts', '.mjs', '.js', '.json', '.node'];
 export default [
     {
         input: 'src/index.ts',
-        output: [{ file: pkg.main, format: 'cjs' }, { file: pkg.module, format: 'es' }],
+        output: [
+            { file: pkg.main, format: 'cjs' },
+            { file: pkg.module, format: 'es' },
+        ],
         plugins: [
             resolve({
                 mainFields: ['module', 'main', 'jsnext:main'],

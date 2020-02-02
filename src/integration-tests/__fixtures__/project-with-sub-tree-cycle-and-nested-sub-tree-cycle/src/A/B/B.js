@@ -1,3 +1,3 @@
-import { AAB } from '../A/B'
+import { AAB } from '../A/B';
 
-export const ABB = 'ABB'
+export const ABB = 'ABB';

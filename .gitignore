@@ -4,3 +4,4 @@ lib
 coverage
 node_modules
 src/config/config-schema.json
+.eslintcache

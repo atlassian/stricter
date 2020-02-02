@@ -25,29 +25,29 @@ export default (ast: NodeTypes): ParsedImportsResult => {
         ast,
         {
             ImportDeclaration(node: NodeTypes, state: ParsedImportsResult) {
-                const casted = <ImportDeclaration>node;
+                const casted = node as ImportDeclaration;
                 state.staticImports.push(casted.source.value);
             },
             ExportNamedDeclaration(node: NodeTypes, state: ParsedImportsResult) {
-                const casted = <ExportNamedDeclaration>node;
+                const casted = node as ExportNamedDeclaration;
                 if (casted.source) {
                     state.staticImports.push(casted.source.value);
                 }
             },
             ExportAllDeclaration(node: NodeTypes, state: ParsedImportsResult) {
-                const casted = <ExportAllDeclaration>node;
+                const casted = node as ExportAllDeclaration;
                 if (casted.source) {
                     state.staticImports.push(casted.source.value);
                 }
             },
             TSImportEqualsDeclaration(node: NodeTypes, state: ParsedImportsResult) {
-                const casted = <TSImportEqualsDeclaration>node;
+                const casted = node as TSImportEqualsDeclaration;
                 if (casted.moduleReference.type === `TSExternalModuleReference`) {
                     state.staticImports.push(casted.moduleReference.expression.value);
                 }
             },
             CallExpression(node: NodeTypes, state: ParsedImportsResult) {
-                const casted = <CallExpression>node;
+                const casted = node as CallExpression;
 
                 const callee: Node | Identifier = casted.callee;
 

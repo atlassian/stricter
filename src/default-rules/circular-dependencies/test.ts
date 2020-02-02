@@ -23,14 +23,11 @@ describe('circular-dependencies', () => {
             expect(validateRegistries(undefined)).toEqual([]);
         });
         it('should return error when registries are invalid', () => {
-            try {
+            expect(() => {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
                 // @ts-ignore - testing invalid configuration
                 validateRegistries(1);
-            } catch (e) {
-                expect(e).toEqual(
-                    new Error('Invalid config: registries should be an array or a string'),
-                );
-            }
+            }).toThrow(new Error('Invalid config: registries should be an array or a string'));
         });
     });
 });

@@ -124,7 +124,7 @@ describe('listFiles', () => {
             }),
         }));
 
-        statSync.mockImplementation((dir: string) => ({
+        statSync.mockImplementation(() => ({
             isDirectory: jest.fn().mockReturnValue(true),
         }));
 

@@ -1,1 +1,1 @@
-export const BBA = 'BBA'
+export const BBA = 'BBA';

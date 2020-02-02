@@ -38,6 +38,7 @@ const removeRestrictedParents = (parents: string[], restrictedFolders: string[])
         // types are invalid
         // https://github.com/DefinitelyTyped/DefinitelyTyped/blob/46cec09177b120f2a89fac11971ab9a3eeeb2cbc/types/micromatch/index.d.ts#L276
         // https://www.npmjs.com/package/micromatch#ismatch
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         // @ts-ignore
         if (micromatch.isMatch(parents[currentFolder], restrictedFolders)) {
             // ditch restricted folder and all of it's ancestors

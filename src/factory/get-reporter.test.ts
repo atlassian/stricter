@@ -11,17 +11,17 @@ describe('getReporter', () => {
         expect(result).toBe(mock.mochaReporter);
     });
 
-    it('returns mocha', () => {
+    it('returns junit', () => {
         const result = getReporter(ReporterType.JUNIT);
         expect(result).toBe(mock.junitReporter);
     });
 
-    it('returns mocha', () => {
+    it('returns console', () => {
         const result = getReporter(ReporterType.CONSOLE);
         expect(result).toBe(mock.consoleReporter);
     });
 
-    it('returns mocha', () => {
+    it('returns console by default', () => {
         const result = getReporter('something-else');
         expect(result).toBe(mock.consoleReporter);
     });

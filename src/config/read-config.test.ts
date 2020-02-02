@@ -4,7 +4,7 @@ jest.mock('app-root-path', () => {});
 jest.mock('path');
 
 describe('readConfig', () => {
-    it('runs consmiconfig based on cwd', () => {
+    it('reads config from the root dir by default', () => {
         const configPath = 'configPath1';
         const config = {};
         jest.doMock(configPath, () => config, { virtual: true });
@@ -19,7 +19,7 @@ describe('readConfig', () => {
         expect(result.config).toBe(config);
     });
 
-    it('runs consmiconfig based on cwd', () => {
+    it('reads passed config', () => {
         const configPath = 'configPath2';
         const config = {};
         jest.doMock(configPath, () => config, { virtual: true });

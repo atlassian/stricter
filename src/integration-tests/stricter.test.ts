@@ -375,13 +375,9 @@ describe("Stricter's ", () => {
                 rulesToVerify: undefined,
                 clearCache: undefined,
             });
-            try {
+            expect(() => {
                 console.log(stricter());
-            } catch (e) {
-                expect(e).toStrictEqual(
-                    new Error('Invalid config: registries should be an array or a string'),
-                );
-            }
+            }).toThrow(new Error('Invalid config: registries should be an array or a string'));
         });
 
         it('report errors when a checkSubTreeCycle option is on registry is invalid: array contains non string entities', () => {
@@ -405,13 +401,9 @@ describe("Stricter's ", () => {
                 rulesToVerify: undefined,
                 clearCache: undefined,
             });
-            try {
+            expect(() => {
                 console.log(stricter());
-            } catch (e) {
-                expect(e).toStrictEqual(
-                    new Error('Invalid config: registries should be an array or a string'),
-                );
-            }
+            }).toThrow(new Error('Invalid config: registries should be an array or a string'));
         });
     });
 

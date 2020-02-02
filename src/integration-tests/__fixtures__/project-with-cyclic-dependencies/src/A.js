@@ -1,3 +1,3 @@
 import { B } from './B';
 
-export const A = 'A'
+export const A = 'A';

@@ -14,6 +14,16 @@ const dfs = (stack: string[], dependencies: FileToDependency, seen: Seen): void 
     }
 };
 
+const checkForMatch = (setting: EntryType, filePath: string) => {
+    if (typeof setting === 'function') {
+        return setting(filePath);
+    }
+
+    const regexSetting = Array.isArray(setting) ? setting : [setting];
+
+    return regexSetting.some(i => i.test(filePath));
+};
+
 const unusedFilesRule: RuleDefinition = {
     onProject: ({ config, dependencies, files }: OnProjectArgument): string[] => {
         if (!config || !config.entry || !Array.isArray(config.entry)) {
@@ -38,16 +48,6 @@ const unusedFilesRule: RuleDefinition = {
 
         return unusedFiles;
     },
-};
-
-const checkForMatch = (setting: EntryType, filePath: string) => {
-    if (typeof setting === 'function') {
-        return setting(filePath);
-    }
-
-    const regexSetting = Array.isArray(setting) ? setting : [setting];
-
-    return regexSetting.some(i => i.test(filePath));
 };
 
 export default unusedFilesRule;
