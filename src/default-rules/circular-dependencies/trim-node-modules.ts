@@ -1,4 +1,4 @@
-import { FileToDependency } from '../../types';
+import type { FileToDependency } from '../../types';
 import { sep } from 'path';
 
 const trimNodeModule = (path: string) => {

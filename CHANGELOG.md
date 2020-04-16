@@ -4,6 +4,7 @@
 - Switch from `tslint` to `eslint`
 - Dependencies bump
 - Drop node 8 support
+- Expose types from `index` (fixes #114)
 
 ## 0.4.1 - Dogfooding
 - Support for the scoped plugins (#93 by @nadiam84)

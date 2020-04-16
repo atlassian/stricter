@@ -2,7 +2,7 @@ import * as isCi from 'is-ci';
 import stricter from '../stricter';
 import getDebugLogger from '../logger/get-debug-logger';
 import getNullLogger from '../logger/get-null-logger';
-import { CliOptions, Stricter } from '../types';
+import type { CliOptions, Stricter } from '../types';
 import getReporter from './get-reporter';
 import getConfigLocation from './get-config-location';
 import getCacheManager from './get-cache-manager';

@@ -1,4 +1,4 @@
-import { RuleDefinitions } from './../types';
+import type { RuleDefinitions } from './../types';
 
 export default (rules: RuleDefinitions, filter: string[] | undefined): RuleDefinitions => {
     if (!filter) {

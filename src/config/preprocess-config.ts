@@ -1,6 +1,6 @@
 import fastGlob from 'fast-glob';
 import path from 'path';
-import { Config, ConfigFile, RuleFn, ConfigRules, ConfigAPI } from './../types';
+import type { Config, ConfigFile, RuleFn, ConfigRules, ConfigAPI } from './../types';
 import { getDirResolver } from '../utils';
 
 const getPackages = (root: string, packageGlobs: string[] = ['*/**']) => {

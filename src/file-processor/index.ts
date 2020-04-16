@@ -1,5 +1,5 @@
 import { dirname } from 'path';
-import { FileData, FileToData, ResolveImport, HashFunction, CacheManager } from './../types';
+import type { FileData, FileToData, ResolveImport, HashFunction, CacheManager } from './../types';
 import { getHashFunction, readFile, parse } from './../utils';
 import { default as getImports } from './parse-imports';
 import getResolveImport from './get-resolve-import';

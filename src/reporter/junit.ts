@@ -1,6 +1,6 @@
 import { EOL } from 'os';
 import xmlEscape from 'xml-escape';
-import { RuleToRuleApplicationResult } from './../types';
+import type { RuleToRuleApplicationResult } from './../types';
 
 interface ReportData {
     failures: number;

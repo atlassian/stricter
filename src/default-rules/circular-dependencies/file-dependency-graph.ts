@@ -1,5 +1,5 @@
 import { Graph } from 'graphlib';
-import { FileToData, FileToDependency } from '../../types';
+import type { FileToData, FileToDependency } from '../../types';
 
 export default (files: FileToData, dependencies: FileToDependency): Graph => {
     const graph = new Graph();

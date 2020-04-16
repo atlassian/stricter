@@ -1,4 +1,4 @@
-import { RuleToRuleApplicationResult } from './../types';
+import type { RuleToRuleApplicationResult } from './../types';
 
 export { default as consoleReporter } from './console';
 export { default as mochaReporter } from './mocha';

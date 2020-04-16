@@ -1,4 +1,4 @@
-import { ConfigRules, RuleApplications } from './../types';
+import type { ConfigRules, RuleApplications } from './../types';
 import getRuleApplications from './get-rule-applications';
 import filterRuleDefinitions from './filter-rule-definitions';
 import getRuleDefinitions from './get-rule-definitions';

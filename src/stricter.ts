@@ -4,7 +4,7 @@ import processFiles from './file-processor';
 import resolveRules from './rule-resolver';
 import processRules from './rule-processor';
 import { getErrorCount } from './reporter';
-import { StricterArguments } from './types';
+import type { StricterArguments } from './types';
 
 export default ({
     options: { configPath, rulesToVerify, clearCache },

@@ -1,6 +1,6 @@
 import getDebug from 'debug';
 import chalk from 'chalk';
-import { Logger } from '../types';
+import type { Logger } from '../types';
 
 export default (): Logger => {
     const debugWriter = getDebug('stricter');

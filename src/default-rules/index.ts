@@ -1,4 +1,4 @@
-import { RuleDefinitions } from './../types';
+import type { RuleDefinitions } from './../types';
 import unusedFilesRule from './unused-files';
 import circularDependenciesRule from './circular-dependencies';
 

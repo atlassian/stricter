@@ -1,7 +1,7 @@
 import findCacheDir from 'find-cache-dir';
 import FSCache from 'file-system-cache';
 import * as rimraf from 'rimraf';
-import { CacheManager, CacheContents } from '../types';
+import type { CacheManager, CacheContents } from '../types';
 
 const FIELD_VERSION = 'version';
 const FIELD_DATA = 'data';

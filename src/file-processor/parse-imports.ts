@@ -3,7 +3,7 @@
 // https://product-fabric.atlassian.net/browse/BUILDTOOLS-333
 // However, this may never occur, see: https://github.com/parcel-bundler/parcel/issues/3225
 import { simple, NodeTypes } from '@wojtekmaj/babylon-walk';
-import {
+import type {
     ImportDeclaration,
     ExportNamedDeclaration,
     ExportAllDeclaration,
@@ -13,7 +13,7 @@ import {
     Node,
     StringLiteral,
 } from 'babel-types';
-import { ParsedImportsResult } from '../types';
+import type { ParsedImportsResult } from '../types';
 
 export default (ast: NodeTypes): ParsedImportsResult => {
     const state: ParsedImportsResult = {

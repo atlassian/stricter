@@ -1,6 +1,6 @@
 import { EOL } from 'os';
-import { OnProjectArgument, RuleDefinition } from '../../types';
-import { Mapping } from './types';
+import type { OnProjectArgument, RuleDefinition } from '../../types';
+import type { Mapping } from './types';
 
 import * as graphlib from 'graphlib';
 import * as dot from 'graphlib-dot';

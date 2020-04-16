@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as parser from '@babel/parser';
 import { h32 } from 'xxhashjs';
-import { FileFilter, HashFunction, PathMatcher } from '../types';
+import type { FileFilter, HashFunction, PathMatcher } from '../types';
 import { parseSync } from '@babel/core';
 
 export const readFile = (i: string): string => fs.readFileSync(i, 'utf8');

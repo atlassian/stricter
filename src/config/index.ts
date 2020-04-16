@@ -1,4 +1,4 @@
-import { Config, ValidatedConfigFile } from './../types';
+import type { Config, ValidatedConfigFile } from './../types';
 import preprocessConfig from './preprocess-config';
 import processConfig from './process-config';
 import readConfig from './read-config';

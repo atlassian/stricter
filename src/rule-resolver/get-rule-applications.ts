@@ -1,4 +1,4 @@
-import { ConfigRules, RuleDefinitions, RuleApplications } from './../types';
+import type { ConfigRules, RuleDefinitions, RuleApplications } from './../types';
 
 const applyFilter = (ruleNames: string[], filter: string[] | undefined) => {
     if (!filter) {

@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { EOL } from 'os';
-import { RuleToRuleApplicationResult } from './../types';
+import type { RuleToRuleApplicationResult } from './../types';
 
 const reportFileName = 'stricter.json';
 

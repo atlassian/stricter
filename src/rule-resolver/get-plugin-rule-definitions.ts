@@ -1,4 +1,4 @@
-import { RuleDefinitions, RuleDefinition } from '../types';
+import type { RuleDefinitions, RuleDefinition } from '../types';
 
 const pluginPrefix = 'stricter-plugin-';
 

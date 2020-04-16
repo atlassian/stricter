@@ -1,5 +1,5 @@
 import { CachedInputFileSystem, NodeJsInputFileSystem, ResolverFactory } from 'enhanced-resolve';
-import { ResolveImport } from '../types';
+import type { ResolveImport } from '../types';
 import { implicitImportedExtensions } from './constants';
 
 export default () => {

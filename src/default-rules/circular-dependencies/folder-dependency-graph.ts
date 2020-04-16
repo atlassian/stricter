@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { Graph } from 'graphlib';
-import { Mapping } from './types';
+import type { Mapping } from './types';
 import micromatch from 'micromatch';
 
 const getParentFolder = (file: string) => file.substring(0, file.lastIndexOf(path.sep));

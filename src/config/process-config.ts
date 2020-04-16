@@ -1,4 +1,4 @@
-import { Config, ValidatedConfigFile } from './../types';
+import type { Config, ValidatedConfigFile } from './../types';
 import { getDirResolver } from '../utils';
 
 export default (foundConfig: ValidatedConfigFile): Config => {

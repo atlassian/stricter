@@ -1,5 +1,5 @@
 import getPluginRuleDefinitions from './get-plugin-rule-definitions';
-import { RuleDefinition } from '../types';
+import type { RuleDefinition } from '../types';
 
 describe('getPluginRuleDefinitions', () => {
     let rule1: RuleDefinition;

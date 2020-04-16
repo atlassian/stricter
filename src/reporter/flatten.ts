@@ -1,4 +1,4 @@
-import { RuleToRuleApplicationResult, LogEntry } from './../types';
+import type { RuleToRuleApplicationResult, LogEntry } from './../types';
 
 export const compactProjectLogs = (projectResult: RuleToRuleApplicationResult): LogEntry[] => {
     const result = Object.entries(projectResult)

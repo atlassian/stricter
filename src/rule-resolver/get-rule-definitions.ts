@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { EOL } from 'os';
 import { listFiles } from './../utils';
-import { RuleDefinitions, ConfigRules } from './../types';
+import type { RuleDefinitions, ConfigRules } from './../types';
 import defaultRules from '../default-rules';
 import getPluginRuleDefinitions from './get-plugin-rule-definitions';
 

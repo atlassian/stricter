@@ -1,6 +1,6 @@
 import * as appRoot from 'app-root-path';
 import * as path from 'path';
-import { ConfigFile } from './../types';
+import type { ConfigFile } from './../types';
 
 export default (configPath?: string): ConfigFile => {
     if (configPath) {

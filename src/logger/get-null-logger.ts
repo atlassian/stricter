@@ -1,4 +1,4 @@
-import { Logger } from '../types';
+import type { Logger } from '../types';
 
 export default (): Logger => {
     const noop = () => {};

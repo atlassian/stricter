@@ -1,4 +1,4 @@
-import { FileToDependency, CacheManager } from './types';
+import type { FileToDependency, CacheManager } from './types';
 import processFiles from './file-processor';
 
 export const parseDependencies = (files: string[]): FileToDependency => {
