@@ -83,11 +83,11 @@ describe('preprocessConfig', () => {
                 root: 'test',
                 rules: {
                     'my-rule': ({ packages }) =>
-                        packages.map(pkg => ({
+                        packages.map((pkg) => ({
                             include: [new RegExp(`${pkg}/.*\.js`)],
                         })),
                     'another-pkg-rule': ({ packages }) =>
-                        packages.map(pkg => ({
+                        packages.map((pkg) => ({
                             exclude: [new RegExp(`${pkg}/.*\.js`)],
                         })),
                     'normal-rule': {
@@ -141,11 +141,11 @@ describe('preprocessConfig', () => {
                 root: 'test',
                 rules: {
                     'my-rule': ({ packages }) =>
-                        packages.map(pkg => ({
+                        packages.map((pkg) => ({
                             include: [new RegExp(`${pkg}/.*\.js`)],
                         })),
                     'another-pkg-rule': ({ packages }) =>
-                        packages.map(pkg => ({
+                        packages.map((pkg) => ({
                             exclude: [new RegExp(`${pkg}/.*\.js`)],
                         })),
                     'normal-rule': {
@@ -220,11 +220,11 @@ describe('preprocessConfig', () => {
                 root: 'test',
                 rules: {
                     'my-rule': ({ packages }) =>
-                        packages.map(pkg => ({
+                        packages.map((pkg) => ({
                             include: [new RegExp(`${pkg}/.*\.js`)],
                         })),
                     'another-rule': ({ packages }) =>
-                        packages.map(pkg => ({
+                        packages.map((pkg) => ({
                             include: [new RegExp(`${pkg}/.*\.js`)],
                         })),
                 },

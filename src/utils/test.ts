@@ -18,10 +18,7 @@ describe('readFile', () => {
 describe('listFiles', () => {
     it('returns empty array if empty folder', () => {
         const { lstatSync, readdirSync } = require('fs');
-        const isDirectoryMock = jest
-            .fn()
-            .mockReturnValueOnce(true)
-            .mockReturnValue(false);
+        const isDirectoryMock = jest.fn().mockReturnValueOnce(true).mockReturnValue(false);
         const isSymbolicLinkMock = jest.fn().mockReturnValue(false);
 
         lstatSync.mockImplementation(() => ({
@@ -59,10 +56,7 @@ describe('listFiles', () => {
         const { lstatSync, readdirSync } = require('fs');
         const { join } = require('path');
         const fileList = ['a', 'b'];
-        const isDirectoryMock = jest
-            .fn()
-            .mockReturnValueOnce(true)
-            .mockReturnValue(false);
+        const isDirectoryMock = jest.fn().mockReturnValueOnce(true).mockReturnValue(false);
         const isSymbolicLinkMock = jest.fn().mockReturnValue(false);
 
         lstatSync.mockImplementation(() => ({
@@ -75,7 +69,7 @@ describe('listFiles', () => {
         readdirSync.mockImplementation(() => fileList);
 
         const result = listFiles('test');
-        expect(result).toEqual(fileList.map(i => `test_${i}`));
+        expect(result).toEqual(fileList.map((i) => `test_${i}`));
     });
 
     it('lists files in folder with subfolders', () => {
@@ -107,7 +101,7 @@ describe('listFiles', () => {
         );
 
         const result = listFiles('test');
-        expect(result).toEqual(fileList.map(i => `test_folder_${i}`));
+        expect(result).toEqual(fileList.map((i) => `test_folder_${i}`));
     });
 
     it('does not list same symlink files twice', () => {
@@ -144,10 +138,7 @@ describe('listFiles', () => {
         const { lstatSync, readdirSync } = require('fs');
         const { join } = require('path');
         const fileList = ['a', 'b'];
-        const isDirectoryMock = jest
-            .fn()
-            .mockReturnValueOnce(true)
-            .mockReturnValue(false);
+        const isDirectoryMock = jest.fn().mockReturnValueOnce(true).mockReturnValue(false);
         const isSymbolicLinkMock = jest.fn().mockReturnValue(false);
 
         lstatSync.mockImplementation(() => ({

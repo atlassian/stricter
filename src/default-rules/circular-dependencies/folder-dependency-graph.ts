@@ -57,10 +57,10 @@ export default (fileDependencyGraph: Graph, registries: string[]) => {
     const graph = new Graph();
     const mapping: { [key: string]: string } = {};
 
-    fileDependencyGraph.nodes().forEach(node => {
+    fileDependencyGraph.nodes().forEach((node) => {
         const parentFolders = getParentFolders(node, process.cwd());
 
-        parentFolders.forEach(folder => graph.setNode(folder));
+        parentFolders.forEach((folder) => graph.setNode(folder));
 
         for (let i = 1; i < parentFolders.length; i += 1) {
             graph.setEdge(parentFolders[i], parentFolders[i - 1]);
@@ -68,7 +68,7 @@ export default (fileDependencyGraph: Graph, registries: string[]) => {
         }
     });
 
-    fileDependencyGraph.edges().forEach(edge => {
+    fileDependencyGraph.edges().forEach((edge) => {
         const source = getParentFolder(edge.v);
         const target = getParentFolder(edge.w);
 
@@ -89,7 +89,7 @@ export default (fileDependencyGraph: Graph, registries: string[]) => {
         const parentFolders = getParentFolders(edge.w, commonRoot);
         const allowedParents = removeRestrictedParents(parentFolders, registries);
 
-        allowedParents.forEach(parent => {
+        allowedParents.forEach((parent) => {
             graph.setEdge(source, parent);
             mapping[createEdgeKey(source, parent)] = `${edge.v} => ${edge.w}`;
         });

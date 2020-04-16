@@ -42,7 +42,7 @@ export default (report: RuleToRuleApplicationResult): void => {
             fullTitle: rule,
             duration: applicationResult.time / 1000,
             errorCount: applicationResult.errors.length,
-            error: applicationResult.errors.map(i => encode(i)).join(EOL),
+            error: applicationResult.errors.map((i) => encode(i)).join(EOL),
         });
 
         return acc;

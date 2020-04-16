@@ -23,7 +23,7 @@ export default (
         const rulesDirArr = Array.isArray(rulesDir) ? rulesDir : [rulesDir];
 
         const customRuleFiles = rulesDirArr.reduce(
-            (acc, dir) => [...acc, ...listFiles(dir).filter(i => i.endsWith(RULE_SUFFIX))],
+            (acc, dir) => [...acc, ...listFiles(dir).filter((i) => i.endsWith(RULE_SUFFIX))],
             [] as string[],
         );
         allRulesResolved = customRuleFiles.reduce((acc, filePath: string) => {
@@ -61,7 +61,7 @@ export default (
     }, allRulesResolved);
 
     const foundRules = Object.keys(allRulesResolved);
-    const notExistingRules = rulesToResolve.filter(ruleName => !foundRules.includes(ruleName));
+    const notExistingRules = rulesToResolve.filter((ruleName) => !foundRules.includes(ruleName));
 
     if (notExistingRules.length) {
         throw new Error(

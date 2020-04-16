@@ -10,15 +10,15 @@ export default (report: RuleToRuleApplicationResult): void => {
         return;
     }
 
-    logs.forEach(log => {
+    logs.forEach((log) => {
         if (log.warnings) {
-            log.warnings.forEach(warning => {
+            log.warnings.forEach((warning) => {
                 console.log(`${chalk.yellow('warning: ')}${chalk.gray(log.rule)} ${warning}`);
             });
         }
 
         if (log.errors) {
-            log.errors.forEach(error => {
+            log.errors.forEach((error) => {
                 console.log(`${chalk.red('error: ')}${chalk.gray(log.rule)} ${error}`);
             });
         }

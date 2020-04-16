@@ -18,7 +18,7 @@ const getCommonPrefix = (strings: string[]) => {
     const minLength = strings.reduce((min, s) => Math.min(min, s.length), Number.MAX_VALUE);
 
     for (let i = 0; i < minLength; i += 1) {
-        if (strings.every(s => s.charAt(i) === strings[0].charAt(i))) {
+        if (strings.every((s) => s.charAt(i) === strings[0].charAt(i))) {
             commonPrefix += strings[0].charAt(i);
         } else {
             break;
@@ -35,7 +35,8 @@ export const validateRegistries = (maybeRegistries: string | string[] | undefine
     }
 
     if (Array.isArray(maybeRegistries)) {
-        if (maybeRegistries.some(registry => typeof registry !== 'string')) throw new Error(error);
+        if (maybeRegistries.some((registry) => typeof registry !== 'string'))
+            throw new Error(error);
         return maybeRegistries;
     } else if (typeof maybeRegistries === 'string') {
         return [maybeRegistries];
@@ -55,8 +56,8 @@ const createMappedCycleMessage = (cycle: string[], mapping: Mapping, graph: grap
     const commonPrefix = getCommonPrefix(cycle);
 
     cycleGraph.setGraph(commonPrefix);
-    cycle.forEach(node => cycleGraph.setNode(createNodeName(node, commonPrefix)));
-    cycle.forEach(node => {
+    cycle.forEach((node) => cycleGraph.setNode(createNodeName(node, commonPrefix)));
+    cycle.forEach((node) => {
         const outerEdges = graph.outEdges(node);
 
         if (!outerEdges) {
@@ -70,9 +71,7 @@ const createMappedCycleMessage = (cycle: string[], mapping: Mapping, graph: grap
                     createNodeName(edge.v, commonPrefix),
                     createNodeName(edge.w, commonPrefix),
                     {
-                        label: mapping(edge.v, edge.w)
-                            .split(commonPrefix)
-                            .join(''),
+                        label: mapping(edge.v, edge.w).split(commonPrefix).join(''),
                     },
                 ),
             );
@@ -85,10 +84,10 @@ const createCycleMessage = (cycle: string[], graph: graphlib.Graph) =>
     createMappedCycleMessage(cycle, () => '', graph);
 
 const createCyclesMessage = (cycles: string[][], graph: graphlib.Graph) =>
-    cycles.map(cycle => createCycleMessage(cycle, graph)).join(`${EOL}${EOL}`);
+    cycles.map((cycle) => createCycleMessage(cycle, graph)).join(`${EOL}${EOL}`);
 
 const createMappedCyclesMessage = (cycles: string[][], mapping: Mapping, graph: graphlib.Graph) =>
-    cycles.map(cycle => createMappedCycleMessage(cycle, mapping, graph)).join(`${EOL}${EOL}`);
+    cycles.map((cycle) => createMappedCycleMessage(cycle, mapping, graph)).join(`${EOL}${EOL}`);
 
 const getFullErrorMessage = (message: string) => MESSAGE_HEADER + message;
 

@@ -28,7 +28,7 @@ export default (
         const definition = ruleApplication.definition;
 
         const ruleApplicationResult = usage
-            .map(usage => processRule(directory, definition, usage, filesData, dependencies))
+            .map((usage) => processRule(directory, definition, usage, filesData, dependencies))
             .reduce(
                 (acc, i) => ({
                     errors: acc.errors.concat(i.errors),

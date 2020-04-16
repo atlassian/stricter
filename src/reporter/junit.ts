@@ -78,7 +78,7 @@ export default (report: RuleToRuleApplicationResult): void => {
         { failures: 0, errors: 0, tests: 0, time: 0, rules: {} } as ReportData,
     );
 
-    const testcases = Object.keys(data.rules).map(rule =>
+    const testcases = Object.keys(data.rules).map((rule) =>
         testcaseTemplate(rule, data.rules[rule].failureList.join(EOL), data.rules[rule].time),
     );
 

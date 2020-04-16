@@ -17,7 +17,7 @@ const getDependencies = (ast: any, filePath: string, resolveImport: ResolveImpor
     const imports = getImports(ast);
     const result = imports.staticImports
         .concat(imports.dynamicImports)
-        .map(i => resolveImport(i, fileDir));
+        .map((i) => resolveImport(i, fileDir));
 
     return result;
 };

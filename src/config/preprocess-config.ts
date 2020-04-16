@@ -4,12 +4,12 @@ import { Config, ConfigFile, RuleFn, ConfigRules, ConfigAPI } from './../types';
 import { getDirResolver } from '../utils';
 
 const getPackages = (root: string, packageGlobs: string[] = ['*/**']) => {
-    const pkgJsonGlobs = packageGlobs.map(p => `${p}/package.json`);
+    const pkgJsonGlobs = packageGlobs.map((p) => `${p}/package.json`);
     return fastGlob
         .sync([...pkgJsonGlobs, '!**/node_modules/**'], {
             cwd: root,
         })
-        .map(pkgJsonPath => path.dirname(pkgJsonPath));
+        .map((pkgJsonPath) => path.dirname(pkgJsonPath));
 };
 
 const transformRules = (config: ConfigAPI): ConfigRules => {

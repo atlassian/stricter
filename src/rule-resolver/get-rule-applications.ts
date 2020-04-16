@@ -5,7 +5,7 @@ const applyFilter = (ruleNames: string[], filter: string[] | undefined) => {
         return ruleNames;
     }
 
-    return ruleNames.filter(ruleName => filter.includes(ruleName));
+    return ruleNames.filter((ruleName) => filter.includes(ruleName));
 };
 
 export default (

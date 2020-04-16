@@ -20,7 +20,7 @@ const trimNodeModule = (path: string) => {
 export default (dependencyHash: FileToDependency) => {
     const result = Object.keys(dependencyHash).reduce((acc, key) => {
         const newKey = trimNodeModule(key);
-        const value = dependencyHash[key].map(i => trimNodeModule(i));
+        const value = dependencyHash[key].map((i) => trimNodeModule(i));
 
         acc[newKey] = value;
 

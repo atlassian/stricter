@@ -18,8 +18,8 @@ describe('processRule', () => {
     });
 
     it('passes correct data into onProject', () => {
-        objectFilterMock.mockImplementation(i => i);
-        filterFilesMock.mockImplementation(i => i);
+        objectFilterMock.mockImplementation((i) => i);
+        filterFilesMock.mockImplementation((i) => i);
 
         const directory = '';
         const definitionStub = jest.fn();
@@ -45,8 +45,8 @@ describe('processRule', () => {
     });
 
     it('ignores messages if level off', () => {
-        objectFilterMock.mockImplementation(i => i);
-        filterFilesMock.mockImplementation(i => i);
+        objectFilterMock.mockImplementation((i) => i);
+        filterFilesMock.mockImplementation((i) => i);
 
         const directory = '';
         const definition = { onProject: () => ['error'] };
@@ -63,8 +63,8 @@ describe('processRule', () => {
     });
 
     it('returns errors if level error', () => {
-        objectFilterMock.mockImplementation(i => i);
-        filterFilesMock.mockImplementation(i => i);
+        objectFilterMock.mockImplementation((i) => i);
+        filterFilesMock.mockImplementation((i) => i);
 
         const directory = '';
         const definition = { onProject: () => ['error'] };
@@ -81,8 +81,8 @@ describe('processRule', () => {
     });
 
     it('returns warnings if level warnings', () => {
-        objectFilterMock.mockImplementation(i => i);
-        filterFilesMock.mockImplementation(i => i);
+        objectFilterMock.mockImplementation((i) => i);
+        filterFilesMock.mockImplementation((i) => i);
 
         const directory = '';
         const definition = { onProject: () => ['error'] };
