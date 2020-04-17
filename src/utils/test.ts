@@ -1,4 +1,4 @@
-import { readFile, listFiles, parse, getDirResolver } from '.';
+import { readFile, listFiles, parse, getDirResolver } from './index';
 
 jest.mock('fs');
 jest.mock('path');

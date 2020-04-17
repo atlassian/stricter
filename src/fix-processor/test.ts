@@ -1,4 +1,4 @@
-import fileProcessor from '.';
+import fileProcessor from './index';
 
 describe('fileProcessor', () => {
     const errorMock = jest.fn();

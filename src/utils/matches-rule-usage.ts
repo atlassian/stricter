@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { getMatcher } from '.';
+import { getMatcher } from './index';
 import type { RuleUsage } from '../types';
 
 export default (directory: string, filePath: string, ruleUsage: RuleUsage): boolean => {

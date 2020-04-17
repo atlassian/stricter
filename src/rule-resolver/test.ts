@@ -1,4 +1,4 @@
-import ruleResolver from '.';
+import ruleResolver from './index';
 
 import * as getRuleApplicationsModule from './get-rule-applications';
 import * as filterRuleDefinitionsModule from './filter-rule-definitions';

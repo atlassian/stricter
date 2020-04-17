@@ -1,4 +1,4 @@
-import fileResolver from '.';
+import fileResolver from './index';
 import * as utilsModule from './../utils';
 
 const listFiles = jest.fn();
