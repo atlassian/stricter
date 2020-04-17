@@ -77,10 +77,13 @@ export interface FileToDependency {
     [fileName: string]: string[];
 }
 
+export type RuleViolationFix = () => void;
+
 export interface RuleApplicationResult {
     errors: string[];
     warnings: string[];
     time: number;
+    fixes: RuleViolationFix[];
 }
 
 export interface RuleToRuleApplicationResult {
@@ -96,8 +99,14 @@ export interface OnProjectArgument {
     config?: RuleUsageConfig;
 }
 
+export type RuleResultEntry =
+    | {
+          message: string;
+          fix?: RuleViolationFix;
+      }
+    | string;
 export interface RuleDefinition {
-    onProject: (args: OnProjectArgument) => string[];
+    onProject: (args: OnProjectArgument) => RuleResultEntry[];
 }
 
 export interface RuleDefinitions {
@@ -129,6 +138,7 @@ export interface CliOptions {
     reporter: string | undefined;
     rulesToVerify: string[] | undefined;
     clearCache: boolean | undefined;
+    fix: boolean | undefined;
 }
 
 export interface StricterArguments {
@@ -136,6 +146,7 @@ export interface StricterArguments {
         configPath: string | undefined;
         rulesToVerify: string[] | undefined;
         clearCache: boolean | undefined;
+        fix: boolean | undefined;
     };
     reporter: Reporter;
     logger: Logger;

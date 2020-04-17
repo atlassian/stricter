@@ -1,5 +1,5 @@
 import { EOL } from 'os';
-import type { OnProjectArgument, RuleDefinition } from '../../types';
+import type { OnProjectArgument, RuleDefinition, RuleResultEntry } from '../../types';
 import type { Mapping } from './types';
 
 import * as graphlib from 'graphlib';
@@ -92,7 +92,7 @@ const createMappedCyclesMessage = (cycles: string[][], mapping: Mapping, graph: 
 const getFullErrorMessage = (message: string) => MESSAGE_HEADER + message;
 
 const circularDependencies: RuleDefinition = {
-    onProject: ({ config = {}, files, dependencies }: OnProjectArgument): string[] => {
+    onProject: ({ config = {}, files, dependencies }: OnProjectArgument): RuleResultEntry[] => {
         const checkSubTreeCycle = config.checkSubTreeCycle || false;
         const trimmedDependencies = trimNodeModules(dependencies);
         const fileDependencyGraph = createFilesGraph(files, trimmedDependencies);
@@ -100,6 +100,7 @@ const circularDependencies: RuleDefinition = {
         const fileCycles = graphlib.alg.findCycles(fileDependencyGraph);
         const cyclesMessage = createCyclesMessage(fileCycles, fileDependencyGraph);
         const fileCyclesError = fileCycles.length ? getFullErrorMessage(cyclesMessage) : undefined;
+        let result: string[];
         if (checkSubTreeCycle) {
             const { graph, mapFunction } = createFoldersGraph(
                 fileDependencyGraph,
@@ -115,10 +116,14 @@ const circularDependencies: RuleDefinition = {
                 ? getFullErrorMessage(mappedCyclesMessage)
                 : undefined;
 
-            return [fileCyclesError, folderCyclesError].filter(Boolean) as string[];
+            result = [fileCyclesError, folderCyclesError].filter(Boolean) as string[];
+        } else {
+            result = [fileCyclesError].filter(Boolean) as string[];
         }
 
-        return [fileCyclesError].filter(Boolean) as string[];
+        return result.map((message) => ({
+            message,
+        }));
     },
 };
 

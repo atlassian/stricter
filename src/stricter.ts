@@ -3,11 +3,12 @@ import resolveFiles from './file-resolver';
 import processFiles from './file-processor';
 import resolveRules from './rule-resolver';
 import processRules from './rule-processor';
+import processFixes from './fix-processor';
 import { getErrorCount } from './reporter';
 import type { StricterArguments } from './types';
 
 export default ({
-    options: { configPath, rulesToVerify, clearCache },
+    options: { configPath, rulesToVerify, clearCache, fix },
     cacheManager,
     reporter,
     logger,
@@ -46,6 +47,14 @@ export default ({
 
     debug('Apply rules');
     const projectResult = processRules(config.root, filesData, ruleApplications);
+
+    if (fix) {
+        log('Fixing...');
+        debug('Apply fixes');
+        processFixes(projectResult);
+
+        return 0;
+    }
 
     debug('Output report');
     reporter(projectResult);

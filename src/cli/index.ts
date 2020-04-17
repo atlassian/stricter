@@ -25,6 +25,10 @@ export default (): number => {
         .option('clearCache', {
             description: 'Clears cache',
             boolean: true,
+        })
+        .option('fix', {
+            description: 'Apply fixes for rule violations',
+            boolean: true,
         }).argv;
 
     const stricter = getStricter({
@@ -32,6 +36,7 @@ export default (): number => {
         reporter: argv.reporter,
         rulesToVerify: argv.rule,
         clearCache: argv.clearCache,
+        fix: argv.fix,
     });
 
     const result = stricter();

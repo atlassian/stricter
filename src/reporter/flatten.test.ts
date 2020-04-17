@@ -6,7 +6,7 @@ describe('compactProjectLogs', () => {
         const errors = ['error'];
         const warnings = ['warning'];
         const result = compactProjectLogs({
-            [rule]: { errors, warnings, time: 0 },
+            [rule]: { errors, warnings, time: 0, fixes: [] },
         });
 
         expect(result).toEqual([{ rule, errors, warnings, time: 0 }]);
@@ -17,7 +17,7 @@ describe('compactProjectLogs', () => {
         const errors: string[] = [];
         const warnings: string[] = [];
         const result = compactProjectLogs({
-            [rule]: { errors, warnings, time: 0 },
+            [rule]: { errors, warnings, time: 0, fixes: [] },
         });
 
         expect(result).toEqual([]);

@@ -175,10 +175,9 @@ interface RuleDefinition {
             };
         };
         rootPath: string;
-        id?: string;
         include?: RegExp | RegExp[] | Function;
         exclude?: RegExp | RegExp[] | Function;
-    }) => string[];
+    }) => (string | { message: string; fix?: () => void; })[];
 }
 ```
 
@@ -188,7 +187,7 @@ interface RuleDefinition {
 
 `config` is an optional object that may be specifified in configuration.
 
-`onProject` should return an array of strings, describing violations, or an empty array if there is none.
+`onProject` should return an array of objects, describing violations and their fixes, or an empty array if there is none.
 
 `include` value of `include` from the rule
 
@@ -204,6 +203,7 @@ Options:
   --reporter, -r  Specify reporter        [choices: "console", "mocha", "junit"]
   --rule          Verify particular rule                                 [array]
   --clearCache    Clears cache
+  --fix           Apply fixes for rule violations
 ```
 
 # Plugins

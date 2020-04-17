@@ -34,11 +34,13 @@ export default (
                     errors: acc.errors.concat(i.errors),
                     warnings: acc.warnings.concat(i.warnings),
                     time: acc.time + i.time,
+                    fixes: acc.fixes.concat(i.fixes),
                 }),
                 {
                     errors: [],
                     warnings: [],
                     time: 0,
+                    fixes: [],
                 } as RuleApplicationResult,
             );
 

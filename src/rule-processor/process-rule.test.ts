@@ -22,7 +22,7 @@ describe('processRule', () => {
         filterFilesMock.mockImplementation((i) => i);
 
         const directory = '';
-        const definitionStub = jest.fn();
+        const definitionStub = jest.fn().mockReturnValueOnce([]);
         const definition = { onProject: definitionStub };
         const ruleUsage = {
             config: {},
@@ -49,7 +49,7 @@ describe('processRule', () => {
         filterFilesMock.mockImplementation((i) => i);
 
         const directory = '';
-        const definition = { onProject: () => ['error'] };
+        const definition = { onProject: () => [{ message: 'error' }] };
         const ruleUsage = {
             level: Level.OFF,
         };
@@ -67,7 +67,7 @@ describe('processRule', () => {
         filterFilesMock.mockImplementation((i) => i);
 
         const directory = '';
-        const definition = { onProject: () => ['error'] };
+        const definition = { onProject: () => [{ message: 'error' }] };
         const ruleUsage = {
             level: Level.ERROR,
         };
@@ -85,7 +85,7 @@ describe('processRule', () => {
         filterFilesMock.mockImplementation((i) => i);
 
         const directory = '';
-        const definition = { onProject: () => ['error'] };
+        const definition = { onProject: () => [{ message: 'error' }] };
         const ruleUsage = {
             level: Level.WARNING,
         };
@@ -96,5 +96,23 @@ describe('processRule', () => {
 
         expect(result.errors).toEqual([]);
         expect(result.warnings).toEqual(['error']);
+    });
+
+    it('collects fixes', () => {
+        objectFilterMock.mockImplementation((i) => i);
+        filterFilesMock.mockImplementation((i) => i);
+
+        const directory = '';
+        const fix = jest.fn();
+        const definition = { onProject: () => [{ message: 'error', fix: fix }] };
+        const ruleUsage = {
+            level: Level.WARNING,
+        };
+        const filesData = {};
+        const dependencies = {};
+
+        const result = processRule(directory, definition, ruleUsage, filesData, dependencies);
+
+        expect(result.fixes).toEqual([fix]);
     });
 });

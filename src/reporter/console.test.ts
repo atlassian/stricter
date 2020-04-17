@@ -21,11 +21,13 @@ describe('consoleReporter', () => {
                 warnings: ['warning1'],
                 errors: [],
                 time: 0,
+                fixes: [],
             },
             rule2: {
                 warnings: ['warning2'],
                 errors: [],
                 time: 0,
+                fixes: [],
             },
         };
         logConsole(warns);
@@ -40,16 +42,34 @@ describe('consoleReporter', () => {
                 errors: ['error1'],
                 warnings: [],
                 time: 0,
+                fixes: [],
             },
             rule2: {
                 errors: ['error2'],
                 warnings: [],
                 time: 0,
+                fixes: [],
             },
         };
         logConsole(errors);
 
         expect(logMock.mock.calls.length).toBe(1 + 2);
         expect(logMock.mock.calls[1][0]).toMatch(/error:/);
+    });
+
+    it('outputs hint about fixes', () => {
+        const errors = {
+            rule1: {
+                errors: ['error1'],
+                warnings: [],
+                time: 0,
+                fixes: [() => {}],
+            },
+        };
+        logConsole(errors);
+
+        expect(logMock.mock.calls[2][0]).toMatch(
+            'Fixes are available. Run "stricter --fix" to apply them.',
+        );
     });
 });

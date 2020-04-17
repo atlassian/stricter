@@ -1,4 +1,10 @@
-import type { OnProjectArgument, RuleDefinition, FileToDependency } from '../../types';
+import type {
+    OnProjectArgument,
+    RuleDefinition,
+    FileToDependency,
+    RuleResultEntry,
+} from '../../types';
+import * as fs from 'fs';
 
 type EntryType = RegExp | RegExp[] | Function;
 type Seen = { [prop: string]: boolean };
@@ -25,7 +31,7 @@ const checkForMatch = (setting: EntryType, filePath: string) => {
 };
 
 const unusedFilesRule: RuleDefinition = {
-    onProject: ({ config, dependencies, files }: OnProjectArgument): string[] => {
+    onProject: ({ config, dependencies, files }: OnProjectArgument): RuleResultEntry[] => {
         if (!config || !config.entry || !Array.isArray(config.entry)) {
             return [];
         }
@@ -46,7 +52,10 @@ const unusedFilesRule: RuleDefinition = {
 
         const unusedFiles = fileList.filter((i) => !seen[i]);
 
-        return unusedFiles;
+        return unusedFiles.map((filePath) => ({
+            message: filePath,
+            fix: () => fs.unlinkSync(filePath),
+        }));
     },
 };
 

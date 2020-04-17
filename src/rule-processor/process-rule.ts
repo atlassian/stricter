@@ -6,8 +6,9 @@ import {
     FileToDependency,
     Level,
     RuleDefinition,
-    RuleUsage,
     RuleApplicationResult,
+    RuleViolationFix,
+    RuleUsage,
 } from './../types';
 
 export default (
@@ -23,7 +24,7 @@ export default (
     const filteredFilesData = objectFilter(filesData, filteredFiles);
     const filteredDependencies = objectFilter(dependencies, filteredFiles);
 
-    const ruleMessages = definition.onProject({
+    const ruleResult = definition.onProject({
         dependencies: filteredDependencies,
         config: ruleUsage.config,
         include: ruleUsage.include,
@@ -32,6 +33,23 @@ export default (
         rootPath: directory,
     });
 
+    const { messages, fixes } = ruleResult.reduce(
+        (acc, i) => {
+            if (typeof i === 'string') {
+                acc.messages.push(i);
+            } else {
+                acc.messages.push(i.message);
+
+                if (i.fix) {
+                    acc.fixes.push(i.fix);
+                }
+            }
+
+            return acc;
+        },
+        { messages: [] as string[], fixes: [] as RuleViolationFix[] },
+    );
+
     const elapsedTime = process.hrtime(startTime);
     const timeInMs = elapsedTime[0] * 1e3 + elapsedTime[1] / 1e6;
 
@@ -39,14 +57,15 @@ export default (
         time: timeInMs,
         warnings: [],
         errors: [],
+        fixes: fixes,
     };
 
     if (ruleUsage.level === Level.ERROR) {
-        result.errors = ruleMessages;
+        result.errors = messages;
     } else if (ruleUsage.level === Level.OFF) {
         // do nothing
     } else {
-        result.warnings = ruleMessages;
+        result.warnings = messages;
     }
 
     return result;

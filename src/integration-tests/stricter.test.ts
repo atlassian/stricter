@@ -6,6 +6,12 @@ import getStricter from '../factory';
 
 describe("Stricter's ", () => {
     const stricterConfigPath = `${__dirname}/__fixtures__/stricter.config.js`;
+    const defaultParams = {
+        reporter: undefined,
+        rulesToVerify: undefined,
+        clearCache: undefined,
+        fix: undefined,
+    };
 
     beforeEach(() => {
         // Comment out the mockImplementation to debug issues
@@ -24,16 +30,15 @@ describe("Stricter's ", () => {
                 rules: {},
             }));
             const stricter = getStricter({
+                ...defaultParams,
                 config: stricterConfigPath,
-                reporter: undefined,
-                rulesToVerify: undefined,
-                clearCache: undefined,
             });
 
             stricter();
             expect(console.log).toHaveBeenCalledTimes(1);
             expect(console.log).toHaveBeenCalledWith('No errors');
         });
+
         it('report no errors when default rules and rulesDir are specified', () => {
             jest.doMock(stricterConfigPath, () => ({
                 root: 'project/src',
@@ -51,10 +56,8 @@ describe("Stricter's ", () => {
                 },
             }));
             const stricter = getStricter({
+                ...defaultParams,
                 config: stricterConfigPath,
-                reporter: undefined,
-                rulesToVerify: undefined,
-                clearCache: undefined,
             });
 
             stricter();
@@ -79,10 +82,8 @@ describe("Stricter's ", () => {
                 },
             }));
             const stricter = getStricter({
+                ...defaultParams,
                 config: stricterConfigPath,
-                reporter: undefined,
-                rulesToVerify: undefined,
-                clearCache: undefined,
             });
 
             stricter();
@@ -109,10 +110,8 @@ describe("Stricter's ", () => {
                 },
             }));
             const stricter = getStricter({
+                ...defaultParams,
                 config: stricterConfigPath,
-                reporter: undefined,
-                rulesToVerify: undefined,
-                clearCache: undefined,
             });
 
             stricter();
@@ -146,10 +145,8 @@ describe("Stricter's ", () => {
                 },
             }));
             const stricter = getStricter({
+                ...defaultParams,
                 config: stricterConfigPath,
-                reporter: undefined,
-                rulesToVerify: undefined,
-                clearCache: undefined,
             });
             console.log(stricter());
             expect(console.log).toHaveBeenCalledTimes(2);
@@ -171,10 +168,8 @@ describe("Stricter's ", () => {
                 },
             }));
             const stricter = getStricter({
+                ...defaultParams,
                 config: stricterConfigPath,
-                reporter: undefined,
-                rulesToVerify: undefined,
-                clearCache: undefined,
             });
             console.log(stricter());
             expect(console.log).toHaveBeenCalledTimes(2);
@@ -197,10 +192,8 @@ describe("Stricter's ", () => {
                 },
             }));
             const stricter = getStricter({
+                ...defaultParams,
                 config: stricterConfigPath,
-                reporter: undefined,
-                rulesToVerify: undefined,
-                clearCache: undefined,
             });
             console.log(stricter());
             expect(console.log).toHaveBeenCalledTimes(2);
@@ -222,10 +215,8 @@ describe("Stricter's ", () => {
                 },
             }));
             const stricter = getStricter({
+                ...defaultParams,
                 config: stricterConfigPath,
-                reporter: undefined,
-                rulesToVerify: undefined,
-                clearCache: undefined,
             });
             console.log(stricter());
             expect(console.log).toHaveBeenCalledTimes(3);
@@ -251,10 +242,8 @@ describe("Stricter's ", () => {
                 },
             }));
             const stricter = getStricter({
+                ...defaultParams,
                 config: stricterConfigPath,
-                reporter: undefined,
-                rulesToVerify: undefined,
-                clearCache: undefined,
             });
             console.log(stricter());
             expect(console.log).toHaveBeenCalledTimes(3);
@@ -280,10 +269,8 @@ describe("Stricter's ", () => {
                 },
             }));
             const stricter = getStricter({
+                ...defaultParams,
                 config: stricterConfigPath,
-                reporter: undefined,
-                rulesToVerify: undefined,
-                clearCache: undefined,
             });
             console.log(stricter());
             expect(console.log).toHaveBeenCalledTimes(3);
@@ -310,10 +297,8 @@ describe("Stricter's ", () => {
                 },
             }));
             const stricter = getStricter({
+                ...defaultParams,
                 config: stricterConfigPath,
-                reporter: undefined,
-                rulesToVerify: undefined,
-                clearCache: undefined,
             });
             console.log(stricter());
             expect(console.log).toHaveBeenCalledTimes(3);
@@ -340,10 +325,8 @@ describe("Stricter's ", () => {
                 },
             }));
             const stricter = getStricter({
+                ...defaultParams,
                 config: stricterConfigPath,
-                reporter: undefined,
-                rulesToVerify: undefined,
-                clearCache: undefined,
             });
             console.log(stricter());
             expect(console.log).toHaveBeenCalledTimes(3);
@@ -370,10 +353,8 @@ describe("Stricter's ", () => {
                 },
             }));
             const stricter = getStricter({
+                ...defaultParams,
                 config: stricterConfigPath,
-                reporter: undefined,
-                rulesToVerify: undefined,
-                clearCache: undefined,
             });
             expect(() => {
                 console.log(stricter());
@@ -396,10 +377,8 @@ describe("Stricter's ", () => {
                 },
             }));
             const stricter = getStricter({
+                ...defaultParams,
                 config: stricterConfigPath,
-                reporter: undefined,
-                rulesToVerify: undefined,
-                clearCache: undefined,
             });
             expect(() => {
                 console.log(stricter());
@@ -424,10 +403,8 @@ describe("Stricter's ", () => {
                 },
             }));
             const stricter = getStricter({
+                ...defaultParams,
                 config: stricterConfigPath,
-                reporter: undefined,
-                rulesToVerify: undefined,
-                clearCache: undefined,
             });
 
             stricter();
@@ -476,10 +453,8 @@ describe("Stricter's ", () => {
                 packages: ['f*'],
             }));
             const stricter = getStricter({
+                ...defaultParams,
                 config: stricterConfigPath,
-                reporter: undefined,
-                rulesToVerify: undefined,
-                clearCache: undefined,
             });
 
             stricter();
@@ -527,10 +502,8 @@ describe("Stricter's ", () => {
                 plugins: ['abc'],
             }));
             const stricter = getStricter({
+                ...defaultParams,
                 config: stricterConfigPath,
-                reporter: undefined,
-                rulesToVerify: undefined,
-                clearCache: undefined,
             });
             stricter();
             expect(console.log).toHaveBeenCalledTimes(1);
@@ -558,10 +531,8 @@ describe("Stricter's ", () => {
                 plugins: ['abc'],
             }));
             const stricter = getStricter({
+                ...defaultParams,
                 config: stricterConfigPath,
-                reporter: undefined,
-                rulesToVerify: undefined,
-                clearCache: undefined,
             });
             stricter();
             expect(console.log).toHaveBeenCalledTimes(1);

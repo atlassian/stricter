@@ -25,6 +25,11 @@ export default (report: RuleToRuleApplicationResult): void => {
     });
 
     const errorCount = logs.reduce((acc, i) => acc + ((i.errors && i.errors.length) || 0), 0);
+    const fixesAreAvailable = Object.values(report).some((i) => i.fixes && i.fixes.length > 0);
 
     console.log(`${errorCount} error${errorCount > 1 ? 's' : ''}`);
+
+    if (fixesAreAvailable) {
+        console.log('Fixes are available. Run "stricter --fix" to apply them.');
+    }
 };
