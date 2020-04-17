@@ -115,7 +115,7 @@ describe("Stricter's ", () => {
             });
 
             stricter();
-            expect(console.log).toHaveBeenCalledTimes(3);
+            expect(console.log).toHaveBeenCalledTimes(4);
             expect(console.log).toHaveBeenNthCalledWith(
                 1,
                 expect.stringMatching(
@@ -129,6 +129,10 @@ describe("Stricter's ", () => {
                 ),
             );
             expect(console.log).toHaveBeenNthCalledWith(3, '2 errors');
+            expect(console.log).toHaveBeenNthCalledWith(
+                4,
+                'Fixes are available. Run "stricter --fix" to apply them.',
+            );
         });
     });
 
@@ -408,6 +412,7 @@ describe("Stricter's ", () => {
             });
 
             stricter();
+            expect(console.log).toHaveBeenCalledTimes(6);
             expect(console.log).toHaveBeenNthCalledWith(
                 1,
                 expect.stringMatching(
@@ -433,7 +438,10 @@ describe("Stricter's ", () => {
                 ),
             );
             expect(console.log).toHaveBeenNthCalledWith(5, '4 errors');
-            expect(console.log).toHaveBeenCalledTimes(5);
+            expect(console.log).toHaveBeenNthCalledWith(
+                6,
+                'Fixes are available. Run "stricter --fix" to apply them.',
+            );
         });
 
         it('function and custom packages array', () => {
@@ -458,6 +466,7 @@ describe("Stricter's ", () => {
             });
 
             stricter();
+            expect(console.log).toHaveBeenCalledTimes(4);
             expect(console.log).toHaveBeenNthCalledWith(
                 1,
                 expect.stringMatching(
@@ -471,7 +480,10 @@ describe("Stricter's ", () => {
                 ),
             );
             expect(console.log).toHaveBeenNthCalledWith(3, '2 errors');
-            expect(console.log).toHaveBeenCalledTimes(3);
+            expect(console.log).toHaveBeenNthCalledWith(
+                4,
+                'Fixes are available. Run "stricter --fix" to apply them.',
+            );
         });
     });
 
