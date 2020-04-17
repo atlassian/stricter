@@ -2,7 +2,7 @@
  * Integration tests
  */
 
-import getStricter from '../factory';
+import { getStricter } from '../factory';
 
 describe("Stricter's ", () => {
     const stricterConfigPath = `${__dirname}/__fixtures__/stricter.config.js`;

@@ -3,7 +3,7 @@ import * as path from 'path';
 
 export const configFile = 'stricter.config.js';
 
-export default (currentPath: string, configPath?: string): string => {
+export const getConfigLocation = (currentPath: string, configPath?: string): string => {
     if (configPath) {
         if (fs.existsSync(configPath)) {
             return configPath;

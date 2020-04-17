@@ -1,4 +1,4 @@
-import validateConfig from './validate-config';
+import { validateConfig } from './validate-config';
 
 describe('validateConfig', () => {
     it('throws if falsy value is passed', () => {

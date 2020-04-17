@@ -1,9 +1,9 @@
-import { default as parseImport } from './parse-imports';
+import { parseImports } from './parse-imports';
 import { parse } from '../utils';
 
 describe('resolveImport', () => {
     it('should count require', () => {
-        const result = parseImport(
+        const result = parseImports(
             parse(
                 `
             const test1 = require('test-file1');
@@ -17,7 +17,7 @@ describe('resolveImport', () => {
     });
 
     it('should count es6 dynamic import', () => {
-        const result = parseImport(
+        const result = parseImports(
             parse(
                 `
             const test1 = import('test-file1');
@@ -31,7 +31,7 @@ describe('resolveImport', () => {
     });
 
     it('should count es6 imports', () => {
-        const result = parseImport(
+        const result = parseImports(
             parse(
                 `
             import { default as test1 } from 'test-file1';
@@ -53,7 +53,7 @@ describe('resolveImport', () => {
     });
 
     it('should count es6 reexports', () => {
-        const result = parseImport(
+        const result = parseImports(
             parse(
                 `
             export { default as test1 } from 'test-file1';
@@ -69,7 +69,7 @@ describe('resolveImport', () => {
     });
 
     it('should not count exports', () => {
-        const result = parseImport(
+        const result = parseImports(
             parse(
                 `
             export default () => {};
@@ -84,7 +84,7 @@ describe('resolveImport', () => {
     });
 
     it('should ignore dynamic imports', () => {
-        const result = parseImport(
+        const result = parseImports(
             parse(
                 `
             const test1 = require(foo);
@@ -99,7 +99,7 @@ describe('resolveImport', () => {
     });
 
     it('should count TS import equals declaration', () => {
-        const result = parseImport(
+        const result = parseImports(
             parse(
                 `
             import test1 = require('test-file1');

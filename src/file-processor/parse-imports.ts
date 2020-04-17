@@ -15,7 +15,7 @@ import type {
 } from 'babel-types';
 import type { ParsedImportsResult } from '../types';
 
-export default (ast: NodeTypes): ParsedImportsResult => {
+export const parseImports = (ast: NodeTypes): ParsedImportsResult => {
     const state: ParsedImportsResult = {
         dynamicImports: [],
         staticImports: [],

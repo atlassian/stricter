@@ -1,4 +1,7 @@
-export default <T>(object: { [key: string]: T }, filter: string[]): { [key: string]: T } => {
+export const objectFilter = <T>(
+    object: { [key: string]: T },
+    filter: string[],
+): { [key: string]: T } => {
     const set = new Set(filter);
     const result = Object.keys(object)
         .filter((i) => set.has(i))

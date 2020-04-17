@@ -1,6 +1,6 @@
 import type { Logger } from '../types';
 
-export default (): Logger => {
+export const logger = (): Logger => {
     const noop = () => {};
 
     return {

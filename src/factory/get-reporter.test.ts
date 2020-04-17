@@ -1,4 +1,4 @@
-import getReporter from './get-reporter';
+import { getReporter } from './get-reporter';
 import { ReporterType } from '../types';
 
 jest.mock('./../reporter');

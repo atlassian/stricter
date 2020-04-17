@@ -1,4 +1,4 @@
-import filterRuleDefinitions from './filter-rule-definitions';
+import { filterRuleDefinitions } from './filter-rule-definitions';
 
 describe('filterRuleDefinitions', () => {
     it('returns rules if no filter is specified', () => {

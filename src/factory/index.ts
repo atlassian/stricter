@@ -1,13 +1,13 @@
 import * as isCi from 'is-ci';
-import stricter from '../stricter';
-import getDebugLogger from '../logger/get-debug-logger';
-import getNullLogger from '../logger/get-null-logger';
+import { stricter } from '../stricter';
+import { logger as getDebugLogger } from '../logger/get-debug-logger';
+import { logger as getNullLogger } from '../logger/get-null-logger';
 import type { CliOptions, Stricter, StricterArguments } from '../types';
-import getReporter from './get-reporter';
-import getConfigLocation from './get-config-location';
-import getCacheManager from './get-cache-manager';
+import { getReporter } from './get-reporter';
+import { getConfigLocation } from './get-config-location';
+import { getCacheManager } from './get-cache-manager';
 
-export default (options: CliOptions): Stricter => {
+export const getStricter = (options: CliOptions): Stricter => {
     const configPath = getConfigLocation(process.cwd(), options.config);
     const reporter = getReporter(options.reporter);
     const logger = isCi ? getNullLogger() : getDebugLogger();

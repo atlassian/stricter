@@ -1,4 +1,4 @@
-import getConfigLocation, { configFile } from './get-config-location';
+import { getConfigLocation, configFile } from './get-config-location';
 import * as path from 'path';
 
 jest.mock('fs');

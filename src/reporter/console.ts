@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import { compactProjectLogs } from './flatten';
 import type { RuleToRuleApplicationResult } from './../types';
 
-export default (report: RuleToRuleApplicationResult): void => {
+export const reporter = (report: RuleToRuleApplicationResult): void => {
     const logs = compactProjectLogs(report);
 
     if (!logs.length) {

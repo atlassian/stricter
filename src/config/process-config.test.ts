@@ -1,4 +1,4 @@
-import processConfig from './process-config';
+import { processConfig } from './process-config';
 
 jest.mock('path');
 jest.mock('fast-glob');

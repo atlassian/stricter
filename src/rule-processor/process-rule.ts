@@ -1,5 +1,5 @@
-import objectFilter from './../utils/object-filter';
-import filterFiles from './filter-files';
+import { objectFilter } from './../utils/object-filter';
+import { filterFiles } from './filter-files';
 
 import {
     FileToData,
@@ -11,7 +11,7 @@ import {
     RuleUsage,
 } from './../types';
 
-export default (
+export const processRule = (
     directory: string,
     definition: RuleDefinition,
     ruleUsage: RuleUsage,

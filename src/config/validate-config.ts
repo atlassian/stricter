@@ -1,7 +1,7 @@
 import ajv from 'ajv';
 import * as schema from './config-schema.json';
 
-export default (foundConfig: any): void => {
+export const validateConfig = (foundConfig: any): void => {
     if (!foundConfig) {
         throw new Error('No config found');
     }

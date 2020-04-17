@@ -1,6 +1,6 @@
-import fileProcessor from './index';
+import { processFixes } from './index';
 
-describe('fileProcessor', () => {
+describe('processFixes', () => {
     const errorMock = jest.fn();
     const originalError = console.error;
 
@@ -20,7 +20,7 @@ describe('fileProcessor', () => {
         const fix1 = jest.fn();
         const fix2 = jest.fn();
 
-        fileProcessor({
+        processFixes({
             rule1: {
                 errors: [],
                 warnings: [],
@@ -45,7 +45,7 @@ describe('fileProcessor', () => {
         });
 
         expect(() =>
-            fileProcessor({
+            processFixes({
                 rule1: {
                     errors: [],
                     warnings: [],

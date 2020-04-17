@@ -1,27 +1,23 @@
-import preprocessConfig from './preprocess-config';
-import processConfig from './process-config';
-import readConfig from './read-config';
-import validateConfig from './validate-config';
+import { preprocessConfig } from './preprocess-config';
+import { processConfig } from './process-config';
+import { readConfig } from './read-config';
+import { validateConfig } from './validate-config';
 import { getConfig } from './index';
 
 jest.mock('./read-config', () => ({
-    __esModule: true,
-    default: jest.fn(() => ({ config: 'readConfigResult', filePath: 'abc' })),
+    readConfig: jest.fn(() => ({ config: 'readConfigResult', filePath: 'abc' })),
 }));
 
 jest.mock('./preprocess-config', () => ({
-    __esModule: true,
-    default: jest.fn(() => 'preprocessResult'),
+    preprocessConfig: jest.fn(() => 'preprocessResult'),
 }));
 
 jest.mock('./validate-config', () => ({
-    __esModule: true,
-    default: jest.fn(() => 'validateResult'),
+    validateConfig: jest.fn(() => 'validateResult'),
 }));
 
 jest.mock('./process-config', () => ({
-    __esModule: true,
-    default: jest.fn(() => 'processResult'),
+    processConfig: jest.fn(() => 'processResult'),
 }));
 
 describe('getConfig', () => {

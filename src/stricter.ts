@@ -1,13 +1,13 @@
 import { getConfig } from './config';
-import resolveFiles from './file-resolver';
-import processFiles from './file-processor';
-import resolveRules from './rule-resolver';
-import processRules from './rule-processor';
-import processFixes from './fix-processor';
+import { resolveFiles } from './file-resolver';
+import { processFiles } from './file-processor';
+import { resolveRules } from './rule-resolver';
+import { processRules } from './rule-processor';
+import { processFixes } from './fix-processor';
 import { getErrorCount } from './reporter';
 import type { StricterArguments } from './types';
 
-export default ({
+export const stricter = ({
     options: { configPath, rulesToVerify, clearCache, fix },
     cacheManager,
     reporter,

@@ -2,8 +2,8 @@ import * as path from 'path';
 import { EOL } from 'os';
 import { listFiles } from './../utils';
 import type { RuleDefinitions, ConfigRules } from './../types';
-import defaultRules from '../default-rules';
-import getPluginRuleDefinitions from './get-plugin-rule-definitions';
+import { defaultRules } from '../default-rules';
+import { getPluginRuleDefinitions } from './get-plugin-rule-definitions';
 
 export const RULE_SUFFIX = '.rule.js';
 
@@ -11,7 +11,7 @@ const stripOutSuffix = (str: string): string => {
     return str.substring(0, str.length - RULE_SUFFIX.length);
 };
 
-export default (
+export const getRuleDefinitions = (
     rules: ConfigRules,
     rulesDir?: string | string[] | undefined,
     pluginNames?: string[] | undefined,

@@ -7,9 +7,9 @@ import type {
     RuleToRuleApplicationResult,
 } from './../types';
 
-import processRule from './process-rule';
+import { processRule } from './process-rule';
 
-export default (
+export const processRules = (
     directory: string,
     filesData: FileToData,
     ruleApplications: RuleApplications,

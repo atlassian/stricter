@@ -1,9 +1,9 @@
 import type { ConfigRules, RuleApplications } from './../types';
-import getRuleApplications from './get-rule-applications';
-import filterRuleDefinitions from './filter-rule-definitions';
-import getRuleDefinitions from './get-rule-definitions';
+import { getRuleApplications } from './get-rule-applications';
+import { filterRuleDefinitions } from './filter-rule-definitions';
+import { getRuleDefinitions } from './get-rule-definitions';
 
-export default (
+export const resolveRules = (
     rules: ConfigRules,
     rulesDir: string | string[] | undefined,
     pluginNames: string[] | undefined,

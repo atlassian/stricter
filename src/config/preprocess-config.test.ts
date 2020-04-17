@@ -1,6 +1,6 @@
 import * as path from 'path';
 import fastGlob from 'fast-glob';
-import preprocessConfig from './preprocess-config';
+import { preprocessConfig } from './preprocess-config';
 
 jest.mock('path');
 jest.mock('fast-glob');

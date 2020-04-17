@@ -2,7 +2,7 @@ import { CachedInputFileSystem, NodeJsInputFileSystem, ResolverFactory } from 'e
 import type { ResolveImport } from '../types';
 import { implicitImportedExtensions } from './constants';
 
-export default () => {
+export const getResolveImport = () => {
     const resolveCache: Map<string, string> = new Map();
     const CACHE_DURATION = 8000;
     const resolver = ResolverFactory.createResolver({

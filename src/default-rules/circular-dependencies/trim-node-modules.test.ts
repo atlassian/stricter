@@ -1,5 +1,5 @@
 import { join } from 'path';
-import trimNodeModules from './trim-node-modules';
+import { trimNodeModules } from './trim-node-modules';
 
 describe(trimNodeModules, () => {
     it('Trims node_module path both in keys and values', () => {

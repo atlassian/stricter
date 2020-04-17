@@ -8,7 +8,7 @@ const applyFilter = (ruleNames: string[], filter: string[] | undefined) => {
     return ruleNames.filter((ruleName) => filter.includes(ruleName));
 };
 
-export default (
+export const getRuleApplications = (
     rules: ConfigRules,
     ruleDefinitions: RuleDefinitions,
     filter: string[] | undefined,

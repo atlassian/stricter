@@ -1,4 +1,4 @@
-import getRuleApplications from './get-rule-applications';
+import { getRuleApplications } from './get-rule-applications';
 
 describe('getRuleApplications', () => {
     it('merges definition and usage', () => {

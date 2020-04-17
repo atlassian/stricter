@@ -1,6 +1,9 @@
 import type { RuleDefinitions } from './../types';
 
-export default (rules: RuleDefinitions, filter: string[] | undefined): RuleDefinitions => {
+export const filterRuleDefinitions = (
+    rules: RuleDefinitions,
+    filter: string[] | undefined,
+): RuleDefinitions => {
     if (!filter) {
         return rules;
     }

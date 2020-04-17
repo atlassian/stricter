@@ -1,4 +1,4 @@
-import readConfig from './read-config';
+import { readConfig } from './read-config';
 
 jest.mock('app-root-path', () => {});
 jest.mock('path');

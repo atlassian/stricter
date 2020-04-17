@@ -37,7 +37,7 @@ const transformRules = (config: ConfigAPI): ConfigRules => {
  *
  * We preprocess this before validation so that we can validate the resulting rule usages.
  */
-export default ({ config, filePath }: ConfigFile): Config => {
+export const preprocessConfig = ({ config, filePath }: ConfigFile): Config => {
     const resolveDir = getDirResolver(filePath);
     config.root = resolveDir(config.root);
 

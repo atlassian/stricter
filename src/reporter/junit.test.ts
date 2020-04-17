@@ -1,4 +1,4 @@
-import logJunit from './junit';
+import { reporter as logJunit } from './junit';
 
 describe('junitReporter', () => {
     const logMock = jest.fn();

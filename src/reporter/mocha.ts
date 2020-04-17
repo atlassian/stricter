@@ -28,7 +28,7 @@ interface Failure {
     error: string | undefined;
 }
 
-export default (report: RuleToRuleApplicationResult): void => {
+export const reporter = (report: RuleToRuleApplicationResult): void => {
     const now = new Date();
     const testsCount = Object.values(report).length;
     const failuresCount = Object.values(report).reduce(

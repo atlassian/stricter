@@ -1,11 +1,11 @@
-import filterFiles from './filter-files';
+import { filterFiles } from './filter-files';
 import * as matchesRuleUsageModule from './../utils/matches-rule-usage';
 
 describe('filterFiles', () => {
     const matchesRuleUsageMock = jest.fn();
 
     beforeAll(() => {
-        (matchesRuleUsageModule.default as any) = matchesRuleUsageMock;
+        (matchesRuleUsageModule.matchesRuleUsage as any) = matchesRuleUsageMock;
     });
 
     afterEach(() => {

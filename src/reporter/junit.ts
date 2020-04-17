@@ -54,7 +54,7 @@ ${escapeCDATA(detail)}]]>`
             : ''
     }</failure>`;
 
-export default (report: RuleToRuleApplicationResult): void => {
+export const reporter = (report: RuleToRuleApplicationResult): void => {
     const data: ReportData = Object.entries(report).reduce(
         (acc, [rule, applicationResult]) => {
             const failureList: string[] = [];

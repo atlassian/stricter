@@ -1,4 +1,4 @@
-import matchesRuleUsage from './matches-rule-usage';
+import { matchesRuleUsage } from './matches-rule-usage';
 
 jest.mock('path');
 

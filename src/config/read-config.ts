@@ -2,7 +2,7 @@ import * as appRoot from 'app-root-path';
 import * as path from 'path';
 import type { ConfigFile } from './../types';
 
-export default (configPath?: string): ConfigFile => {
+export const readConfig = (configPath?: string): ConfigFile => {
     if (configPath) {
         return {
             filePath: configPath,

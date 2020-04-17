@@ -1,4 +1,4 @@
-import getPluginRuleDefinitions from './get-plugin-rule-definitions';
+import { getPluginRuleDefinitions } from './get-plugin-rule-definitions';
 import type { RuleDefinition } from '../types';
 
 describe('getPluginRuleDefinitions', () => {

@@ -6,7 +6,7 @@ import type { CacheManager, CacheContents } from '../types';
 const FIELD_VERSION = 'version';
 const FIELD_DATA = 'data';
 
-export default (): CacheManager => {
+export const getCacheManager = (): CacheManager => {
     const currentVersion: string = process.env.STRICTER_VERSION as string;
     const CACHE_DIR = findCacheDir({ name: 'stricter' });
     const cache = FSCache({

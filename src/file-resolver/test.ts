@@ -1,4 +1,4 @@
-import fileResolver from './index';
+import { resolveFiles } from './index';
 import * as utilsModule from './../utils';
 
 const listFiles = jest.fn();
@@ -11,9 +11,9 @@ afterEach(() => {
     listFiles.mockReset();
 });
 
-describe('fileResolver', () => {
+describe('resolveFiles', () => {
     it('should invoke child functions', () => {
-        fileResolver('', undefined);
+        resolveFiles('', undefined);
         expect(listFiles.mock.calls.length).toBe(1);
     });
 });

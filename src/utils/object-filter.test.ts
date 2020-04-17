@@ -1,4 +1,4 @@
-import objectFilter from './object-filter';
+import { objectFilter } from './object-filter';
 
 describe('objectFilter', () => {
     it('filters keys', () => {

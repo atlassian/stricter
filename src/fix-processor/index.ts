@@ -1,6 +1,6 @@
 import type { RuleToRuleApplicationResult } from './../types';
 
-export default (applicationResult: RuleToRuleApplicationResult) => {
+export const processFixes = (applicationResult: RuleToRuleApplicationResult) => {
     Object.entries(applicationResult).forEach(([ruleName, ruleApplicationResult]) => {
         if (!ruleApplicationResult.fixes) {
             return;

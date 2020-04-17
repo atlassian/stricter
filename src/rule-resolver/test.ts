@@ -1,4 +1,4 @@
-import ruleResolver from './index';
+import { resolveRules } from './index';
 
 import * as getRuleApplicationsModule from './get-rule-applications';
 import * as filterRuleDefinitionsModule from './filter-rule-definitions';
@@ -9,9 +9,9 @@ const filterRuleDefinitionsMock = jest.fn();
 const getRuleDefinitionsMock = jest.fn();
 
 beforeAll(() => {
-    (getRuleApplicationsModule as any).default = getRuleApplicationsMock;
-    (filterRuleDefinitionsModule as any).default = filterRuleDefinitionsMock;
-    (getRuleDefinitionsModules as any).default = getRuleDefinitionsMock;
+    (getRuleApplicationsModule as any).getRuleApplications = getRuleApplicationsMock;
+    (filterRuleDefinitionsModule as any).filterRuleDefinitions = filterRuleDefinitionsMock;
+    (getRuleDefinitionsModules as any).getRuleDefinitions = getRuleDefinitionsMock;
 });
 
 afterEach(() => {
@@ -20,9 +20,9 @@ afterEach(() => {
     getRuleDefinitionsMock.mockReset();
 });
 
-describe('ruleResolver', () => {
+describe('resolveRules', () => {
     it('should invoke child functions', () => {
-        ruleResolver({}, 'rules-dir', ['plugin-1'], undefined);
+        resolveRules({}, 'rules-dir', ['plugin-1'], undefined);
 
         expect(getRuleApplicationsMock.mock.calls.length).toBe(1);
         expect(filterRuleDefinitionsMock.mock.calls.length).toBe(1);

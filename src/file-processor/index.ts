@@ -1,8 +1,8 @@
 import { dirname } from 'path';
 import type { FileData, FileToData, ResolveImport, HashFunction, CacheManager } from './../types';
 import { getHashFunction, readFile, parse } from './../utils';
-import { default as getImports } from './parse-imports';
-import getResolveImport from './get-resolve-import';
+import { parseImports } from './parse-imports';
+import { getResolveImport } from './get-resolve-import';
 import { parsedExtensionsRe } from './constants';
 
 interface CachedStuff {
@@ -14,7 +14,7 @@ interface CachedStuff {
 
 const getDependencies = (ast: any, filePath: string, resolveImport: ResolveImport): string[] => {
     const fileDir = dirname(filePath);
-    const imports = getImports(ast);
+    const imports = parseImports(ast);
     const result = imports.staticImports
         .concat(imports.dynamicImports)
         .map((i) => resolveImport(i, fileDir));
@@ -65,7 +65,7 @@ const readFileData = (
     return result;
 };
 
-export default (files: string[], cacheManager: CacheManager): FileToData => {
+export const processFiles = (files: string[], cacheManager: CacheManager): FileToData => {
     const resolveImport = getResolveImport();
     const cache = cacheManager.get();
     const cachedFilesData = (cache.filesData || {}) as CachedStuff;

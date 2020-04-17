@@ -1,10 +1,8 @@
 import type { RuleDefinitions } from './../types';
-import unusedFilesRule from './unused-files';
-import circularDependenciesRule from './circular-dependencies';
+import { unusedFilesRule } from './unused-files';
+import { circularDependenciesRule } from './circular-dependencies';
 
-const defaultRules: RuleDefinitions = {
+export const defaultRules: RuleDefinitions = {
     'stricter/unused-files': unusedFilesRule,
     'stricter/circular-dependencies': circularDependenciesRule,
 };
-
-export default defaultRules;

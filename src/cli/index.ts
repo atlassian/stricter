@@ -1,7 +1,7 @@
 import * as yargs from 'yargs';
-import getStricter from '../factory';
+import { getStricter } from '../factory';
 
-export default (): number => {
+export const cli = (): number => {
     const argv = yargs
         .version(process.env.STRICTER_VERSION as string)
         .option('config', {

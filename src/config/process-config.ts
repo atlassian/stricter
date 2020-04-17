@@ -1,7 +1,7 @@
 import type { Config, ValidatedConfigFile } from './../types';
 import { getDirResolver } from '../utils';
 
-export default (foundConfig: ValidatedConfigFile): Config => {
+export const processConfig = (foundConfig: ValidatedConfigFile): Config => {
     const { config } = foundConfig;
 
     const result: Config = {

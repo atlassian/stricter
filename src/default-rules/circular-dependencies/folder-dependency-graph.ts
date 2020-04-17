@@ -53,7 +53,7 @@ const removeRestrictedParents = (parents: string[], restrictedFolders: string[])
 
 const createEdgeKey = (source: string, target: string): string => `${source}>${target}`;
 
-export default (fileDependencyGraph: Graph, registries: string[]) => {
+export const createFoldersGraph = (fileDependencyGraph: Graph, registries: string[]) => {
     const graph = new Graph();
     const mapping: { [key: string]: string } = {};
 

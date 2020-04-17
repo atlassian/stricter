@@ -4,9 +4,9 @@ import type { Mapping } from './types';
 
 import * as graphlib from 'graphlib';
 import * as dot from 'graphlib-dot';
-import createFilesGraph from './file-dependency-graph';
-import createFoldersGraph from './folder-dependency-graph';
-import trimNodeModules from './trim-node-modules';
+import { createFilesGraph } from './file-dependency-graph';
+import { createFoldersGraph } from './folder-dependency-graph';
+import { trimNodeModules } from './trim-node-modules';
 
 const MESSAGE_HEADER =
     'The following output shows the cyclic structures found in the code in ' +
@@ -91,7 +91,7 @@ const createMappedCyclesMessage = (cycles: string[][], mapping: Mapping, graph: 
 
 const getFullErrorMessage = (message: string) => MESSAGE_HEADER + message;
 
-const circularDependencies: RuleDefinition = {
+export const circularDependenciesRule: RuleDefinition = {
     onProject: ({ config = {}, files, dependencies }: OnProjectArgument): RuleResultEntry[] => {
         const checkSubTreeCycle = config.checkSubTreeCycle || false;
         const trimmedDependencies = trimNodeModules(dependencies);
@@ -126,5 +126,3 @@ const circularDependencies: RuleDefinition = {
         }));
     },
 };
-
-export default circularDependencies;

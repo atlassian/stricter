@@ -1,4 +1,4 @@
-import logConsole from './console';
+import { reporter as logConsole } from './console';
 
 describe('consoleReporter', () => {
     const logMock = jest.fn();

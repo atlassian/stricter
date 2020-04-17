@@ -6,6 +6,7 @@
 - Drop node 8 support
 - Expose types from `index` (fixes #114)
 - Add a possibility for rules to provide fixes for violations; they can be applied via `stricter --fix` (fixes #107)
+- Code cleanup
 
 ## 0.4.1 - Dogfooding
 - Support for the scoped plugins (#93 by @nadiam84)

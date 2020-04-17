@@ -12,8 +12,10 @@ describe('getRuleDefinitions', () => {
             'abc/rule-1': { onProject: () => [] },
             'abc/rule-2': { onProject: () => [] },
         }));
-        jest.doMock('./get-plugin-rule-definitions', () => getPluginRuleDefinitionsMock);
-        getRuleDefinitions = require('./get-rule-definitions').default;
+        jest.doMock('./get-plugin-rule-definitions', () => ({
+            getPluginRuleDefinitions: getPluginRuleDefinitionsMock,
+        }));
+        getRuleDefinitions = require('./get-rule-definitions').getRuleDefinitions;
     });
     it('returns nothing is nothing is specified', () => {
         const result = getRuleDefinitions({});

@@ -30,7 +30,7 @@ const checkForMatch = (setting: EntryType, filePath: string) => {
     return regexSetting.some((i) => i.test(filePath));
 };
 
-const unusedFilesRule: RuleDefinition = {
+export const unusedFilesRule: RuleDefinition = {
     onProject: ({ config, dependencies, files }: OnProjectArgument): RuleResultEntry[] => {
         if (!config || !config.entry || !Array.isArray(config.entry)) {
             return [];
@@ -58,5 +58,3 @@ const unusedFilesRule: RuleDefinition = {
         }));
     },
 };
-
-export default unusedFilesRule;

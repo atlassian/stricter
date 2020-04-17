@@ -1,4 +1,4 @@
-import processRule from './process-rule';
+import { processRule } from './process-rule';
 import * as objectFilterModule from './../utils/object-filter';
 import * as filterFilesModule from './filter-files';
 import { Level } from './../types';
@@ -8,8 +8,8 @@ describe('processRule', () => {
     const filterFilesMock = jest.fn();
 
     beforeAll(() => {
-        (objectFilterModule.default as any) = objectFilterMock;
-        (filterFilesModule.default as any) = filterFilesMock;
+        (objectFilterModule.objectFilter as any) = objectFilterMock;
+        (filterFilesModule.filterFiles as any) = filterFilesMock;
     });
 
     afterEach(() => {
