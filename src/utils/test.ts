@@ -134,6 +134,33 @@ describe('listFiles', () => {
         expect(result).toEqual(['test_a_other-file']);
     });
 
+    it('respects include', () => {
+        const { lstatSync, readdirSync } = require('fs');
+        const { join } = require('path');
+        const fileLists: { [path: string]: string[] } = {
+            test: ['dirA', 'dirB'],
+            dirA: ['a', 'b'],
+            dirB: ['c', 'd'],
+        };
+        const isDirectoryMock = (path: string) =>
+            jest
+                .fn()
+                .mockImplementation(() => Object.keys(fileLists).some((dir) => path.endsWith(dir)));
+        const isSymbolicLinkMock = jest.fn().mockReturnValue(false);
+
+        lstatSync.mockImplementation((path: string) => ({
+            isDirectory: isDirectoryMock(path),
+            isSymbolicLink: isSymbolicLinkMock,
+        }));
+
+        join.mockImplementation((a: string, b: string) => `${a}_${b}`);
+
+        readdirSync.mockImplementation((path: string) => fileLists[path.split('_').slice(-1)[0]]);
+
+        const result = listFiles('test', [/dirA/]);
+        expect(result).toEqual(['test_dirA_a', 'test_dirA_b']);
+    });
+
     it('respects exclude', () => {
         const { lstatSync, readdirSync } = require('fs');
         const { join } = require('path');
@@ -150,7 +177,7 @@ describe('listFiles', () => {
 
         readdirSync.mockImplementation(() => fileList);
 
-        const result = listFiles('test', [/a/]);
+        const result = listFiles('test', undefined, [/a/]);
         expect(result).toEqual(['test_b']);
     });
 });

@@ -32,7 +32,7 @@ export const stricter = ({
     const config = getConfig(configPath);
 
     debug('Get file list');
-    const filesToProcess = resolveFiles(config.root, config.exclude);
+    const filesToProcess = resolveFiles(config.root, config.include, config.exclude);
 
     debug('Read files data');
     const filesData = processFiles(filesToProcess, cacheManager);

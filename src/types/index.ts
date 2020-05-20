@@ -53,6 +53,7 @@ export interface Plugin {
 export interface ConfigAPI {
     root: string;
     rulesDir?: string | string[];
+    include?: FileFilter;
     exclude?: FileFilter;
     rules: ConfigRulesAPI;
     plugins?: string[];

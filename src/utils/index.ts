@@ -9,6 +9,7 @@ export const readFile = (i: string): string => fs.readFileSync(i, 'utf8');
 
 export const innerListFiles = (
     directory: string,
+    include: PathMatcher,
     exclude: PathMatcher,
     visited: { [prop: string]: true },
 ): string[] => {
@@ -35,13 +36,16 @@ export const innerListFiles = (
     const isFile = !stats.isDirectory();
 
     if (isFile) {
-        return [directory];
+        return !include(directory) ? [] : [directory];
     }
 
     const files = fs
         .readdirSync(directory)
         .reduce(
-            (acc, f) => [...acc, ...innerListFiles(path.join(directory, f), exclude, visited)],
+            (acc, f) => [
+                ...acc,
+                ...innerListFiles(path.join(directory, f), include, exclude, visited),
+            ],
             [],
         );
 
@@ -58,16 +62,27 @@ export const getMatcher = (filter: RegExp | RegExp[] | Function): PathMatcher =>
     return (path) => regexSetting.some((i) => i.test(path));
 };
 
-export const listFiles = (directory: string, exclude?: FileFilter): string[] => {
+export const listFiles = (
+    directory: string,
+    include?: FileFilter,
+    exclude?: FileFilter,
+): string[] => {
+    let includeMatcher: PathMatcher = () => true;
     let excludeMatcher: PathMatcher = () => false;
+
+    const rootToReplace = directory + path.sep;
+
+    if (include) {
+        const matcher = getMatcher(include);
+        includeMatcher = (filePath) => matcher(filePath.replace(rootToReplace, ''));
+    }
 
     if (exclude) {
         const matcher = getMatcher(exclude);
-        const rootToReplace = directory + path.sep;
         excludeMatcher = (filePath) => matcher(filePath.replace(rootToReplace, ''));
     }
 
-    const result = innerListFiles(directory, excludeMatcher, {});
+    const result = innerListFiles(directory, includeMatcher, excludeMatcher, {});
 
     return result;
 };

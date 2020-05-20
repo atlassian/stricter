@@ -62,6 +62,20 @@ describe('processConfig', () => {
         expect(result.rules).toBe(rules);
     });
 
+    it('populates include', () => {
+        const include = new RegExp('');
+        const result = processConfig({
+            config: {
+                include,
+                root: 'test',
+                rules: {},
+            },
+            filePath: '',
+        });
+
+        expect(result.include).toBe(include);
+    });
+
     it('populates exclude', () => {
         const exclude = new RegExp('');
         const result = processConfig({

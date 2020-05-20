@@ -16,6 +16,10 @@ export const processConfig = (foundConfig: ValidatedConfigFile): Config => {
             : resolveDir(config.rulesDir);
     }
 
+    if (config.include) {
+        result.include = config.include;
+    }
+
     if (config.exclude) {
         result.exclude = config.exclude;
     }
