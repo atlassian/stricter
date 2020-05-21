@@ -59,7 +59,7 @@
         "@types/rimraf": "^3.0.0",
         "@types/xxhashjs": "^0.2.1",
         "@types/yargs": "^15.0.4",
-        "@typescript-eslint/eslint-plugin": "^2.28.0",
+        "@typescript-eslint/eslint-plugin": "^3.0.0",
         "@typescript-eslint/parser": "^2.28.0",
         "babel-core": "^7.0.0-0",
         "concurrently": "^5.1.0",
