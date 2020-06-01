@@ -2,6 +2,9 @@
 
 ## Master
 
+- Dependencies bump
+- Test in node@14
+
 ## 0.4.2 - Fix it!
 - Switch from `tslint` to `eslint`
 - Dependencies bump

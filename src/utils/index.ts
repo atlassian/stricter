@@ -50,12 +50,12 @@ export const innerListFiles = (
 
 export const getMatcher = (filter: RegExp | RegExp[] | Function): PathMatcher => {
     if (typeof filter === 'function') {
-        return (path) => filter(path);
+        return ((path) => filter(path)) as PathMatcher;
     }
 
     const regexSetting = Array.isArray(filter) ? filter : [filter];
 
-    return (path) => regexSetting.some((i) => i.test(path));
+    return ((path) => regexSetting.some((i) => i.test(path))) as PathMatcher;
 };
 
 export const listFiles = (directory: string, exclude?: FileFilter): string[] => {
@@ -131,8 +131,8 @@ export const getHashFunction = (): HashFunction => {
     const hasher = h32();
     hasher.init(123);
 
-    return (contents) => hasher.update(contents).digest().toString(16);
+    return ((contents) => hasher.update(contents).digest().toString(16)) as HashFunction;
 };
 
-export const getDirResolver = (filepath: string) => (dir: string) =>
+export const getDirResolver = (filepath: string) => (dir: string): string =>
     path.resolve(path.dirname(filepath), dir);

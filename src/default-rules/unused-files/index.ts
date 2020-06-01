@@ -3,6 +3,7 @@ import type {
     RuleDefinition,
     FileToDependency,
     RuleResultEntry,
+    RuleViolationFix,
 } from '../../types';
 import * as fs from 'fs';
 
@@ -54,7 +55,7 @@ export const unusedFilesRule: RuleDefinition = {
 
         return unusedFiles.map((filePath) => ({
             message: filePath,
-            fix: () => fs.unlinkSync(filePath),
+            fix: (() => fs.unlinkSync(filePath)) as RuleViolationFix,
         }));
     },
 };

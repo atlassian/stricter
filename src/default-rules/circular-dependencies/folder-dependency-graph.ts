@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { Graph } from 'graphlib';
-import type { Mapping } from './types';
+import type { FoldersGraph } from './types';
 import micromatch from 'micromatch';
 
 const getParentFolder = (file: string) => file.substring(0, file.lastIndexOf(path.sep));
@@ -38,7 +38,7 @@ const removeRestrictedParents = (parents: string[], restrictedFolders: string[])
         // types are invalid
         // https://github.com/DefinitelyTyped/DefinitelyTyped/blob/46cec09177b120f2a89fac11971ab9a3eeeb2cbc/types/micromatch/index.d.ts#L276
         // https://www.npmjs.com/package/micromatch#ismatch
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         if (micromatch.isMatch(parents[currentFolder], restrictedFolders)) {
             // ditch restricted folder and all of it's ancestors
@@ -53,7 +53,10 @@ const removeRestrictedParents = (parents: string[], restrictedFolders: string[])
 
 const createEdgeKey = (source: string, target: string): string => `${source}>${target}`;
 
-export const createFoldersGraph = (fileDependencyGraph: Graph, registries: string[]) => {
+export const createFoldersGraph = (
+    fileDependencyGraph: Graph,
+    registries: string[],
+): FoldersGraph => {
     const graph = new Graph();
     const mapping: { [key: string]: string } = {};
 
@@ -95,7 +98,7 @@ export const createFoldersGraph = (fileDependencyGraph: Graph, registries: strin
         });
     });
 
-    const mapFunction: Mapping = (source: string, target: string): string =>
+    const mapFunction = (source: string, target: string): string =>
         mapping[createEdgeKey(source, target)];
 
     return {

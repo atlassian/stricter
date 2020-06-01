@@ -24,7 +24,7 @@ describe('circular-dependencies', () => {
         });
         it('should return error when registries are invalid', () => {
             expect(() => {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore - testing invalid configuration
                 validateRegistries(1);
             }).toThrow(new Error('Invalid config: registries should be an array or a string'));

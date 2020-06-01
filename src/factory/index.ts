@@ -24,5 +24,5 @@ export const getStricter = (options: CliOptions): Stricter => {
         },
     };
 
-    return () => stricter(stricterArguments);
+    return (): number => stricter(stricterArguments);
 };

@@ -1,11 +1,8 @@
 import ajv from 'ajv';
 import * as schema from './config-schema.json';
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const validateConfig = (foundConfig: any): void => {
-    if (!foundConfig) {
-        throw new Error('No config found');
-    }
-
     if (!foundConfig.config) {
         throw new Error('No config contents found');
     }
