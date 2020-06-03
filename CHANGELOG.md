@@ -2,6 +2,8 @@
 
 ## Master
 
+## 0.4.3 - Better webpack support
+
 -   Dependencies bump
 -   Test in node@14
 -   Added possibility to use cache for `parseDependencies`, added it to the docs
