@@ -24,5 +24,9 @@ export const processConfig = (foundConfig: ValidatedConfigFile): Config => {
         result.plugins = config.plugins;
     }
 
+    if (config.resolve) {
+        result.resolve = config.resolve;
+    }
+
     return result;
 };

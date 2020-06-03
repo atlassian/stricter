@@ -13,10 +13,10 @@ const defaultCacheManager = getCacheManager();
 
 export const parseDependencies = (
     files: string[],
-    { useCache = false } = { useCache: false },
+    { useCache = false, resolve = {} } = { useCache: false, resolve: {} },
 ): FileToDependency => {
     const cacheManager = useCache ? defaultCacheManager : nullCacheManager;
-    const filesData = processFiles(files, cacheManager, console);
+    const filesData = processFiles(files, cacheManager, console, resolve);
     const result = Object.entries(filesData).reduce((acc, [filePath, data]) => {
         if (!data.ast) {
             return acc;

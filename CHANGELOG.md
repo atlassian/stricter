@@ -5,6 +5,7 @@
 -   Dependencies bump
 -   Test in node@14
 -   Added possibility to use cache for `parseDependencies`, added it to the docs
+-   Add possibility to pass custom resolve options from webpack (fixes #82)
 
 ## 0.4.2 - Fix it!
 

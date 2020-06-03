@@ -6,6 +6,7 @@ import type {
     HashFunction,
     CacheManager,
     Logger,
+    ResolverOption,
 } from './../types';
 import { getHashFunction, readFile, parse } from './../utils';
 import { parseImports } from './parse-imports';
@@ -77,8 +78,9 @@ export const processFiles = (
     files: string[],
     cacheManager: CacheManager,
     logger: Logger,
+    resolveOptions: ResolverOption,
 ): FileToData => {
-    const resolveImport = getResolveImport();
+    const resolveImport = getResolveImport(resolveOptions);
     const cache = cacheManager.get();
     const cachedFilesData = (cache.filesData || {}) as CachedStuff;
     const getHash = getHashFunction();

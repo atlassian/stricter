@@ -34,6 +34,9 @@ module.exports = {
     rulesDir: 'rules',
     exclude: /\.DS_Store/,
     plugins: ['tangerine'],
+    resolve: {
+        modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+    },
     rules: {
         'hello-world-project': {
             level: 'error'
@@ -81,6 +84,8 @@ module.exports = {
 `exclude` - `RegExp | RegExp[] | Function`, regular expressions to exclude files, uses relative path from root or function accepting relative path and returning boolean
 
 `plugins` - `string[]`, packages that contain third-party rule definitions that you can use in `rules`. See [Plugins](#Plugins) for more details.
+
+`resolve` - `Object`, if you are using webpack, and you want to pass custom resolution options to `stricter`, the options are passed from the `resolve` key of your webpack configuration.
 
 `rules` - required, an object containing configuration for rules.
 
@@ -323,6 +328,7 @@ const parseDependencies = (
 ```
 
 `useCache` - pass `true` to leverage `stricter` filesystem cache
+`resolve` - `Object`, if you are using webpack, and you want to pass custom resolution options to `stricter`, the options are passed from the `resolve` key of your webpack configuration
 
 usage:
 

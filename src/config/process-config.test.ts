@@ -89,4 +89,18 @@ describe('processConfig', () => {
 
         expect(result.plugins).toBe(plugins);
     });
+
+    it('populates resolve', () => {
+        const resolve = {};
+        const result = processConfig({
+            config: {
+                resolve,
+                root: 'test',
+                rules: {},
+            },
+            filePath: '',
+        });
+
+        expect(result.resolve).toBe(resolve);
+    });
 });

@@ -1,11 +1,12 @@
 import { CachedInputFileSystem, NodeJsInputFileSystem, ResolverFactory } from 'enhanced-resolve';
-import type { ResolveImport } from '../types';
+import type { ResolveImport, ResolverOption } from '../types';
 import { implicitImportedExtensions } from './constants';
 
-export const getResolveImport = (): ResolveImport => {
+export const getResolveImport = (resolveOptions: ResolverOption): ResolveImport => {
     const resolveCache: Map<string, string> = new Map();
     const CACHE_DURATION = 8000;
     const resolver = ResolverFactory.createResolver({
+        ...resolveOptions,
         fileSystem: new CachedInputFileSystem(new NodeJsInputFileSystem(), CACHE_DURATION) as any,
         extensions: implicitImportedExtensions,
         useSyncFileSystemCalls: true,
