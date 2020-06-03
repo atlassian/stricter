@@ -1,39 +1,37 @@
 import { processFixes } from './index';
 
 describe('processFixes', () => {
-    const errorMock = jest.fn();
-    const originalError = console.error;
-
-    beforeAll(() => {
-        console.error = errorMock;
-    });
-
-    afterAll(() => {
-        console.error = originalError;
-    });
+    const logger = {
+        debug: jest.fn(),
+        log: jest.fn(),
+        error: jest.fn(),
+    };
 
     beforeEach(() => {
-        errorMock.mockReset();
+        logger.error.mockReset();
     });
 
     it('should invoke fix functions', () => {
         const fix1 = jest.fn();
         const fix2 = jest.fn();
 
-        processFixes({
-            rule1: {
-                errors: [],
-                warnings: [],
-                time: 0,
-                fixes: [],
+        processFixes(
+            {
+                rule1: {
+                    errors: [],
+                    warnings: [],
+                    time: 0,
+                    fixes: [],
+                },
+                rule2: {
+                    errors: [],
+                    warnings: [],
+                    time: 0,
+                    fixes: [fix1, fix2],
+                },
             },
-            rule2: {
-                errors: [],
-                warnings: [],
-                time: 0,
-                fixes: [fix1, fix2],
-            },
-        });
+            logger,
+        );
 
         expect(fix1).toHaveBeenCalledTimes(1);
         expect(fix2).toHaveBeenCalledTimes(1);
@@ -45,17 +43,20 @@ describe('processFixes', () => {
         });
 
         expect(() =>
-            processFixes({
-                rule1: {
-                    errors: [],
-                    warnings: [],
-                    time: 0,
-                    fixes: [failingFix],
+            processFixes(
+                {
+                    rule1: {
+                        errors: [],
+                        warnings: [],
+                        time: 0,
+                        fixes: [failingFix],
+                    },
                 },
-            }),
+                logger,
+            ),
         ).not.toThrow();
 
-        expect(errorMock).toHaveBeenCalledWith(
+        expect(logger.error).toHaveBeenCalledWith(
             expect.stringContaining('Failed to apply fixes for rule1'),
         );
     });

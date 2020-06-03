@@ -1,6 +1,9 @@
-import type { RuleToRuleApplicationResult } from './../types';
+import type { RuleToRuleApplicationResult, Logger } from './../types';
 
-export const processFixes = (applicationResult: RuleToRuleApplicationResult): void => {
+export const processFixes = (
+    applicationResult: RuleToRuleApplicationResult,
+    logger: Logger,
+): void => {
     Object.entries(applicationResult).forEach(([ruleName, ruleApplicationResult]) => {
         if (!ruleApplicationResult.fixes) {
             return;
@@ -9,7 +12,7 @@ export const processFixes = (applicationResult: RuleToRuleApplicationResult): vo
         try {
             ruleApplicationResult.fixes.forEach((fix) => fix());
         } catch (e) {
-            console.error(`Failed to apply fixes for ${ruleName}\n${e}`);
+            logger.error(`Failed to apply fixes for ${ruleName}\n${e}`);
         }
     });
 };

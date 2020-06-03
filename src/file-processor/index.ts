@@ -1,5 +1,12 @@
 import { dirname } from 'path';
-import type { FileData, FileToData, ResolveImport, HashFunction, CacheManager } from './../types';
+import type {
+    FileData,
+    FileToData,
+    ResolveImport,
+    HashFunction,
+    CacheManager,
+    Logger,
+} from './../types';
 import { getHashFunction, readFile, parse } from './../utils';
 import { parseImports } from './parse-imports';
 import { getResolveImport } from './get-resolve-import';
@@ -27,6 +34,7 @@ const readFileData = (
     resolveImport: ResolveImport,
     cachedFilesData: CachedStuff,
     getHash: HashFunction,
+    logger: Logger,
 ): FileData => {
     const source = readFile(filePath);
     const ast = parsedExtensionsRe.test(filePath) ? () => parse(source, filePath) : undefined;
@@ -43,7 +51,7 @@ const readFileData = (
             try {
                 parsedAst = ast();
             } catch (e) {
-                console.error(`Unable to parse ${filePath}`);
+                logger.error(`Unable to parse ${filePath}`);
                 throw e;
             }
 
@@ -65,13 +73,17 @@ const readFileData = (
     return result;
 };
 
-export const processFiles = (files: string[], cacheManager: CacheManager): FileToData => {
+export const processFiles = (
+    files: string[],
+    cacheManager: CacheManager,
+    logger: Logger,
+): FileToData => {
     const resolveImport = getResolveImport();
     const cache = cacheManager.get();
     const cachedFilesData = (cache.filesData || {}) as CachedStuff;
     const getHash = getHashFunction();
     const filesData = files.reduce((acc, filePath) => {
-        acc[filePath] = readFileData(filePath, resolveImport, cachedFilesData, getHash);
+        acc[filePath] = readFileData(filePath, resolveImport, cachedFilesData, getHash, logger);
 
         return acc;
     }, {} as FileToData);

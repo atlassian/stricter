@@ -35,7 +35,7 @@ export const stricter = ({
     const filesToProcess = resolveFiles(config.root, config.exclude);
 
     debug('Read files data');
-    const filesData = processFiles(filesToProcess, cacheManager);
+    const filesData = processFiles(filesToProcess, cacheManager, logger);
 
     debug('Get rules');
     const ruleApplications = resolveRules(
@@ -51,7 +51,7 @@ export const stricter = ({
     if (fix) {
         log('Fixing...');
         debug('Apply fixes');
-        processFixes(projectResult);
+        processFixes(projectResult, logger);
 
         return 0;
     }
