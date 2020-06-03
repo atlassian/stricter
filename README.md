@@ -307,6 +307,30 @@ module.exports = {
 };
 ```
 
+# Exposed utilities
+
+## parseDependencies
+
+Parses files and returns an object, containing filenames as keys and array of their dependencies as values.
+
+```js
+const parseDependencies = (
+    files: string[],
+    { useCache = false } = { useCache: false },
+): {
+    [fileName: string]: string[];
+}
+```
+
+`useCache` - pass `true` to leverage `stricter` filesystem cache
+
+usage:
+
+```js
+const { parseDependencies } = require('stricter');
+const dependencies = parseDependencies(['foo.js', 'bar.js']);
+```
+
 # Debugging
 
 It helps to use `src/debug.ts` as an entry point for debugging.
