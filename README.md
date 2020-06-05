@@ -321,13 +321,13 @@ Parses files and returns an object, containing filenames as keys and array of th
 ```js
 const parseDependencies = (
     files: string[],
-    { useCache = false } = { useCache: false },
+    { useCache = false, resolve = {} } = { useCache: false, resolve: {} }
 ): {
     [fileName: string]: string[];
 }
 ```
 
-`useCache` - pass `true` to leverage `stricter` filesystem cache
+`useCache` - pass `true` to leverage `stricter` filesystem cache  
 `resolve` - `Object`, if you are using webpack, and you want to pass custom resolution options to `stricter`, the options are passed from the `resolve` key of your webpack configuration
 
 usage:
