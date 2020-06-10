@@ -8,13 +8,10 @@ cache:
 before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH=$HOME/.yarn/bin:$PATH
-  - yarn global add greenkeeper-lockfile@1
-before_script: greenkeeper-lockfile-update
 script:
   - yarn all
   - yarn test
   - yarn report-coverage
-after_script: greenkeeper-lockfile-upload
 deploy:
   skip_cleanup: true
   provider: npm

@@ -1,6 +1,6 @@
 # stricter
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/atlassian/stricter.svg)](https://greenkeeper.io/)
+[![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 [![Build Status](https://travis-ci.org/atlassian/stricter.svg?branch=master)](https://travis-ci.org/atlassian/stricter)
 [![npm version](https://img.shields.io/npm/v/stricter.svg?style=flat-square)](https://www.npmjs.com/package/stricter)
 [![Coverage Status](https://coveralls.io/repos/github/atlassian/stricter/badge.svg?branch=master)](https://coveralls.io/github/atlassian/stricter?branch=master)
