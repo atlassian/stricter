@@ -2,6 +2,9 @@
 
 ## Master
 
+- Replace greenkeeper with renovate
+- Bump dependencies
+
 ## 0.4.3 - Better webpack support
 
 -   Dependencies bump
