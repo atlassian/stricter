@@ -18,7 +18,7 @@
     invariant "^2.2.4"
     semver "^5.5.0"
 
-"@babel/core@^7.1.0", "@babel/core@^7.10.2", "@babel/core@^7.7.5", "@babel/core@^7.9.0":
+"@babel/core@^7.1.0", "@babel/core@^7.10.2", "@babel/core@^7.7.5":
   version "7.10.2"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.10.2.tgz#bd6786046668a925ac2bd2fd95b579b92a23b36a"
   integrity sha512-KQmV9yguEjQsXqyOUGKjS4+3K8/DlOCE2pZcq4augdQmtTy5iv5EHtmMSJ7V4c1BIPjuwtZYqYLCq9Ga+hGBRQ==
@@ -252,7 +252,7 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.1.0", "@babel/parser@^7.10.1", "@babel/parser@^7.10.2", "@babel/parser@^7.9.4":
+"@babel/parser@^7.1.0", "@babel/parser@^7.10.1", "@babel/parser@^7.10.2":
   version "7.10.2"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.10.2.tgz#871807f10442b92ff97e4783b9b54f6a0ca812d0"
   integrity sha512-PApSXlNMJyB4JiGVhCOlzKIif+TKFTvu0aQAhnTvfP/z3vVSN6ZypH5bfUNwFXXjRQtUEBNFd2PtmCmG2Py3qQ==
@@ -1373,7 +1373,7 @@ acorn@^7.1.1, acorn@^7.2.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.2.0.tgz#17ea7e40d7c8640ff54a694c889c26f31704effe"
   integrity sha512-apwXVmYVpQ34m/i71vrApRrRKCWQnZZF1+npOD0WV5xZFfwWOmKGQ2RWlfdy9vWITsenisM8M0Qeq8agcFHNiQ==
 
-ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.0, ajv@^6.12.2, ajv@^6.5.5:
+ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.2, ajv@^6.5.5:
   version "6.12.2"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.12.2.tgz#c629c5eced17baf314437918d2da88c99d5958cd"
   integrity sha512-k+V+hzjm5q/Mr8ef/1Y9goCmlsK4I6Sm74teeyGvFk1XrOsbsKLjEdrvny42CZ+a8sXbk8KWpY/bDwS+FLL2UQ==
@@ -4961,15 +4961,15 @@ stealthy-require@^1.1.1:
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
 
-stricter@0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/stricter/-/stricter-0.4.2.tgz#106d8582fdebc550351bde32ffd2d89c0fdb2bed"
-  integrity sha512-2vT7vwZI3GV9C/rClxF9wm/tgERWMosv92XWhJ+LJYz1mggtZk050fi5xbWglgppTM62RdVeZl9pWOpj2Y2oug==
+stricter@0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/stricter/-/stricter-0.4.3.tgz#96f33c624f2a7969eed7ab34f2889f56152bf41c"
+  integrity sha512-4zg9IixpVGnTbcWXanRGrIVYBS+m7XFxsQjN2zfPFe1dGPyZ4CFMM2bULSE0oVt5JeJRn/e2lw5rTblW6ExLWw==
   dependencies:
-    "@babel/core" "^7.9.0"
-    "@babel/parser" "^7.9.4"
+    "@babel/core" "^7.10.2"
+    "@babel/parser" "^7.10.2"
     "@wojtekmaj/babylon-walk" "2.0.0"
-    ajv "^6.12.0"
+    ajv "^6.12.2"
     app-root-path "^3.0.0"
     chalk "^4.0.0"
     debug "^4.1.1"
