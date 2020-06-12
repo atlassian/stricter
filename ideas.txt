@@ -1,0 +1,3 @@
+-   replace greenkeeper with renovate app
+-   import rules, written in typescript
+-   distinguish between type and non-type imports
