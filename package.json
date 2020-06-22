@@ -45,7 +45,7 @@
         "@babel/preset-typescript": "7.10.1",
         "@types/app-root-path": "1.2.4",
         "@types/babel-types": "7.0.7",
-        "@types/babel__core": "7.1.8",
+        "@types/babel__core": "7.1.9",
         "@types/babel__generator": "7.6.1",
         "@types/babel__template": "7.0.2",
         "@types/babel__traverse": "7.0.12",
