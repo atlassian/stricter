@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import c from 'ansi-colors';
 import { compactProjectLogs } from './flatten';
 import type { RuleToRuleApplicationResult } from './../types';
 
@@ -13,13 +13,13 @@ export const reporter = (report: RuleToRuleApplicationResult): void => {
     logs.forEach((log) => {
         if (log.warnings) {
             log.warnings.forEach((warning) => {
-                console.log(`${chalk.yellow('warning: ')}${chalk.gray(log.rule)} ${warning}`);
+                console.log(`${c.yellow('warning: ')}${c.gray(log.rule)} ${warning}`);
             });
         }
 
         if (log.errors) {
             log.errors.forEach((error) => {
-                console.log(`${chalk.red('error: ')}${chalk.gray(log.rule)} ${error}`);
+                console.log(`${c.red('error: ')}${c.gray(log.rule)} ${error}`);
             });
         }
     });
