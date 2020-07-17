@@ -119,13 +119,13 @@ describe("Stricter's ", () => {
             expect(console.log).toHaveBeenNthCalledWith(
                 1,
                 expect.stringMatching(
-                    /.*error:.*stricter\/unused-files.*__fixtures__\/project\/src\/foo\/index.js/,
+                    /.*error:.*stricter\/unused-files\s.*__fixtures__\/project\/src\/foo\/index.js/,
                 ),
             );
             expect(console.log).toHaveBeenNthCalledWith(
                 2,
                 expect.stringMatching(
-                    /.*error:.*stricter\/unused-files.*__fixtures__\/project\/src\/index.js/,
+                    /.*error:.*stricter\/unused-files\s.*__fixtures__\/project\/src\/index.js/,
                 ),
             );
             expect(console.log).toHaveBeenNthCalledWith(3, '2 errors');
@@ -416,25 +416,25 @@ describe("Stricter's ", () => {
             expect(console.log).toHaveBeenNthCalledWith(
                 1,
                 expect.stringMatching(
-                    /.*error:.*stricter\/unused-files.*__fixtures__\/project\/src\/foo\/index.js/,
+                    /.*error:.*stricter\/unused-files\s.*__fixtures__\/project\/src\/foo\/index.js/,
                 ),
             );
             expect(console.log).toHaveBeenNthCalledWith(
                 2,
                 expect.stringMatching(
-                    /.*error:.*stricter\/unused-files.*__fixtures__\/project\/src\/index.js/,
+                    /.*error:.*stricter\/unused-files\s.*__fixtures__\/project\/src\/index.js/,
                 ),
             );
             expect(console.log).toHaveBeenNthCalledWith(
                 3,
                 expect.stringMatching(
-                    /.*error:.*stricter\/unused-files.*__fixtures__\/project\/src\/bar\/index.js/,
+                    /.*error:.*stricter\/unused-files\s.*__fixtures__\/project\/src\/bar\/index.js/,
                 ),
             );
             expect(console.log).toHaveBeenNthCalledWith(
                 4,
                 expect.stringMatching(
-                    /.*error:.*stricter\/unused-files.*__fixtures__\/project\/src\/index.js/,
+                    /.*error:.*stricter\/unused-files\s.*__fixtures__\/project\/src\/index.js/,
                 ),
             );
             expect(console.log).toHaveBeenNthCalledWith(5, '4 errors');
@@ -470,13 +470,13 @@ describe("Stricter's ", () => {
             expect(console.log).toHaveBeenNthCalledWith(
                 1,
                 expect.stringMatching(
-                    /.*error:.*stricter\/unused-files.*__fixtures__\/project\/src\/bar\/index.js/,
+                    /.*error:.*stricter\/unused-files\s.*__fixtures__\/project\/src\/bar\/index.js/,
                 ),
             );
             expect(console.log).toHaveBeenNthCalledWith(
                 2,
                 expect.stringMatching(
-                    /.*error:.*stricter\/unused-files.*__fixtures__\/project\/src\/index.js/,
+                    /.*error:.*stricter\/unused-files\s.*__fixtures__\/project\/src\/index.js/,
                 ),
             );
             expect(console.log).toHaveBeenNthCalledWith(3, '2 errors');

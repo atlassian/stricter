@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import c from 'ansi-colors';
 import wrapAnsi from 'wrap-ansi';
 
 import { compactProjectLogs } from './flatten';
@@ -21,7 +21,7 @@ const getLogColorName = (type: LogType) => {
 const logMessage = (type: LogType, rule: string, message: string) => {
     console.log(
         wrapAnsi(
-            `${chalk[getLogColorName(type)](`${type}: `)}${chalk.gray(rule)} ${message}`,
+            `${c[getLogColorName(type)](`${type}: `)}${c.gray(rule)} ${message}`,
             process.stdout.columns,
         ),
     );
