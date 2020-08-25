@@ -54,7 +54,7 @@
         "@types/graphlib": "2.1.6",
         "@types/jest": "26.0.10",
         "@types/micromatch": "4.0.1",
-        "@types/node": "14.0.27",
+        "@types/node": "14.6.0",
         "@types/rimraf": "3.0.0",
         "@types/xxhashjs": "0.2.2",
         "@types/yargs": "15.0.5",
