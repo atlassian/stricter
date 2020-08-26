@@ -1201,10 +1201,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/graphlib@2.1.6":
-  version "2.1.6"
-  resolved "https://registry.yarnpkg.com/@types/graphlib/-/graphlib-2.1.6.tgz#5c7b515bfadc08d737f2e84fadbd151117c73207"
-  integrity sha512-os2Xj+pV/iwLkLX17LWuXdPooA4Jf4xg8WSdKPUi0tCSseP95oikcA1irOgVl3K2QYnoXrjJT3qVZeQ1uskB7g==
+"@types/graphlib@2.1.7":
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/@types/graphlib/-/graphlib-2.1.7.tgz#e6a47a4f43511f5bad30058a669ce5ce93bfd823"
+  integrity sha512-K7T1n6U2HbTYu+SFHlBjz/RH74OA2D/zF1qlzn8uXbvB4uRg7knOM85ugS2bbXI1TXMh7rLqk4OVRwIwEBaixg==
 
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0", "@types/istanbul-lib-coverage@^2.0.1":
   version "2.0.3"
