@@ -2,8 +2,12 @@
 
 ## Master
 
-- Replace greenkeeper with renovate
+## 0.4.4 - Bump dependencies
+
+- Replace `greenkeeper` with `renovate`
 - Bump dependencies
+- Replace `chalk` with `ansi-colours` (#155 by @PepijnSenders)
+- Wrap log messages to prevent break inside word (#154 and #201 by @PepijnSenders)
 
 ## 0.4.3 - Better webpack support
 
