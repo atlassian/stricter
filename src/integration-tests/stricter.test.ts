@@ -4,7 +4,7 @@
 
 import { getStricter } from '../factory';
 
-describe("Stricter's ", () => {
+describe("Stricter's", () => {
     const stricterConfigPath = `${__dirname}/__fixtures__/stricter.config.js`;
     const defaultParams = {
         reporter: undefined,

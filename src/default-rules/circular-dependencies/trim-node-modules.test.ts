@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { trimNodeModules } from './trim-node-modules';
 
-describe(trimNodeModules, () => {
+describe('trimNodeModules', () => {
     it('Trims node_module path both in keys and values', () => {
         const testPath = join('Users', 'src', 'test.js');
         const testExpectedPath = testPath;
