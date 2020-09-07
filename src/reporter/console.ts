@@ -1,6 +1,30 @@
 import c from 'ansi-colors';
+import wrapAnsi from 'wrap-ansi';
 import { compactProjectLogs } from './flatten';
 import type { RuleToRuleApplicationResult } from './../types';
+
+enum LogType {
+    warning = 'warning',
+    error = 'error',
+}
+
+const getLogColorName = (type: LogType) => {
+    switch (type) {
+        case LogType.warning:
+            return 'yellow';
+        case LogType.error:
+            return 'red';
+    }
+};
+
+const logMessage = (type: LogType, rule: string, message: string) => {
+    console.log(
+        wrapAnsi(
+            `${c[getLogColorName(type)](`${type}: `)}${c.gray(rule)} ${message}`,
+            process.stdout.columns,
+        ),
+    );
+};
 
 export const reporter = (report: RuleToRuleApplicationResult): void => {
     const logs = compactProjectLogs(report);
@@ -13,13 +37,13 @@ export const reporter = (report: RuleToRuleApplicationResult): void => {
     logs.forEach((log) => {
         if (log.warnings) {
             log.warnings.forEach((warning) => {
-                console.log(`${c.yellow('warning: ')}${c.gray(log.rule)} ${warning}`);
+                logMessage(LogType.warning, log.rule, warning);
             });
         }
 
         if (log.errors) {
             log.errors.forEach((error) => {
-                console.log(`${c.red('error: ')}${c.gray(log.rule)} ${error}`);
+                logMessage(LogType.error, log.rule, error);
             });
         }
     });
