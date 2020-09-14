@@ -1439,7 +1439,7 @@ acorn@^7.1.1, acorn@^7.4.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.4.0.tgz#e1ad486e6c54501634c6c397c5c121daa383607c"
   integrity sha512-+G7P8jJmCHr+S+cLfQxygbWhXy+8YTVGzAkpEbcLo2mLoL7tij/VG41QSHACSf5QgYRhMZYHuNc6drJaO0Da+w==
 
-ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.2, ajv@^6.12.4, ajv@^6.12.5, ajv@^6.5.5:
+ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.4, ajv@^6.12.5, ajv@^6.5.5:
   version "6.12.5"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.12.5.tgz#19b0e8bae8f476e5ba666300387775fb1a00a4da"
   integrity sha512-lRF8RORchjpKG50/WFf8xmg7sgCLFiYNNnqdKflk63whMQcWR5ngGjiSXkL9bjxy6B2npOK2HSMN49jEBMSkag==
@@ -5042,15 +5042,15 @@ stealthy-require@^1.1.1:
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
 
-stricter@0.4.4:
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/stricter/-/stricter-0.4.4.tgz#bc52157e70f07569c66c4192aa95e97b391df05f"
-  integrity sha512-eFA0ZxfdDiXtfhqYIyQYI4I7Apoxc5kOY2LsMh5CM9OTgja8O9/HV6p/ha7GcVUoPEibVpR1wYyAP2+Qzodxmg==
+stricter@0.4.5:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/stricter/-/stricter-0.4.5.tgz#6365f94e349d48a19d3bc8ab6106d5593cf8ed8b"
+  integrity sha512-x3g/q85QmKaBdYTrMPmJ6yjGPbku4mvodoI17uuvVv5MRUXi91oLCqV3mUeYnecqf1NA+bDOwR8OD38eFYff4g==
   dependencies:
     "@babel/core" "^7.11.6"
     "@babel/parser" "^7.11.5"
     "@wojtekmaj/babylon-walk" "2.0.0"
-    ajv "^6.12.2"
+    ajv "^6.12.5"
     ansi-colors "^4.1.1"
     app-root-path "^3.0.0"
     debug "^4.1.1"
@@ -5066,7 +5066,7 @@ stricter@0.4.4:
     wrap-ansi "^7.0.0"
     xml-escape "^1.1.0"
     xxhashjs "^0.2.2"
-    yargs "^15.3.1"
+    yargs "^16.0.3"
 
 string-length@^4.0.1:
   version "4.0.1"
