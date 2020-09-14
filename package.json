@@ -103,7 +103,7 @@
         "wrap-ansi": "^7.0.0",
         "xml-escape": "^1.1.0",
         "xxhashjs": "^0.2.2",
-        "yargs": "^15.3.1"
+        "yargs": "^16.0.0"
     },
     "engines": {
         "node": ">=10"
