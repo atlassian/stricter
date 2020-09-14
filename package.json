@@ -56,7 +56,7 @@
         "@types/micromatch": "4.0.1",
         "@types/node": "14.10.1",
         "@types/rimraf": "3.0.0",
-        "@types/wrap-ansi": "^3.0.0",
+        "@types/wrap-ansi": "3.0.0",
         "@types/xxhashjs": "0.2.2",
         "@types/yargs": "15.0.5",
         "@typescript-eslint/eslint-plugin": "4.1.0",
