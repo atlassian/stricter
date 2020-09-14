@@ -2,6 +2,11 @@
 
 ## Master
 
+## 0.4.5 - Think about testing
+
+- Bump dependencies
+- Parse `jest.requireActual` as a direct dependency
+
 ## 0.4.4 - Bump dependencies
 
 - Replace `greenkeeper` with `renovate`

@@ -111,4 +111,18 @@ describe('resolveImport', () => {
         expect(result.staticImports).toEqual(['test-file1']);
         expect(result.dynamicImports).toEqual([]);
     });
+
+    it('should count jest.requireActual', () => {
+        const result = parseImports(
+            parse(
+                `
+            const test1 = jest.requireActual('test-file1');
+        `,
+                'filePath',
+            ),
+        );
+
+        expect(result.staticImports).toEqual([]);
+        expect(result.dynamicImports).toEqual(['test-file1']);
+    });
 });

@@ -12,6 +12,7 @@ import type {
     Identifier,
     Node,
     StringLiteral,
+    MemberExpression,
 } from 'babel-types';
 import type { ParsedImportsResult } from '../types';
 
@@ -48,18 +49,31 @@ export const parseImports = (ast: NodeTypes): ParsedImportsResult => {
             },
             CallExpression(node: NodeTypes, state: ParsedImportsResult) {
                 const casted = node as CallExpression;
+                const callee: Node | Identifier | MemberExpression = casted.callee;
 
-                const callee: Node | Identifier = casted.callee;
+                if (!callee) {
+                    return;
+                }
 
-                if (
-                    callee &&
-                    (callee.type === 'Import' ||
-                        (callee.type === 'Identifier' &&
-                            (callee as Identifier).name === 'require')) &&
+                const isFirstArgumentString =
                     casted.arguments &&
                     casted.arguments.length > 0 &&
-                    casted.arguments[0].type === 'StringLiteral'
-                ) {
+                    casted.arguments[0].type === 'StringLiteral';
+
+                if (!isFirstArgumentString) {
+                    return;
+                }
+
+                const isImportCall = callee.type === 'Import';
+                const isRequireCall =
+                    callee.type === 'Identifier' && (callee as Identifier).name === 'require';
+
+                const isJestRequireActualCall =
+                    callee.type === 'MemberExpression' &&
+                    ((callee as MemberExpression).object as Identifier).name === 'jest' &&
+                    ((callee as MemberExpression).property as Identifier).name === 'requireActual';
+
+                if (isRequireCall || isImportCall || isJestRequireActualCall) {
                     state.dynamicImports.push((casted.arguments[0] as StringLiteral).value);
                 }
             },

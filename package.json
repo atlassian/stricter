@@ -1,6 +1,6 @@
 {
     "name": "stricter",
-    "version": "0.4.4",
+    "version": "0.4.5",
     "description": "A project-wide js-linting tool",
     "files": [
         "LICENSE",
@@ -87,7 +87,7 @@
         "@babel/core": "^7.11.6",
         "@babel/parser": "^7.11.5",
         "@wojtekmaj/babylon-walk": "2.0.0",
-        "ajv": "^6.12.2",
+        "ajv": "^6.12.5",
         "ansi-colors": "^4.1.1",
         "app-root-path": "^3.0.0",
         "debug": "^4.1.1",
@@ -103,7 +103,7 @@
         "wrap-ansi": "^7.0.0",
         "xml-escape": "^1.1.0",
         "xxhashjs": "^0.2.2",
-        "yargs": "^15.3.1"
+        "yargs": "^16.0.3"
     },
     "engines": {
         "node": ">=10"
