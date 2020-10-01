@@ -91,7 +91,7 @@
         "ansi-colors": "^4.1.1",
         "app-root-path": "^3.0.0",
         "debug": "^4.2.0",
-        "enhanced-resolve": "^4.3.0",
+        "enhanced-resolve": "^5.0.0",
         "fast-glob": "^3.2.2",
         "file-system-cache": "^1.0.5",
         "find-cache-dir": "^3.3.0",
