@@ -47,7 +47,7 @@
         "@types/babel-types": "7.0.9",
         "@types/babel__core": "7.1.10",
         "@types/babel__generator": "7.6.2",
-        "@types/babel__template": "7.0.3",
+        "@types/babel__template": "7.4.0",
         "@types/babel__traverse": "7.0.15",
         "@types/debug": "4.1.5",
         "@types/enhanced-resolve": "3.0.6",
