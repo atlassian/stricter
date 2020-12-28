@@ -48,7 +48,7 @@
         "@types/babel__core": "7.1.10",
         "@types/babel__generator": "7.6.2",
         "@types/babel__template": "7.0.3",
-        "@types/babel__traverse": "7.0.15",
+        "@types/babel__traverse": "7.11.0",
         "@types/debug": "4.1.5",
         "@types/enhanced-resolve": "3.0.6",
         "@types/graphlib": "2.1.7",
