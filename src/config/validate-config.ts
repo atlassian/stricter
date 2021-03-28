@@ -8,7 +8,6 @@ export const validateConfig = (foundConfig: any): void => {
     }
 
     const validator = new ajv({
-        errorDataPath: 'configuration',
         allErrors: true,
     });
 

@@ -1,3 +1,4 @@
+import type { ResolveOptions } from 'enhanced-resolve';
 export interface ConfigFile {
     filePath: string;
     config: ConfigAPI;
@@ -57,7 +58,7 @@ export interface ConfigAPI {
     rules: ConfigRulesAPI;
     plugins?: string[];
     packages?: string[];
-    resolve?: ResolverOption;
+    resolve?: Partial<ResolveOptions>;
 }
 
 export interface Config extends ConfigAPI {
@@ -181,34 +182,6 @@ export interface CacheManager {
 }
 
 export type HashFunction = (contents: string) => string;
-
-// copied from https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/enhanced-resolve/index.d.ts#L55-L80
-export interface ResolverOption {
-    alias?: AliasItem[] | Dictionary<string>;
-    aliasFields?: string[];
-    cachePredicate?: (val: Object) => boolean;
-    descriptionFiles?: string[];
-    enforceExtension?: boolean;
-    enforceModuleExtension?: boolean;
-    extensions?: string[];
-    fileSystem?: Object;
-    mainFields?: string[];
-    mainFiles?: string[];
-    moduleExtensions?: string[];
-    modules?: string[];
-    plugins?: Plugin[];
-    // resolver?: Resolver;
-    resolveToContext?: boolean;
-    symlinks?: string[] | boolean;
-    unsafeCache?: boolean | Dictionary<any>;
-    useSyncFileSystemCalls?: boolean;
-}
-
-interface AliasItem {
-    alias: string;
-    name: string;
-    onlyModule?: boolean;
-}
 
 export interface Dictionary<T> {
     [key: string]: T;

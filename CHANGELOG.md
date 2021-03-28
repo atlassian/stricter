@@ -2,6 +2,8 @@
 
 ## Master
 
+- Bump dependencies
+
 ## 0.4.5 - Think about testing
 
 - Bump dependencies
