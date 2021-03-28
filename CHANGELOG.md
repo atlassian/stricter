@@ -2,6 +2,8 @@
 
 ## Master
 
+## 0.4.6 - Faster dependency resolution
+
 - Bump dependencies
 - Dependency resolution performance improvement (copied from https://github.com/atlassian-labs/webpack-deduplication-plugin)
 - Fixed schema generation to avoid typeof
