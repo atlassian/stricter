@@ -4926,10 +4926,10 @@ stealthy-require@^1.1.1:
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
 
-stricter@0.4.7:
-  version "0.4.7"
-  resolved "https://registry.yarnpkg.com/stricter/-/stricter-0.4.7.tgz#8eb555a02e3b822b08508b62f040b8b91353001b"
-  integrity sha512-TPTqYYZpF7YxTYfWjKAE+4zFD32HZnsxhd3AaZb9AXABeG3cvqKsolbc8OqC6zECyUW/2fefZ0KVv9X3OFg/Xw==
+stricter@0.4.6:
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/stricter/-/stricter-0.4.6.tgz#54d0bf3b69242affe7046edd3862ab622b3bfea7"
+  integrity sha512-lXxY5+fM2hN+/pBYNHMER3ATRSyJ9cHMAzG5bIxKSulIGpYiEAijZuMvrG8IQMxBMCx8O3nm8X1u9z4j+x39kg==
   dependencies:
     "@babel/core" "^7.13.13"
     "@babel/parser" "^7.13.13"
