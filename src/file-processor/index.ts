@@ -38,7 +38,8 @@ const readFileData = (
     logger: Logger,
 ): FileData => {
     const source = readFile(filePath);
-    const ast = parsedExtensionsRe.test(filePath) ? () => parse(source, filePath) : undefined;
+    const isParsedExtension = parsedExtensionsRe.test(filePath);
+    const getAst = isParsedExtension ? () => parse(filePath) : undefined;
     let dependencies: string[] | undefined;
 
     const hash = getHash(source);
@@ -47,10 +48,10 @@ const readFileData = (
     if (cachedValue && cachedValue.hash === hash) {
         dependencies = cachedValue.dependencies;
     } else {
-        if (ast) {
+        if (isParsedExtension) {
             let parsedAst: any;
             try {
-                parsedAst = ast();
+                parsedAst = parse(filePath, source);
             } catch (e) {
                 logger.error(`Unable to parse ${filePath}`);
                 throw e;
@@ -62,7 +63,7 @@ const readFileData = (
 
     const result = {
         source,
-        ast,
+        ast: getAst,
         dependencies,
     };
 

@@ -97,7 +97,11 @@ const defaultPlugins: parser.ParserPlugin[] = [
     'throwExpressions',
 ] as parser.ParserPlugin[];
 
-export const parse = (source: string, filePath: string): any => {
+export const parse = (filePath: string, source?: string): any => {
+    if (!source) {
+        source = readFile(filePath);
+    }
+
     const plugins = [...defaultPlugins];
     const fileType = /\.([jt])s(x?)$/.exec(filePath);
 

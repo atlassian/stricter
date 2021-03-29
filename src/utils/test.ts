@@ -4,6 +4,10 @@ jest.mock('fs');
 jest.mock('path');
 jest.mock('@babel/parser');
 
+afterEach(() => {
+    jest.resetAllMocks();
+});
+
 describe('readFile', () => {
     it('reads file in utf8', () => {
         const fileName = 'test';
@@ -161,7 +165,28 @@ describe('parse', () => {
         parseMock.mockImplementation((i: string) => i);
 
         const src = 'test';
-        const result = parse(src, 'filePath');
+        const result = parse('filePath', src);
+
+        expect(parseMock.mock.calls.length).toBe(1);
+        expect(parseMock.mock.calls[0][0]).toBe(src);
+        expect(result).toBe(src);
+    });
+
+    it('reads file if not provided', () => {
+        const src = 'test';
+        const fileName = 'filePath';
+
+        const { parse: parseMock } = require('@babel/parser');
+        parseMock.mockImplementation((i: string) => i);
+
+        const { readFileSync } = require('fs');
+        readFileSync.mockReturnValueOnce(src);
+
+        const result = parse(fileName);
+
+        expect(readFileSync.mock.calls.length).toBe(1);
+        expect(readFileSync.mock.calls[0][0]).toBe(fileName);
+        expect(readFileSync.mock.calls[0][1]).toBe('utf8');
 
         expect(parseMock.mock.calls.length).toBe(1);
         expect(parseMock.mock.calls[0][0]).toBe(src);

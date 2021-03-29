@@ -2,6 +2,10 @@
 
 ## Master
 
+## 0.4.7 - Decrease memory consumption
+
+- Do not cache file contents in memory for faster ast parsing; this will significantly decrease memory requirements for larger codebases
+
 ## 0.4.6 - Faster dependency resolution
 
 - Bump dependencies
