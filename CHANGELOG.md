@@ -1,8 +1,8 @@
 # Changelog
 
 ## Master
-
 - **BREAKING** Ignore `package.json` `exports` field when resolving dependencies
+- Improve performance of files filter for the rules
 
 ## 0.4.7 - Decrease memory consumption
 
