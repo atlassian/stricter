@@ -10,6 +10,7 @@ export const getResolveImport = (resolveOptions: Partial<ResolveOptions>): Resol
     const resolver = ResolverFactory.createResolver({
         ...resolveOptions,
         fileSystem: new CachedInputFileSystem(fs, CACHE_DURATION) as any,
+        exportsFields: [], // ignore export fields
         extensions: implicitImportedExtensions,
         useSyncFileSystemCalls: true,
         unsafeCache: true,
