@@ -13,11 +13,11 @@ describe('objectFilter', () => {
         expect(Object.keys(result)).toEqual(keys);
     });
 
-    it('does not fail with missing keys', () => {
+    it('does not return with missing keys', () => {
         const keys = ['a'];
         const obj = {};
 
-        expect(objectFilter(obj, keys)).toEqual({});
+        expect(objectFilter(obj, keys)).toMatchInlineSnapshot(`Object {}`);
     });
 
     it('returns same object if all keys match', () => {
