@@ -1,7 +1,10 @@
 # Changelog
 
 ## Master
-- **BREAKING** Ignore `package.json` `exports` field when resolving dependencies
+
+## 0.5.0 - Ignore incorrect package exports
+
+- **BREAKING** Ignore `package.json` `exports` field when resolving dependencies; this change might add missing entries to dependency graph, which could lead to rules finding the issues, not visible before
 - Improve performance of files filter for the rules
 - Bump dependencies
 
