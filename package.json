@@ -86,7 +86,7 @@
         "@babel/core": "^7.13.14",
         "@babel/parser": "^7.13.13",
         "@wojtekmaj/babylon-walk": "2.0.0",
-        "ajv": "^8.0.5",
+        "ajv": "^8.1.0",
         "ansi-colors": "^4.1.1",
         "app-root-path": "^3.0.0",
         "debug": "^4.3.1",
