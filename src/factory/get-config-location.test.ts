@@ -17,7 +17,7 @@ describe('getConfigLocation', () => {
     it('returns relative path if exists', () => {
         const currentPath = 'cwd';
         const configPath = 'configPath.js';
-        existsSync.mockReturnValueOnce(false).mockReturnValueOnce(true);
+        existsSync.mockReturnValueOnce(true);
         const result = getConfigLocation(currentPath, configPath);
 
         expect(result).toBe(path.join(currentPath, configPath));
@@ -25,7 +25,7 @@ describe('getConfigLocation', () => {
 
     it('throws if path is not found', () => {
         expect(() => {
-            existsSync.mockReturnValueOnce(false).mockReturnValueOnce(false);
+            existsSync.mockReturnValueOnce(false);
             getConfigLocation('', 'some-config');
         }).toThrow(/Could not find config file at/);
     });
