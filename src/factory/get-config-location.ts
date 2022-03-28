@@ -5,16 +5,12 @@ export const configFile = 'stricter.config.js';
 
 export const getConfigLocation = (currentPath: string, configPath?: string): string => {
     if (configPath) {
-        if (fs.existsSync(configPath)) {
-            return configPath;
-        }
-
         const relativePath = path.join(currentPath, configPath);
         if (fs.existsSync(relativePath)) {
             return relativePath;
         }
 
-        throw new Error(`Could not find config file at ${configPath}`);
+        throw new Error(`Could not find config file at ${relativePath}`);
     }
 
     let dir = currentPath;
