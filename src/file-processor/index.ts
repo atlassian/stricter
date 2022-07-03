@@ -30,14 +30,14 @@ const getDependencies = (ast: any, filePath: string, resolveImport: ResolveImpor
     return result;
 };
 
-const readFileData = (
+const readFileData = async (
     filePath: string,
     resolveImport: ResolveImport,
     cachedFilesData: CachedStuff,
     getHash: HashFunction,
     logger: Logger,
-): FileData => {
-    const source = readFile(filePath);
+): Promise<FileData> => {
+    const source = await readFile(filePath);
     const isParsedExtension = parsedExtensionsRe.test(filePath);
     const getAst = isParsedExtension ? () => parse(filePath) : undefined;
     let dependencies: string[] | undefined;
@@ -75,21 +75,26 @@ const readFileData = (
     return result;
 };
 
-export const processFiles = (
+export const processFiles = async (
     files: string[],
     cacheManager: CacheManager,
     logger: Logger,
     resolveOptions: Partial<ResolveOptions>,
-): FileToData => {
+): Promise<FileToData> => {
     const resolveImport = getResolveImport(resolveOptions);
     const cache = cacheManager.get();
     const cachedFilesData = (cache.filesData || {}) as CachedStuff;
     const getHash = getHashFunction();
-    const filesData = files.reduce((acc, filePath) => {
-        acc[filePath] = readFileData(filePath, resolveImport, cachedFilesData, getHash, logger);
-
-        return acc;
-    }, {} as FileToData);
+    const filesData: FileToData = {};
+    for (const filePath of files) {
+        filesData[filePath] = await readFileData(
+            filePath,
+            resolveImport,
+            cachedFilesData,
+            getHash,
+            logger,
+        );
+    }
 
     cache.filesData = cachedFilesData;
     cacheManager.set(cache);

@@ -1,5 +1,13 @@
 #!/usr/bin/env node
 
-const run = require('stricter').cli;
+const run = require('..').cli;
 const result = run();
-process.exit(result);
+result
+    .then((exitCode) => {
+        process.exit(exitCode);
+    })
+    .catch((err) => {
+        console.error(err);
+        console.error(err.stack);
+        process.exit(1);
+    });

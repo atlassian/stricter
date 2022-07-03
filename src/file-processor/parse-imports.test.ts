@@ -2,9 +2,9 @@ import { parseImports } from './parse-imports';
 import { parse } from '../utils';
 
 describe('resolveImport', () => {
-    it('should count require', () => {
+    it('should count require', async () => {
         const result = parseImports(
-            parse(
+            await parse(
                 'filePath',
                 `
             const test1 = require('test-file1');
@@ -16,9 +16,9 @@ describe('resolveImport', () => {
         expect(result.dynamicImports).toEqual(['test-file1']);
     });
 
-    it('should count es6 dynamic import', () => {
+    it('should count es6 dynamic import', async () => {
         const result = parseImports(
-            parse(
+            await parse(
                 'filePath',
                 `
             const test1 = import('test-file1');
@@ -30,9 +30,9 @@ describe('resolveImport', () => {
         expect(result.dynamicImports).toEqual(['test-file1']);
     });
 
-    it('should count es6 imports', () => {
+    it('should count es6 imports', async () => {
         const result = parseImports(
-            parse(
+            await parse(
                 'filePath',
                 `
             import { default as test1 } from 'test-file1';
@@ -52,9 +52,9 @@ describe('resolveImport', () => {
         expect(result.dynamicImports).toEqual([]);
     });
 
-    it('should count es6 reexports', () => {
+    it('should count es6 reexports', async () => {
         const result = parseImports(
-            parse(
+            await parse(
                 'filePath',
                 `
             export { default as test1 } from 'test-file1';
@@ -68,9 +68,9 @@ describe('resolveImport', () => {
         expect(result.dynamicImports).toEqual([]);
     });
 
-    it('should not count exports', () => {
+    it('should not count exports', async () => {
         const result = parseImports(
-            parse(
+            await parse(
                 'filePath',
                 `
             export default () => {};
@@ -83,9 +83,9 @@ describe('resolveImport', () => {
         expect(result.dynamicImports).toEqual([]);
     });
 
-    it('should ignore dynamic imports', () => {
+    it('should ignore dynamic imports', async () => {
         const result = parseImports(
-            parse(
+            await parse(
                 'filePath',
                 `
             const test1 = require(foo);
@@ -98,9 +98,9 @@ describe('resolveImport', () => {
         expect(result.dynamicImports).toEqual([]);
     });
 
-    it('should count TS import equals declaration', () => {
+    it('should count TS import equals declaration', async () => {
         const result = parseImports(
-            parse(
+            await parse(
                 'filePath.tsx',
                 `
             import test1 = require('test-file1');
@@ -112,9 +112,9 @@ describe('resolveImport', () => {
         expect(result.dynamicImports).toEqual([]);
     });
 
-    it('should count jest.requireActual', () => {
+    it('should count jest.requireActual', async () => {
         const result = parseImports(
-            parse(
+            await parse(
                 'filePath',
                 `
             const test1 = jest.requireActual('test-file1');

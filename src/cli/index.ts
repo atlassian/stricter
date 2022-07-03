@@ -1,7 +1,7 @@
 import * as yargs from 'yargs';
 import { getStricter } from '../factory';
 
-export const cli = (): number => {
+export const cli = (): Promise<number> => {
     const argv = yargs
         .version(process.env.STRICTER_VERSION as string)
         .option('config', {
@@ -39,7 +39,5 @@ export const cli = (): number => {
         fix: argv.fix,
     });
 
-    const result = stricter();
-
-    return result;
+    return stricter();
 };

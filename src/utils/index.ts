@@ -1,27 +1,27 @@
-import * as fs from 'fs';
+import * as fs from 'fs/promises';
 import * as path from 'path';
 import * as parser from '@babel/parser';
 import { h32 } from 'xxhashjs';
 import type { FileFilter, HashFunction, PathMatcher } from '../types';
 import { parseSync } from '@babel/core';
 
-export const readFile = (i: string): string => fs.readFileSync(i, 'utf8');
+export const readFile = (i: string): Promise<string> => fs.readFile(i, 'utf8');
 
-export const innerListFiles = (
+export const innerListFiles = async (
     directory: string,
     exclude: PathMatcher,
     visited: { [prop: string]: true },
-): string[] => {
+): Promise<string[]> => {
     if (visited[directory] || exclude(directory)) {
-        return [];
+        return Promise.resolve([]);
     }
 
-    let stats = fs.lstatSync(directory);
+    let stats = await fs.lstat(directory);
     let realPath = directory;
 
     if (stats.isSymbolicLink()) {
-        realPath = fs.realpathSync(directory);
-        stats = fs.statSync(realPath);
+        realPath = await fs.realpath(directory);
+        stats = await fs.stat(realPath);
     }
 
     // TODO: add support for multiple symlinks pointing to the same location
@@ -38,12 +38,15 @@ export const innerListFiles = (
         return [directory];
     }
 
-    const files = fs
-        .readdirSync(directory)
-        .reduce(
-            (acc, f) => [...acc, ...innerListFiles(path.join(directory, f), exclude, visited)],
-            [],
-        );
+    // TODO make this less sequential
+
+    const files = [];
+    for (const file of await fs.readdir(directory)) {
+        const childFiles = await innerListFiles(path.join(directory, file), exclude, visited);
+        for (const childFile of childFiles) {
+            files.push(childFile);
+        }
+    }
 
     return files;
 };
@@ -58,7 +61,7 @@ export const getMatcher = (filter: RegExp | RegExp[] | Function): PathMatcher =>
     return ((path) => regexSetting.some((i) => i.test(path))) as PathMatcher;
 };
 
-export const listFiles = (directory: string, exclude?: FileFilter): string[] => {
+export const listFiles = (directory: string, exclude?: FileFilter): Promise<string[]> => {
     let excludeMatcher: PathMatcher = () => false;
 
     if (exclude) {
@@ -67,9 +70,7 @@ export const listFiles = (directory: string, exclude?: FileFilter): string[] => 
         excludeMatcher = (filePath) => matcher(filePath.replace(rootToReplace, ''));
     }
 
-    const result = innerListFiles(directory, excludeMatcher, {});
-
-    return result;
+    return innerListFiles(directory, excludeMatcher, {});
 };
 
 // based on https://babeljs.io/docs/en/next/babel-parser.html
@@ -97,9 +98,9 @@ const defaultPlugins: parser.ParserPlugin[] = [
     'throwExpressions',
 ] as parser.ParserPlugin[];
 
-export const parse = (filePath: string, source?: string): any => {
+export const parse = async (filePath: string, source?: string): Promise<any> => {
     if (!source) {
-        source = readFile(filePath);
+        source = await readFile(filePath);
     }
 
     const plugins = [...defaultPlugins];

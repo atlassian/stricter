@@ -7,12 +7,12 @@ import { processFixes } from './fix-processor';
 import { getErrorCount } from './reporter';
 import type { StricterArguments } from './types';
 
-export const stricter = ({
+export const stricter = async ({
     options: { configPath, rulesToVerify, clearCache, fix },
     cacheManager,
     reporter,
     logger,
-}: StricterArguments): number => {
+}: StricterArguments): Promise<number> => {
     const { debug, log } = logger;
 
     debug({
@@ -32,13 +32,18 @@ export const stricter = ({
     const config = getConfig(configPath);
 
     debug('Get file list');
-    const filesToProcess = resolveFiles(config.root, config.exclude);
+    const filesToProcess = await resolveFiles(config.root, config.exclude);
 
     debug('Read files data');
-    const filesData = processFiles(filesToProcess, cacheManager, logger, config.resolve || {});
+    const filesData = await processFiles(
+        filesToProcess,
+        cacheManager,
+        logger,
+        config.resolve || {},
+    );
 
     debug('Get rules');
-    const ruleApplications = resolveRules(
+    const ruleApplications = await resolveRules(
         config.rules,
         config.rulesDir,
         config.plugins,

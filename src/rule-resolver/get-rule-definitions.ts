@@ -11,21 +11,24 @@ const stripOutSuffix = (str: string): string => {
     return str.substring(0, str.length - RULE_SUFFIX.length);
 };
 
-export const getRuleDefinitions = (
+export const getRuleDefinitions = async (
     rules: ConfigRules,
     rulesDir?: string | string[] | undefined,
     pluginNames?: string[] | undefined,
-): RuleDefinitions => {
+): Promise<RuleDefinitions> => {
     const rulesToResolve = Object.keys(rules);
     let allRulesResolved: RuleDefinitions = {};
 
     if (rulesDir) {
         const rulesDirArr = Array.isArray(rulesDir) ? rulesDir : [rulesDir];
 
-        const customRuleFiles = rulesDirArr.reduce(
-            (acc, dir) => [...acc, ...listFiles(dir).filter((i) => i.endsWith(RULE_SUFFIX))],
-            [] as string[],
-        );
+        const customRuleFiles = (
+            await Promise.all(
+                rulesDirArr.map(async (dir) =>
+                    (await listFiles(dir)).filter((i) => i.endsWith(RULE_SUFFIX)),
+                ),
+            )
+        ).flatMap((f) => f);
         allRulesResolved = customRuleFiles.reduce((acc, filePath: string) => {
             const ruleName = stripOutSuffix(path.basename(filePath));
 

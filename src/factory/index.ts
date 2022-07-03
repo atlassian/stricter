@@ -10,7 +10,10 @@ import { getCacheManager } from './get-cache-manager';
 export const getStricter = (options: CliOptions): Stricter => {
     const configPath = getConfigLocation(process.cwd(), options.config);
     const reporter = getReporter(options.reporter);
-    const logger = isCi ? getNullLogger() : getDebugLogger();
+    const logger =
+        process.env.CI === 'true' && process.env.VERBOSE !== 'true'
+            ? getNullLogger()
+            : getDebugLogger();
     const cacheManager = getCacheManager();
     const stricterArguments: StricterArguments = {
         logger,
@@ -24,5 +27,5 @@ export const getStricter = (options: CliOptions): Stricter => {
         },
     };
 
-    return (): number => stricter(stricterArguments);
+    return (): Promise<number> => stricter(stricterArguments);
 };

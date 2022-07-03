@@ -168,7 +168,7 @@ export interface Logger {
     error: (message: any) => void;
 }
 
-export type Stricter = () => number;
+export type Stricter = () => Promise<number>;
 
 export type ResolveImport = (importString: string, dir: string) => string;
 
