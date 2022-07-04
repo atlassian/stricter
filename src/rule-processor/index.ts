@@ -30,12 +30,13 @@ export const processRules = (
         const ruleApplicationResult = usage
             .map((usage) => processRule(directory, definition, usage, filesData, dependencies))
             .reduce(
-                (acc, i) => ({
-                    errors: acc.errors.concat(i.errors),
-                    warnings: acc.warnings.concat(i.warnings),
-                    time: acc.time + i.time,
-                    fixes: acc.fixes.concat(i.fixes),
-                }),
+                (acc, i) => {
+                    acc.errors.push(...i.errors);
+                    acc.warnings.push(...i.warnings);
+                    acc.time += i.time;
+                    acc.fixes.push(...i.fixes);
+                    return acc;
+                },
                 {
                     errors: [],
                     warnings: [],

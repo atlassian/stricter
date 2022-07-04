@@ -7,7 +7,7 @@ export const matchesRuleUsage = (
     filePath: string,
     ruleUsage: RuleUsage,
 ): boolean => {
-    const relativePath = filePath.replace(directory + path.sep, '');
+    const relativePath = filePath.slice(directory.length + 1);
     const matchesInclude = !ruleUsage.include || getMatcher(ruleUsage.include)(relativePath);
     const matchesExclude = ruleUsage.exclude && getMatcher(ruleUsage.exclude)(relativePath);
 
