@@ -47,21 +47,21 @@ describe('matchesRuleUsage', () => {
         const usage = {
             include: [/file\/path/, /another\/file\/another\/path/],
         };
-        expect(matchesRuleUsage(root, 'noname', usage)).toEqual(false);
+        expect(matchesRuleUsage(root, root + '/noname', usage)).toEqual(false);
     });
 
     it('should return true if the file path matches "include" function', () => {
         const usage = {
             include: (i: string) => i === 'noname',
         };
-        expect(matchesRuleUsage(root, 'noname', usage)).toEqual(true);
+        expect(matchesRuleUsage(root, root + '/noname', usage)).toEqual(true);
     });
 
     it('should return false if the file path does not match "include" function', () => {
         const usage = {
             include: (i: string) => i !== 'noname',
         };
-        expect(matchesRuleUsage(root, 'noname', usage)).toEqual(false);
+        expect(matchesRuleUsage(root, root + '/noname', usage)).toEqual(false);
     });
 
     it('should return false if the file path matches both "include" and "exclude" functions', () => {
@@ -69,6 +69,6 @@ describe('matchesRuleUsage', () => {
             include: (i: string) => i === 'noname',
             exclude: (i: string) => i === 'noname',
         };
-        expect(matchesRuleUsage(root, 'noname', usage)).toEqual(false);
+        expect(matchesRuleUsage(root, root + '/noname', usage)).toEqual(false);
     });
 });

@@ -21,8 +21,8 @@ afterEach(() => {
 });
 
 describe('resolveRules', () => {
-    it('should invoke child functions', () => {
-        resolveRules({}, 'rules-dir', ['plugin-1'], undefined);
+    it('should invoke child functions', async () => {
+        await resolveRules({}, 'rules-dir', ['plugin-1'], undefined);
 
         expect(getRuleApplicationsMock.mock.calls.length).toBe(1);
         expect(filterRuleDefinitionsMock.mock.calls.length).toBe(1);

@@ -24,7 +24,7 @@ describe("Stricter's", () => {
     });
 
     describe('rules should', () => {
-        it('report no errors when no rules or rulesDir specified', () => {
+        it('report no errors when no rules or rulesDir specified', async () => {
             jest.doMock(stricterConfigPath, () => ({
                 root: 'project/src',
                 rules: {},
@@ -34,12 +34,12 @@ describe("Stricter's", () => {
                 config: stricterConfigPath,
             });
 
-            stricter();
+            await stricter();
             expect(console.log).toHaveBeenCalledTimes(1);
             expect(console.log).toHaveBeenCalledWith('No errors');
         });
 
-        it('report no errors when default rules and rulesDir are specified', () => {
+        it('report no errors when default rules and rulesDir are specified', async () => {
             jest.doMock(stricterConfigPath, () => ({
                 root: 'project/src',
                 rulesDir: 'project/rules',
@@ -60,12 +60,12 @@ describe("Stricter's", () => {
                 config: stricterConfigPath,
             });
 
-            stricter();
+            await stricter();
             expect(console.log).toHaveBeenCalledTimes(1);
             expect(console.log).toHaveBeenCalledWith('No errors');
         });
 
-        it('report no errors when default rules and multiple rulesDir are specified', () => {
+        it('report no errors when default rules and multiple rulesDir are specified', async () => {
             jest.doMock(stricterConfigPath, () => ({
                 root: 'project/src',
                 rulesDir: ['project/rules', 'project/another_rules'],
@@ -86,14 +86,14 @@ describe("Stricter's", () => {
                 config: stricterConfigPath,
             });
 
-            stricter();
+            await stricter();
             expect(console.log).toHaveBeenCalledTimes(1);
             expect(console.log).toHaveBeenCalledWith('No errors');
         });
     });
 
     describe('stricter/unused-files rule should', () => {
-        it('report errors when a rule violation occurs', () => {
+        it('report errors when a rule violation occurs', async () => {
             jest.doMock(stricterConfigPath, () => ({
                 root: 'project/src',
                 rulesDir: 'project/rules',
@@ -114,7 +114,7 @@ describe("Stricter's", () => {
                 config: stricterConfigPath,
             });
 
-            stricter();
+            await stricter();
             expect(console.log).toHaveBeenCalledTimes(4);
             expect(console.log).toHaveBeenNthCalledWith(
                 1,
@@ -137,7 +137,7 @@ describe("Stricter's", () => {
     });
 
     describe('stricter/circular-dependencies rule should', () => {
-        it("report no errors when a rule violation doesn't occur", () => {
+        it("report no errors when a rule violation doesn't occur", async () => {
             jest.doMock(stricterConfigPath, () => ({
                 root: 'project/src',
                 rules: {
@@ -152,12 +152,12 @@ describe("Stricter's", () => {
                 ...defaultParams,
                 config: stricterConfigPath,
             });
-            console.log(stricter());
+            console.log(await stricter());
             expect(console.log).toHaveBeenCalledTimes(2);
             expect(console.log).toHaveBeenCalledWith('No errors');
         });
 
-        it('report no errors when a checkSubTreeCycle option is off and there are folder level cycles', () => {
+        it('report no errors when a checkSubTreeCycle option is off and there are folder level cycles', async () => {
             jest.doMock(stricterConfigPath, () => ({
                 root: 'project-with-sub-tree-cycle/src',
                 rules: {
@@ -175,12 +175,12 @@ describe("Stricter's", () => {
                 ...defaultParams,
                 config: stricterConfigPath,
             });
-            console.log(stricter());
+            console.log(await stricter());
             expect(console.log).toHaveBeenCalledTimes(2);
             expect(console.log).toHaveBeenNthCalledWith(1, 'No errors');
         });
 
-        it('report no errors when a checkSubTreeCycle option is on registries is set and there are folder level cycles in registries folder', () => {
+        it('report no errors when a checkSubTreeCycle option is on registries is set and there are folder level cycles in registries folder', async () => {
             jest.doMock(stricterConfigPath, () => ({
                 root: 'project-with-nested-sub-tree-cycle/src',
                 rules: {
@@ -199,12 +199,12 @@ describe("Stricter's", () => {
                 ...defaultParams,
                 config: stricterConfigPath,
             });
-            console.log(stricter());
+            console.log(await stricter());
             expect(console.log).toHaveBeenCalledTimes(2);
             expect(console.log).toHaveBeenNthCalledWith(1, 'No errors');
         });
 
-        it('report errors when there are cyclic dependencies', () => {
+        it('report errors when there are cyclic dependencies', async () => {
             jest.doMock(stricterConfigPath, () => ({
                 root: 'project-with-cyclic-dependencies/src',
                 rules: {
@@ -222,7 +222,7 @@ describe("Stricter's", () => {
                 ...defaultParams,
                 config: stricterConfigPath,
             });
-            console.log(stricter());
+            console.log(await stricter());
             expect(console.log).toHaveBeenCalledTimes(3);
             expect(console.log).toHaveBeenNthCalledWith(
                 1,
@@ -231,7 +231,7 @@ describe("Stricter's", () => {
             expect(console.log).toHaveBeenNthCalledWith(2, '1 error');
         });
 
-        it('report errors when a checkSubTreeCycle option is on and there are folder level cycles', () => {
+        it('report errors when a checkSubTreeCycle option is on and there are folder level cycles', async () => {
             jest.doMock(stricterConfigPath, () => ({
                 root: 'project-with-sub-tree-cycle/src',
                 rules: {
@@ -249,7 +249,7 @@ describe("Stricter's", () => {
                 ...defaultParams,
                 config: stricterConfigPath,
             });
-            console.log(stricter());
+            console.log(await stricter());
             expect(console.log).toHaveBeenCalledTimes(3);
             expect(console.log).toHaveBeenNthCalledWith(
                 1,
@@ -258,7 +258,7 @@ describe("Stricter's", () => {
             expect(console.log).toHaveBeenNthCalledWith(2, '1 error');
         });
 
-        it('report errors when a checkSubTreeCycle option is on registries is not set and there are folder level cycles in registered folder', () => {
+        it('report errors when a checkSubTreeCycle option is on registries is not set and there are folder level cycles in registered folder', async () => {
             jest.doMock(stricterConfigPath, () => ({
                 root: 'project-with-sub-tree-cycle-and-nested-sub-tree-cycle/src',
                 rules: {
@@ -276,7 +276,7 @@ describe("Stricter's", () => {
                 ...defaultParams,
                 config: stricterConfigPath,
             });
-            console.log(stricter());
+            console.log(await stricter());
             expect(console.log).toHaveBeenCalledTimes(3);
             expect(console.log).toHaveBeenNthCalledWith(
                 1,
@@ -285,7 +285,7 @@ describe("Stricter's", () => {
             expect(console.log).toHaveBeenNthCalledWith(2, '1 error');
         });
 
-        it('report errors when a checkSubTreeCycle option is on registries is set and there are folder level cycles in registered folder and outside registered folder', () => {
+        it('report errors when a checkSubTreeCycle option is on registries is set and there are folder level cycles in registered folder and outside registered folder', async () => {
             jest.doMock(stricterConfigPath, () => ({
                 root: 'project-with-sub-tree-cycle-and-nested-sub-tree-cycle/src',
                 rules: {
@@ -304,7 +304,7 @@ describe("Stricter's", () => {
                 ...defaultParams,
                 config: stricterConfigPath,
             });
-            console.log(stricter());
+            console.log(await stricter());
             expect(console.log).toHaveBeenCalledTimes(3);
             expect(console.log).toHaveBeenNthCalledWith(
                 1,
@@ -313,7 +313,7 @@ describe("Stricter's", () => {
             expect(console.log).toHaveBeenNthCalledWith(2, '1 error');
         });
 
-        it('report errors when a checkSubTreeCycle option is on registries is set and there are folder level cycles inside registered folder and outside registered folder', () => {
+        it('report errors when a checkSubTreeCycle option is on registries is set and there are folder level cycles inside registered folder and outside registered folder', async () => {
             jest.doMock(stricterConfigPath, () => ({
                 root: 'project-with-sub-tree-cycle-and-double-nested-sub-tree-cycle/src',
                 rules: {
@@ -332,7 +332,7 @@ describe("Stricter's", () => {
                 ...defaultParams,
                 config: stricterConfigPath,
             });
-            console.log(stricter());
+            console.log(await stricter());
             expect(console.log).toHaveBeenCalledTimes(3);
             expect(console.log).toHaveBeenNthCalledWith(
                 1,
@@ -341,7 +341,7 @@ describe("Stricter's", () => {
             expect(console.log).toHaveBeenNthCalledWith(2, '1 error');
         });
 
-        it('report errors when a checkSubTreeCycle option is on registry is invalid: number', () => {
+        it('report errors when a checkSubTreeCycle option is on registry is invalid: number', async () => {
             jest.doMock(stricterConfigPath, () => ({
                 root: 'project-with-sub-tree-cycle-and-double-nested-sub-tree-cycle/src',
                 rules: {
@@ -360,12 +360,13 @@ describe("Stricter's", () => {
                 ...defaultParams,
                 config: stricterConfigPath,
             });
-            expect(() => {
-                console.log(stricter());
-            }).toThrow(new Error('Invalid config: registries should be an array or a string'));
+            const err = await stricter().catch((err) => err);
+            expect(err.message).toEqual(
+                'Invalid config: registries should be an array or a string',
+            );
         });
 
-        it('report errors when a checkSubTreeCycle option is on registry is invalid: array contains non string entities', () => {
+        it('report errors when a checkSubTreeCycle option is on registry is invalid: array contains non string entities', async () => {
             jest.doMock(stricterConfigPath, () => ({
                 root: 'project-with-sub-tree-cycle-and-double-nested-sub-tree-cycle/src',
                 rules: {
@@ -384,14 +385,15 @@ describe("Stricter's", () => {
                 ...defaultParams,
                 config: stricterConfigPath,
             });
-            expect(() => {
-                console.log(stricter());
-            }).toThrow(new Error('Invalid config: registries should be an array or a string'));
+            const err = await stricter().catch((err) => err);
+            expect(err.message).toEqual(
+              'Invalid config: registries should be an array or a string',
+            );
         });
     });
 
     describe('rules config should work with', () => {
-        it('function', () => {
+        it('function', async () => {
             jest.doMock(stricterConfigPath, () => ({
                 root: 'project/src',
                 rulesDir: 'project/rules',
@@ -411,7 +413,7 @@ describe("Stricter's", () => {
                 config: stricterConfigPath,
             });
 
-            stricter();
+            await stricter();
             expect(console.log).toHaveBeenCalledTimes(6);
             expect(console.log).toHaveBeenNthCalledWith(
                 1,
@@ -444,7 +446,7 @@ describe("Stricter's", () => {
             );
         });
 
-        it('function and custom packages array', () => {
+        it('function and custom packages array', async () => {
             jest.doMock(stricterConfigPath, () => ({
                 root: 'project/src',
                 rulesDir: 'project/rules',
@@ -465,7 +467,7 @@ describe("Stricter's", () => {
                 config: stricterConfigPath,
             });
 
-            stricter();
+            await stricter();
             expect(console.log).toHaveBeenCalledTimes(4);
             expect(console.log).toHaveBeenNthCalledWith(
                 1,
@@ -488,7 +490,7 @@ describe("Stricter's", () => {
     });
 
     describe('plugins should', () => {
-        it('add rule definitions available to be used in `rules`', () => {
+        it('add rule definitions available to be used in `rules`', async () => {
             const ruleSpy = jest.fn(() => []);
             jest.doMock(
                 'stricter-plugin-abc',
@@ -517,13 +519,13 @@ describe("Stricter's", () => {
                 ...defaultParams,
                 config: stricterConfigPath,
             });
-            stricter();
+            await stricter();
             expect(console.log).toHaveBeenCalledTimes(1);
             expect(console.log).toHaveBeenCalledWith('No errors');
             expect(ruleSpy).toHaveBeenCalledTimes(1);
         });
 
-        it('not enable rules by default', () => {
+        it('not enable rules by default', async () => {
             const ruleSpy = jest.fn(() => []);
             jest.doMock(
                 'stricter-plugin-abc',
@@ -546,7 +548,7 @@ describe("Stricter's", () => {
                 ...defaultParams,
                 config: stricterConfigPath,
             });
-            stricter();
+            await stricter();
             expect(console.log).toHaveBeenCalledTimes(1);
             expect(console.log).toHaveBeenCalledWith('No errors');
             expect(ruleSpy).not.toHaveBeenCalled();
