@@ -11,12 +11,12 @@ const nullCacheManager: CacheManager = {
 // instantiating defaultCacheManager, because it should persist between the invocations of parseDependencies
 const defaultCacheManager = getCacheManager();
 
-export const parseDependencies = (
+export const parseDependencies = async (
     files: string[],
     { useCache = false, resolve = {} } = { useCache: false, resolve: {} },
-): FileToDependency => {
+): Promise<FileToDependency> => {
     const cacheManager = useCache ? defaultCacheManager : nullCacheManager;
-    const filesData = processFiles(files, cacheManager, console, resolve);
+    const filesData = await processFiles(files, cacheManager, console, resolve);
     const result = Object.entries(filesData).reduce((acc, [filePath, data]) => {
         if (!data.ast) {
             return acc;

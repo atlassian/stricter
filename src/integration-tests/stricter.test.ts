@@ -3,6 +3,7 @@
  */
 
 import { getStricter } from '../factory';
+import path from 'path';
 
 describe("Stricter's", () => {
     const stricterConfigPath = `${__dirname}/__fixtures__/stricter.config.js`;
@@ -15,7 +16,7 @@ describe("Stricter's", () => {
 
     beforeEach(() => {
         // Comment out the mockImplementation to debug issues
-        jest.spyOn(console, 'log').mockImplementation(() => null);
+        jest.spyOn(console, 'log'); // .mockImplementation(() => null);
     });
 
     afterEach(() => {
@@ -41,8 +42,8 @@ describe("Stricter's", () => {
 
         it('report no errors when default rules and rulesDir are specified', async () => {
             jest.doMock(stricterConfigPath, () => ({
-                root: 'project/src',
-                rulesDir: 'project/rules',
+                root: path.join(__dirname, '__fixtures__/project/src'),
+                rulesDir: path.join(__dirname, '__fixtures__/project/rules'),
                 exclude: [/.*\.json/],
                 rules: {
                     'stricter/unused-files': [
@@ -387,7 +388,7 @@ describe("Stricter's", () => {
             });
             const err = await stricter().catch((err) => err);
             expect(err.message).toEqual(
-              'Invalid config: registries should be an array or a string',
+                'Invalid config: registries should be an array or a string',
             );
         });
     });

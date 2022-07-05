@@ -1,14 +1,14 @@
 import { dirname } from 'path';
 import type {
+    CacheManager,
     FileData,
     FileToData,
-    ResolveImport,
     HashFunction,
-    CacheManager,
     Logger,
+    ResolveImport,
 } from './../types';
 import type { ResolveOptions } from 'enhanced-resolve';
-import { getHashFunction, readFile, parse } from './../utils';
+import { getHashFunction, parse, readFile } from './../utils';
 import { parseImports } from './parse-imports';
 import { getResolveImport } from './get-resolve-import';
 import { parsedExtensionsRe } from './constants';
@@ -23,11 +23,9 @@ interface CachedStuff {
 const getDependencies = (ast: any, filePath: string, resolveImport: ResolveImport): string[] => {
     const fileDir = dirname(filePath);
     const imports = parseImports(ast);
-    const result = imports.staticImports
+    return imports.staticImports
         .concat(imports.dynamicImports)
         .map((i) => resolveImport(i, fileDir));
-
-    return result;
 };
 
 const readFileData = async (
@@ -51,7 +49,7 @@ const readFileData = async (
         if (isParsedExtension) {
             let parsedAst: any;
             try {
-                parsedAst = parse(filePath, source);
+                parsedAst = await parse(filePath, source);
             } catch (e) {
                 logger.error(`Unable to parse ${filePath}`);
                 throw e;

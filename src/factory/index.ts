@@ -10,7 +10,8 @@ export const getStricter = (options: CliOptions): Stricter => {
     const configPath = getConfigLocation(process.cwd(), options.config);
     const reporter = getReporter(options.reporter);
     const logger =
-        process.env.CI === 'true' && process.env.VERBOSE !== 'true'
+        process.env.NODE_ENV === 'test' ||
+        (process.env.CI === 'true' && process.env.VERBOSE !== 'true')
             ? getNullLogger()
             : getDebugLogger();
     const cacheManager = getCacheManager();
