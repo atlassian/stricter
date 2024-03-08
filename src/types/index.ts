@@ -66,7 +66,6 @@ export interface Config extends ConfigAPI {
 }
 
 export interface FileData {
-    ast?: () => any;
     source?: string;
     dependencies?: string[];
 }

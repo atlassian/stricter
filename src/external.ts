@@ -18,10 +18,6 @@ export const parseDependencies = async (
     const cacheManager = useCache ? defaultCacheManager : nullCacheManager;
     const filesData = await processFiles(files, cacheManager, console, resolve);
     const result = Object.entries(filesData).reduce((acc, [filePath, data]) => {
-        if (!data.ast) {
-            return acc;
-        }
-
         acc[filePath] = data.dependencies as string[];
 
         return acc;

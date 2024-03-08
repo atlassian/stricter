@@ -4,6 +4,12 @@ import * as parser from '@babel/parser';
 import { h32 } from 'xxhashjs';
 import type { FileFilter, HashFunction, PathMatcher } from '../types';
 import { parseSync } from '@babel/core';
+import getDebug from 'debug';
+import os from 'os';
+import EventEmitter from 'events';
+import { Worker, isMainThread, BroadcastChannel, parentPort } from 'worker_threads';
+
+const debug = getDebug('stricter:utils');
 
 export const readFile = (i: string): Promise<string> => fs.readFile(i, 'utf8');
 
@@ -98,7 +104,45 @@ const defaultPlugins: parser.ParserPlugin[] = [
     'throwExpressions',
 ] as parser.ParserPlugin[];
 
-export const parse = async (filePath: string, source?: string): Promise<any> => {
+const resultQueue = new BroadcastChannel('stricter-workers-result-queue');
+const resultEmitter = new EventEmitter();
+resultQueue.onmessage = (message) => {
+    resultEmitter.emit('message', message);
+};
+
+let currentWorker = 0;
+const workers: Worker[] = [];
+if (isMainThread) {
+    debug('Starting workers...');
+    for (let i = 0; i < os.cpus().length; i++) {
+        workers.push(
+            new Worker(__filename, {
+                workerData: {
+                    workerId: `stricter-parser-worker-${i}`,
+                },
+            }),
+        );
+    }
+}
+const postWorkerMessage = (message: unknown) => {
+    workers[currentWorker].postMessage(message);
+    currentWorker = (currentWorker + 1) % workers.length;
+};
+
+if (!isMainThread) {
+    parentPort?.on('message', (message) => {
+        const data = (message as any).data as { filePath: string; source?: string };
+        doParse(data.filePath, data.source)
+            .then((result) => {
+                resultQueue.postMessage({ result, filePath: data.filePath });
+            })
+            .catch((err) => {
+                resultQueue.postMessage({ error: err, filePath: data.filePath });
+            });
+    });
+}
+
+export const doParse = async (filePath: string, source?: string): Promise<any> => {
     if (!source) {
         source = await readFile(filePath);
     }
@@ -122,6 +166,24 @@ export const parse = async (filePath: string, source?: string): Promise<any> => 
     });
 
     return result;
+};
+
+export const parse = async (filePath: string, source?: string): Promise<any> => {
+    return new Promise((resolve, reject) => {
+        resultEmitter.on('message', (message) => {
+            const data = (message as any).data as { result?: any; error?: any; filePath: string };
+            if (data.filePath !== filePath) {
+                return;
+            }
+
+            if (data.error) {
+                reject(data.error);
+            } else {
+                resolve(data.result);
+            }
+        });
+        postWorkerMessage({ filePath, source });
+    });
 };
 
 export const parseWithBabelrc = (source: string, filePath: string): any => {

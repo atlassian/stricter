@@ -1,3 +1,4 @@
+import getDebug from 'debug';
 import type {
     FileData,
     FileToData,
@@ -8,6 +9,8 @@ import type {
 } from './../types';
 
 import { processRule } from './process-rule';
+
+const debug = getDebug('stricter:rule-processor');
 
 export const processRules = (
     directory: string,
@@ -22,6 +25,7 @@ export const processRules = (
         }, {} as FileToDependency);
 
     const result = Object.entries(ruleApplications).reduce((acc, [ruleName, ruleApplication]) => {
+        debug(`Processing rule ${ruleName}`);
         const usage = Array.isArray(ruleApplication.usage)
             ? ruleApplication.usage
             : [ruleApplication.usage];

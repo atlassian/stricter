@@ -1,13 +1,6 @@
 import { dirname } from 'path';
 import Bluebird from 'bluebird';
-import type {
-    CacheManager,
-    FileData,
-    FileToData,
-    HashFunction,
-    Logger,
-    ResolveImport,
-} from './../types';
+import type { CacheManager, FileData, FileToData, Logger, ResolveImport } from './../types';
 import type { ResolveOptions } from 'enhanced-resolve';
 import { getHashFunction, parse, readFile } from './../utils';
 import { parseImports } from './parse-imports';
@@ -33,15 +26,22 @@ const readFileData = async (
     filePath: string,
     resolveImport: ResolveImport,
     cachedFilesData: CachedStuff,
-    getHash: HashFunction,
     logger: Logger,
 ): Promise<FileData> => {
     logger.debug(`Processing ${filePath}`);
     const source = await readFile(filePath);
     const isParsedExtension = parsedExtensionsRe.test(filePath);
-    const getAst = isParsedExtension ? () => parse(filePath) : undefined;
+    let parsedAst: any = null;
+    const getAst = isParsedExtension
+        ? async () => {
+              if (parsedAst != null) return parsedAst;
+              parsedAst = await parse(filePath);
+              return parsedAst;
+          }
+        : undefined;
     let dependencies: string[] | undefined;
 
+    const getHash = getHashFunction();
     const hash = getHash(source);
     const cachedValue = cachedFilesData[filePath];
 
@@ -49,15 +49,15 @@ const readFileData = async (
         dependencies = cachedValue.dependencies;
     } else {
         if (isParsedExtension) {
-            let parsedAst: any;
+            let ast: any = null;
             try {
-                parsedAst = await parse(filePath, source);
+                ast = await getAst?.();
             } catch (e) {
                 logger.error(`Unable to parse ${filePath}`);
                 throw e;
             }
 
-            dependencies = getDependencies(parsedAst, filePath, resolveImport);
+            dependencies = getDependencies(ast, filePath, resolveImport);
         }
     }
 
@@ -85,17 +85,13 @@ export const processFiles = async (
     const resolveImport = getResolveImport(resolveOptions);
     const cache = cacheManager.get();
     const cachedFilesData = (cache.filesData || {}) as CachedStuff;
-    const getHash = getHashFunction();
     const results = await Bluebird.map(
         files,
         async (filePath: string): Promise<[string, FileData]> => {
-            return [
-                filePath,
-                await readFileData(filePath, resolveImport, cachedFilesData, getHash, logger),
-            ];
+            return [filePath, await readFileData(filePath, resolveImport, cachedFilesData, logger)];
         },
         {
-            concurrency: 10,
+            concurrency: 100,
         },
     );
 
