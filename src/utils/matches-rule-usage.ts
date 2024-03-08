@@ -1,4 +1,3 @@
-import * as path from 'path';
 import { getMatcher } from './index';
 import type { RuleUsage } from '../types';
 

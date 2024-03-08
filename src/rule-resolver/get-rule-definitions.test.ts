@@ -50,7 +50,7 @@ describe('getRuleDefinitions', () => {
 
         const rulesDir = 'test';
 
-        const err = await getRuleDefinitions(rules, rulesDir).catch((err) => err);
+        const err = await getRuleDefinitions(rules, rulesDir).catch((err: Error) => err);
         expect(err instanceof Error).toBeTruthy();
     });
 
@@ -70,7 +70,7 @@ describe('getRuleDefinitions', () => {
         };
         const rulesDir = 'test';
 
-        const err = await getRuleDefinitions(rules, rulesDir).catch((err) => err);
+        const err = await getRuleDefinitions(rules, rulesDir).catch((err: Error) => err);
         expect(err instanceof Error).toBeTruthy();
     });
 
