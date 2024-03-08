@@ -1,4 +1,5 @@
 import { dirname } from 'path';
+import Bluebird from 'bluebird';
 import type {
     CacheManager,
     FileData,
@@ -35,6 +36,7 @@ const readFileData = async (
     getHash: HashFunction,
     logger: Logger,
 ): Promise<FileData> => {
+    logger.debug(`Processing ${filePath}`);
     const source = await readFile(filePath);
     const isParsedExtension = parsedExtensionsRe.test(filePath);
     const getAst = isParsedExtension ? () => parse(filePath) : undefined;
@@ -70,6 +72,7 @@ const readFileData = async (
         hash,
     };
 
+    logger.debug(` + Done ${filePath}`);
     return result;
 };
 
@@ -83,15 +86,22 @@ export const processFiles = async (
     const cache = cacheManager.get();
     const cachedFilesData = (cache.filesData || {}) as CachedStuff;
     const getHash = getHashFunction();
+    const results = await Bluebird.map(
+        files,
+        async (filePath: string): Promise<[string, FileData]> => {
+            return [
+                filePath,
+                await readFileData(filePath, resolveImport, cachedFilesData, getHash, logger),
+            ];
+        },
+        {
+            concurrency: 10,
+        },
+    );
+
     const filesData: FileToData = {};
-    for (const filePath of files) {
-        filesData[filePath] = await readFileData(
-            filePath,
-            resolveImport,
-            cachedFilesData,
-            getHash,
-            logger,
-        );
+    for (const [filePath, result] of results) {
+        filesData[filePath] = result;
     }
 
     cache.filesData = cachedFilesData;
