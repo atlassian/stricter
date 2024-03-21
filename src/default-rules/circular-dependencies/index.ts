@@ -48,8 +48,14 @@ export const validateRegistries = (maybeRegistries: string | string[] | undefine
 export const createNodeName = (node: string, commonPrefix: string): string =>
     node.substring(commonPrefix.length, node.length) || commonPrefix;
 
-const createUserOutput = (commonPrefix: string, cycleGraph: graphlib.Graph): string =>
-    `cyclic root folder: ${commonPrefix}${EOL}${dot.write(cycleGraph)}`;
+const createUserOutput = (
+    commonPrefix: string,
+    cycleGraph: graphlib.Graph,
+    cycle: string[],
+): string =>
+    `cyclic root folder: ${commonPrefix}${EOL}${dot.write(cycleGraph)}${EOL}Cycle:${cycle.join(
+        ' -> ',
+    )}`;
 
 const createMappedCycleMessage = (cycle: string[], mapping: Mapping, graph: graphlib.Graph) => {
     const cycleGraph = new graphlib.Graph();
@@ -77,7 +83,7 @@ const createMappedCycleMessage = (cycle: string[], mapping: Mapping, graph: grap
             );
     });
 
-    return createUserOutput(commonPrefix, cycleGraph);
+    return createUserOutput(commonPrefix, cycleGraph, cycle);
 };
 
 const createCycleMessage = (cycle: string[], graph: graphlib.Graph) =>
