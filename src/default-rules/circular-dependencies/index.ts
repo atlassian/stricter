@@ -57,6 +57,36 @@ const createUserOutput = (
         ' -> ',
     )}`;
 
+function findShortestCycle(graph: graphlib.Graph): string[] | null {
+    let shortestCycle: string[] | null = null;
+    function dfs(node: string, visited: string[], allNodes: string[]): void {
+        visited.push(node);
+        allNodes.push(node);
+
+        const successors = graph.successors(node);
+        if (successors) {
+            for (const successor of successors) {
+                if (!visited.includes(successor)) {
+                    dfs(successor, visited, allNodes);
+                } else if (allNodes[0] === successor) {
+                    if (!shortestCycle || allNodes.length < shortestCycle.length) {
+                        shortestCycle = [...allNodes];
+                    }
+                }
+            }
+        }
+
+        visited.pop();
+        allNodes.pop();
+    }
+
+    for (const node of graph.nodes()) {
+        dfs(node, [], []);
+    }
+
+    return shortestCycle;
+}
+
 const createMappedCycleMessage = (cycle: string[], mapping: Mapping, graph: graphlib.Graph) => {
     const cycleGraph = new graphlib.Graph();
     const commonPrefix = getCommonPrefix(cycle);
@@ -83,7 +113,7 @@ const createMappedCycleMessage = (cycle: string[], mapping: Mapping, graph: grap
             );
     });
 
-    return createUserOutput(commonPrefix, cycleGraph, cycle);
+    return createUserOutput(commonPrefix, cycleGraph, findShortestCycle(cycleGraph) || []);
 };
 
 const createCycleMessage = (cycle: string[], graph: graphlib.Graph) =>
